@@ -1,0 +1,33 @@
+.registerProduct{
+    display: flex;
+    .rpContainer{
+        flex: 6;
+        .inputContainer{
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+
+            .row1{
+                padding: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .errorMessage {
+                            font-size: 10px;
+                            color: red;
+                        }
+            
+                        .submit {
+                            display: flex;
+                            justify-content: center;
+            
+                            .btn {
+                                padding: 20px;
+                                color: purple;
+                            }
+                        }
+                    }
+    }
+}

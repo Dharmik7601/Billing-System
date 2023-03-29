@@ -1,0 +1,29 @@
+.inovice{
+    .top{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    }
+    .companyAddress{
+        font-size: 1px;
+    }
+    .logo{
+        .companyLogo{
+            height: 100px;
+        }
+    }
+    
+    .mid{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+
+        .right{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
