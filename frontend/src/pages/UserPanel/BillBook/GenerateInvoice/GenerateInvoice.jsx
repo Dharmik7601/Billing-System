@@ -13,12 +13,26 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 function GenerateInvoice() {
 
     const [billBookList, setBillBookList] = useState([])
-    const[billList,setBillList] = useState([])
+    const [billList,setBillList] = useState([])
     const [partyList, setPartyList] = useState([])
     const [productList, setProductList] = useState([])
     const [templateData, setTemplateData] = useState({})
     // const []
     
+    
+//    DUPLICATION
+    const [value, setValue] = useState([1]);
+  	
+  	const handleAdd = () => {
+		const x = [...value, []]
+		setValue(x)
+	}
+    
+    const handleDelete = (i) => {
+		const deleteValue = [...value]
+		deleteValue.splice(i, 1)
+		setValue(deleteValue)
+	}
 
     useEffect(() => {
         billBooksList();
@@ -384,27 +398,31 @@ function GenerateInvoice() {
                             </div>
                         </div>
                     </div>
+                    
+                    
+                    {value.map((data, i) => {return (<></>)})}
+                    
                     <div className="productSelect">
                         <div className="selectContent">
                         <Box
-                        component="form"
-                        sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
-                        autoComplete="off">
-                        <TextField
-                                required
-                                id="outlined-required"
-                                label="Product name"
-                                type={Text}
-                                name="productName"
-                                select
-                                value={data.productName}  
-                                onChange={handleChange}
-                                    {...(validate.productName && { error: true, helperText: validate.productName })}      
-                            >
-                                {productList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
-                                    )}
-                            </TextField>
+		                    component="form"
+		                    sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
+		                    autoComplete="off">
+		                    
+		                    <TextField
+		                            required
+		                            id="outlined-required"
+		                            label="Product name"
+		                            type={Text}
+		                            name="productName"
+		                            select
+		                            value={data.productName}  
+		                            onChange={handleChange}
+		                                {...(validate.productName && { error: true, helperText: validate.productName })}>
+		                            {productList.map((list) =>
+		                                    <MenuItem key={list} value={list}>{list}</MenuItem>)}
+		                    </TextField>
+                            
                             <TextField
                                 required
                                 id="outlined"
@@ -418,10 +436,11 @@ function GenerateInvoice() {
                                     readOnly: true,
                                 }}
                                 value={templateData.templateName}  
-                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}      
-                            >
+                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}>
                             </TextField>
-                            </Box>
+                            
+                        </Box>
+                        
                         </div>
                         <div className="buttons">
                             <div className="addButton">
@@ -439,3 +458,28 @@ function GenerateInvoice() {
 }
 
 export default GenerateInvoice
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
