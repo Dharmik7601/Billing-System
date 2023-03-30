@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from "../../../../components/SideBar/Sidebar"
 import NavBar from "../../../../components/NavBar/NavBar"
 import "./GenerateInvoice.scss"
@@ -13,17 +13,46 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 function GenerateInvoice() {
 
     const [billBookList, setBillBookList] = useState([])
-    const[billList,setBillList] = useState([])
+    const [billList, setBillList] = useState([])
     const [partyList, setPartyList] = useState([])
     const [productList, setProductList] = useState([])
     const [templateData, setTemplateData] = useState({})
     // const []
-    
+
+
+    //    PRODUCT & TEMPLATE NAME ROW DUPLICATION
+    const [value, setValue] = useState([1]);
+
+    const handleAdd = () => {
+        const x = [...value, []]
+        setValue(x)
+    }
+
+    const handleRowChange = (onChangeValue, i) => {
+        const inputdata = [...value]
+        inputdata[i] = onChangeValue.target.value;
+        setValue(inputdata)
+    }
+
+    const handleDelete = (i) => {
+        if (value.length === 1) {
+            return;
+        }
+        const deleteValue = [...value];
+        deleteValue.splice(i, 1);
+        setValue(deleteValue);
+    };
+
+    // const handleDelete = (i) => {
+    //     const deleteValue = [...value]
+    //     deleteValue.splice(i, 1)
+    //     setValue(deleteValue)
+    // }
 
     useEffect(() => {
         billBooksList();
         partyNameList()
-    },[])
+    }, [])
 
     const billBooksList = async () => {
         try {
@@ -116,18 +145,18 @@ function GenerateInvoice() {
         }
     }
 
-    const [type,setType] = useState()
+    const [type, setType] = useState()
 
     const [data, setData] = useState({
         billBookName: '',
-        billNumber:'',
+        billNumber: '',
         partyName: '',
         productName: '',
         productTemplateName: '',
         billBookType: '',
     })
 
-    const [validate,setValidate] = useState({})
+    const [validate, setValidate] = useState({})
 
     const handleChange = async (e) => {
         const targetName = e.target.name
@@ -142,10 +171,10 @@ function GenerateInvoice() {
         if (targetName === 'partyName') {
             await getProductNameList(e.target.value)
         }
-        
+
         setData({
             ...data,
-            [targetName]:e.target.value
+            [targetName]: e.target.value
         })
         if (targetName === 'productName') {
             await getTemplateList(e.target.value)
@@ -156,9 +185,9 @@ function GenerateInvoice() {
     const handleSubmit = async (e) => {
         console.log(data);
         const verror = {
-        partyName: '',
-        productName: '',
-        productTemplateName: '',
+            partyName: '',
+            productName: '',
+            productTemplateName: '',
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -178,8 +207,8 @@ function GenerateInvoice() {
         try {
             await axios.post(`${process.env.REACT_APP_LINK}/party-product/create`, {
                 data
-            },{
-                withCredentials:true
+            }, {
+                withCredentials: true
             }).then(response => {
                 console.log(response.data)
             })
@@ -195,82 +224,82 @@ function GenerateInvoice() {
             <div className="generateInvoiceContainer">
                 <NavBar />
                 <div className="inputContainer">
-                <div className="invoiceContent">
-                    <div className="title">
+                    <div className="invoiceContent">
+                        <div className="title">
                             <h1>GENERATE INVOICE</h1>
-                    </div>
-                    <Box
-                        component="form"
-                        sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
-                        autoComplete="off">
-                        <div className="row1">
-                            <TextField
-                                id="outlined"
-                                label="Bill Book Type"
-                                type={Text}
-                                name="billBookType"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={type}    
-                            >
-                            </TextField>
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Bill Book"
-                                type={Text}
-                                name="billBookName"
-                                select
-                                value={data.billBookName} 
-                                defaultValue='Choose'
-                                onChange={handleChange}
-                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}      
-                            >
-                                {billBookList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
-                                    )}
-                            </TextField>
                         </div>
-                        <div className='row2'>
-                            
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Bill Number"
-                                type={Text}
-                                name="billNumber"
-                                select
-                                value={data.billNumber} 
-                                defaultValue='Choose'
-                                onChange={handleChange}
-                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}      
-                            >
-                                {billList.map((list) =>
+                        <Box
+                            component="form"
+                            sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
+                            autoComplete="off">
+                            <div className="row1">
+                                <TextField
+                                    id="outlined"
+                                    label="Bill Book Type"
+                                    type={Text}
+                                    name="billBookType"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    value={type}
+                                >
+                                </TextField>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Bill Book"
+                                    type={Text}
+                                    name="billBookName"
+                                    select
+                                    value={data.billBookName}
+                                    defaultValue='Choose'
+                                    onChange={handleChange}
+                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}
+                                >
+                                    {billBookList.map((list) =>
                                         <MenuItem key={list} value={list}>{list}</MenuItem>
                                     )}
-                            </TextField>
-                             <TextField
-                                required
-                                id="outlined-required"
-                                label="Party name"
-                                type={Text}
-                                name="partyName"
-                                select
-                                value={data.partyName} 
-                                defaultValue='Choose'
-                                onChange={handleChange}
-                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}      
-                            >
-                                {partyList.map((list) =>
+                                </TextField>
+                            </div>
+                            <div className='row2'>
+
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Bill Number"
+                                    type={Text}
+                                    name="billNumber"
+                                    select
+                                    value={data.billNumber}
+                                    defaultValue='Choose'
+                                    onChange={handleChange}
+                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}
+                                >
+                                    {billList.map((list) =>
                                         <MenuItem key={list} value={list}>{list}</MenuItem>
                                     )}
-                            </TextField>
-                        </div>
-                        {/* <div className="row3">
+                                </TextField>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Party name"
+                                    type={Text}
+                                    name="partyName"
+                                    select
+                                    value={data.partyName}
+                                    defaultValue='Choose'
+                                    onChange={handleChange}
+                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}
+                                >
+                                    {partyList.map((list) =>
+                                        <MenuItem key={list} value={list}>{list}</MenuItem>
+                                    )}
+                                </TextField>
+                            </div>
+                            {/* <div className="row3">
                            
                             <TextField
                                 required
@@ -375,63 +404,84 @@ function GenerateInvoice() {
                             >
                             </TextField>
                             </div> */}
-                    </Box>
-                    <div className="submit">
+                        </Box>
+                        <div className="submit">
                             <div className="btn">
                                 <Button size='large' variant='contained' onClick={handleSubmit}>
-                                Submit
-                            </Button>
+                                    Submit
+                                </Button>
                             </div>
                         </div>
                     </div>
-                    <div className="productSelect">
-                        <div className="selectContent">
-                        <Box
-                        component="form"
-                        sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
-                        autoComplete="off">
-                        <TextField
-                                required
-                                id="outlined-required"
-                                label="Product name"
-                                type={Text}
-                                name="productName"
-                                select
-                                value={data.productName}  
-                                onChange={handleChange}
-                                    {...(validate.productName && { error: true, helperText: validate.productName })}      
-                            >
-                                {productList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
-                                    )}
-                            </TextField>
-                            <TextField
-                                required
-                                id="outlined"
-                                label="Template name"
-                                type={Text}
-                                name="productTemplateName"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                value={templateData.templateName}  
-                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}      
-                            >
-                            </TextField>
-                            </Box>
-                        </div>
-                        <div className="buttons">
-                            <div className="addButton">
-                                <AddCircleOutlineIcon />
-                            </div>
-                            <div className="removeButton">
-                                <DeleteOutlineIcon />
-                            </div>
-                        </div>
-                    </div>
+
+
+                    {value.map((data, i) => {
+                        //const disableRemove = value.length === 1;
+                        return (
+                            <>
+                                <div className="productSelect">
+
+                                    {/* TEXT FIELDS */}
+                                    <div className="selectContent">
+                                        <Box
+                                            value={data} onChange={e => handleRowChange(e, i)}
+                                            component="form"
+                                            sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
+                                            autoComplete="off">
+
+                                            <TextField
+                                                required
+                                                id="outlined-required"
+                                                label="Product name"
+                                                type={Text}
+                                                name="productName"
+                                                select
+                                                value={data.productName}
+                                                onChange={handleChange}
+                                                {...(validate.productName && { error: true, helperText: validate.productName })}>
+                                                {productList.map((list) =>
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)}
+                                            </TextField>
+
+                                            <TextField
+                                                required
+                                                id="outlined"
+                                                label="Template name"
+                                                type={Text}
+                                                name="productTemplateName"
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                value={templateData.templateName}
+                                                {...(validate.templateName && { error: true, helperText: validate.templateName })}>
+                                            </TextField>
+
+                                        </Box>
+                                    </div>
+
+                                    {/* BUTTONS */}
+                                    <div className="buttons">
+                                        <div
+                                            onClick={() => handleAdd()}
+                                            className="addButton">
+                                            <AddCircleOutlineIcon />
+                                        </div>
+                                        <div
+                                            onClick={() => handleDelete(i)}
+                                            //disabled={disableRemove}
+                                            className="removeButton">
+                                            <DeleteOutlineIcon />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </>
+                        )
+                    })}
+
                 </div>
             </div>
         </div>
@@ -439,3 +489,28 @@ function GenerateInvoice() {
 }
 
 export default GenerateInvoice
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
