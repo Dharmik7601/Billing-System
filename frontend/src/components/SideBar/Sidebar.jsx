@@ -7,6 +7,7 @@ import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalance
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {useNavigate}  from 'react-router-dom'
+import logo from "../../images/acute-logo.png";
 
 function Sidebar() {
     const Navigate = useNavigate()
@@ -17,14 +18,14 @@ function Sidebar() {
             case "dashboard":
                 Navigate('/user/home')
                 break
-            case "addProduct":
-                Navigate('/user/product/add')
+            case "addItem":
+                Navigate('/user/item/add')
                 break
-            case "addProductTemplate":
-                Navigate('/user/product/add/template')
+            case "addItemTemplate":
+                Navigate('/user/item/add/template')
                 break
-            case "allProducts":
-                Navigate('/user/product/all')
+            case "allItems":
+                Navigate('/user/item/all')
                 break
             case "addParty":
                 Navigate('/user/party/add')
@@ -32,8 +33,8 @@ function Sidebar() {
             case "allParty":
                 Navigate('/user/party/all')
                 break
-            case "registerProduct":
-                Navigate('/user/party/register-product')
+            case "registerItem":
+                Navigate('/user/party/register-item')
                 break
             case "userDetails":
                 Navigate('/user/home')
@@ -48,15 +49,16 @@ function Sidebar() {
                 Navigate('/user/generate-invoice')
                 break
             default:
-                alert('Inavlide')
+                alert('Invalid')
         }
     }
     return (
         <div className='sidebar'>
             <div className="top">
-                <span className="logo">User logo</span>
+            <img src={logo} alt="company logo" />
+                {/*<span className="logo">User logo</span>*/}
             </div>
-            <hr/>
+            {/*<hr/>*/}
             <div className="center">
                 <ul style={{marginTop :"10px"}}>
                     <li onClick={handlePage} id='dashboard'>
@@ -66,18 +68,18 @@ function Sidebar() {
                 </ul>
                     
                 <ul>
-                    <p className="title">Product</p>
-                    <li onClick={handlePage} id='addProduct'>
+                    <p className="title">Items	</p>
+                    <li onClick={handlePage} id='addItem'>
                         <CategoryIcon className='icon' />
-                        <span id='addProduct'>Add product</span>
+                        <span id='addItem'>Add Item</span>
                     </li>
-                    <li onClick={handlePage} id='addProductTemplate'>
+                    <li onClick={handlePage} id='addItemTemplate'>
                         <CategoryIcon className='icon' />
-                        <span id='addProductTemplate' >Add Product Template</span>
+                        <span id='addItemTemplate' >Add Item Template</span>
                     </li>
-                    <li onClick={handlePage} id='allProducts'>
+                    <li onClick={handlePage} id='allItems'>
                         <CategoryIcon className='icon' />
-                        <span id='allProducts'>View All</span>
+                        <span id='allItems'>View All</span>
                     </li>
                     
                 </ul>
@@ -91,9 +93,9 @@ function Sidebar() {
                         <AddBusinessIcon className='icon'/>
                         <span id='allParty'>View All</span>
                     </li>
-                    <li onClick={handlePage} id='registerProduct'>
-                        <CategoryIcon className='icon' id='registerProduct'/>
-                        <span id='registerProduct' >Register Product</span>
+                    <li onClick={handlePage} id='registerItem'>
+                        <CategoryIcon className='icon' id='registerItem'/>
+                        <span id='registerItem' >Register Item</span>
                     </li>
                 </ul>
                 <ul>
@@ -119,7 +121,7 @@ function Sidebar() {
                     </li>
                     <li>
                         <LogoutOutlinedIcon className='icon'/>
-                        <span>Logout</span>
+                        <span>Log Out</span>
                     </li>
                 </ul>
             </div>

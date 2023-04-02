@@ -10,20 +10,20 @@ function Home() {
 
     const inputs = [
         {
-            title : 'Products',
-            link: 'See All Products',
+            title : 'Items',
+            link: 'See All Items',
             number: 1000,
             logo: <InventoryIcon />
         },
         {
-            title : 'Party',
-            link: 'See All Party',
+            title : 'Parties',
+            link: 'See All Parties',
             number: 67,
             logo: <InventoryIcon />
         },
         {
             title : 'Bills',
-            link: 'See All Bill',
+            link: 'See All Bills',
             number: 10,
             logo: <InventoryIcon />
         }

@@ -17,7 +17,7 @@ import SingleProduct from './pages/UserPanel/Product/SingleProduct/SingleProduct
 import ViewParties from './pages/UserPanel/Party/ViewParty/ViewParties';
 import SingleParty from './pages/UserPanel/Party/SingleParty/SingleProduct';
 import AddParty from './pages/UserPanel/Party/AddParty/AddParty';
-import AddProduct from './pages/UserPanel/Product/AddProduct/AddProduct';
+import AddItem from './pages/UserPanel/Item/AddItem/AddItem';
 import Testing from './pages/Testing/Testing';
 import AddProductTemplate from './pages/UserPanel/Product/AddProductTemplate/AddProductTemplate';
 import RegisterProduct from './pages/UserPanel/Party/RegisterProduct/RegisterProduct';
@@ -45,10 +45,10 @@ function App() {
         <Route path='/user/home' element={<Dasboard />} />
 
         {/* Product routes */}
-        <Route path='/user/product/all' element={<ViewProducts />} />
-        <Route path='/user/product/single/:productId' element={<SingleProduct />} />
-        <Route path='/user/product/add' element={<AddProduct />} />
-        <Route path='/user/product/add/template' element={<AddProductTemplate />} />
+        <Route path='/user/item/all' element={<ViewProducts />} />
+        <Route path='/user/item/single/:productId' element={<SingleProduct />} />
+        <Route path='/user/item/add' element={<AddProduct />} />
+        <Route path='/user/item/add/template' element={<AddProductTemplate />} />
 
         {/* Party routes */}
         <Route path='/user/party/all' element={<ViewParties />} />

@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import Sidebar from "../../../../components/SideBar/Sidebar"
 import Navbar from "../../../../components/NavBar/NavBar"
-import './AddProduct.scss'
+import './AddItem.scss'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -42,7 +42,7 @@ const fieldValidations = {
 }
 
 
-function AddProduct() {
+function AddItem() {
 
     const Navigate = useNavigate()
 
@@ -182,14 +182,14 @@ function AddProduct() {
     }
 
     return (
-        <div className='addProduct'>
+        <div className='addItem'>
             <Sidebar />
-            <div className="addProductContainer">
+            <div className="addItemContainer">
                 <Navbar />
                 <div className="addContainer">
                     <div className="inputContainer">
                         <div className="title">
-                            <h1>ADD PRODUCT</h1>
+                            <h1>ADD ITEM</h1>
                         </div>
                     <Box
                         component="form"
@@ -199,12 +199,12 @@ function AddProduct() {
                             <TextField
                                 required
                                 id="outlined-required"
-                                label="Product name"
+                                label="Item name"
                                 type={Text}
-                                name="productName"
-                                value={data.productName}  
+                                name="itemName"
+                                value={data.itemName}  
                                 onChange={handleChange} 
-                                    {...(validate.productName && { error: true, helperText: validate.productName })}      
+                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}      
                                 />
                                 <TextField
                                 required
@@ -215,12 +215,12 @@ function AddProduct() {
                                     value={data.productDescription} 
                                 multiline    
                                 onChange={handleChange} 
-                                    {...(validate.productDescription && { error: true, helperText: validate.productDescription })}      
+                                    {...(validate.itemDescription && { error: true, helperText: validate.itemDescription })}      
                                 />    
                                 <TextField
                                 required
                                 id="outlined-required"
-                                label="Product Template Name"
+                                label="Item Template Name"
                                 type={Text}
                                 name="templateName"
                                     value={data.templateName} 
@@ -232,7 +232,7 @@ function AddProduct() {
                             <div className="row2" style={{ display: 'flex' }} >
                                 <div className="quantity">
                                     <TextField
-                                        className='productQuantity'
+                                        className='itemQuantity'
                                         required
                                 id="outlined-required"
                                 label="Quantity"
@@ -245,7 +245,7 @@ function AddProduct() {
                                 />
                                 
                                 <TextField
-                                    className='productQuantity'
+                                    className='itemQuantity'
                                     id="outlined-multiline-flexible"
                                     label="Quantity Type"
                                     required
@@ -281,7 +281,7 @@ function AddProduct() {
                                 <TextField
                                         required
                                 id="outlined-required"
-                                label="Product Size"
+                                label="Item Size"
                                 type={Text}
                                 name="size"
                                 multiline
@@ -306,4 +306,4 @@ function AddProduct() {
     )
 }
 
-export default AddProduct
+export default AddItem

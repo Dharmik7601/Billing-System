@@ -1,6 +1,6 @@
-.addProduct{
+.addItem{
     display: flex;
-    .addProductContainer{
+    .addItemContainer{
         flex: 6;
 
         .addContainer{
@@ -28,7 +28,7 @@
                             border: 1px solid rgb(190, 178, 178);
                             border-radius: 10px;
                         
-                            .productQuantity{
+                            .itemQuantity{
                                 width: 180px;
                             }
                         }
