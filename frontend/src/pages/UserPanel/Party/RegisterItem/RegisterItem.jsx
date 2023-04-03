@@ -1,22 +1,22 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from "../../../../components/SideBar/Sidebar"
 import NavBar from "../../../../components/NavBar/NavBar"
-import "./RegisterProduct.scss"
+import "./RegisterItem.scss"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { MenuItem } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from "axios"
 
-function RegisterProduct() {
+function RegisterItem() {
 
     const [partyList, setPartyList] = useState([])
-    const [productList, setProductList] = useState([])
-    const [templateList,setTemplateList] = useState([])
+    const [itemList, setItemList] = useState([])
+    const [templateList, setTemplateList] = useState([])
 
     useEffect(() => {
         partyNameList()
-    },[])
+    }, [])
 
     const partyNameList = async () => {
         try {
@@ -34,14 +34,14 @@ function RegisterProduct() {
         }
     }
 
-    const getProductNameList = async (name) => {
+    const getItemNameList = async (name) => {
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/product/patl`, {
+            await axios.post(`${process.env.REACT_APP_LINK}/item/patl`, {
                 partyName: name
             }, {
                 withCredentials: true
             }).then(response => {
-                setProductList(response.data)
+                setItemList(response.data)
             })
         } catch (err) {
             if (err.response) {
@@ -54,8 +54,8 @@ function RegisterProduct() {
 
     const getTemplateList = async (name) => {
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/product/template/name/getAll`, {
-                productName: name
+            await axios.post(`${process.env.REACT_APP_LINK}/item/template/name/getAll`, {
+                itemName: name
             }, {
                 withCredentials: true
             }).then(response => {
@@ -72,33 +72,33 @@ function RegisterProduct() {
 
     const [data, setData] = useState({
         partyName: '',
-        productName: '',
-        productTemplateName: ''
+        itemName: '',
+        itemTemplateName: ''
     })
 
-    const [validate,setValidate] = useState({})
+    const [validate, setValidate] = useState({})
 
     const handleChange = async (e) => {
         const targetName = e.target.name
         console.log(e.target.value);
         if (targetName === 'partyName') {
-            await getProductNameList(e.target.value)
+            await getItemNameList(e.target.value)
         }
-        if (targetName === 'productName') {
+        if (targetName === 'itemName') {
             await getTemplateList(e.target.value)
         }
         setData({
             ...data,
-            [targetName]:e.target.value
+            [targetName]: e.target.value
         })
         console.log(data);
     }
 
     const handleSubmit = async (e) => {
         const verror = {
-        partyName: '',
-        productName: '',
-        productTemplateName: '',
+            partyName: '',
+            itemName: '',
+            itemTemplateName: '',
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -116,10 +116,10 @@ function RegisterProduct() {
             return
         }
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party-product/create`, {
+            await axios.post(`${process.env.REACT_APP_LINK}/party-item/create`, {
                 data
-            },{
-                withCredentials:true
+            }, {
+                withCredentials: true
             }).then(response => {
                 console.log(response.data)
             })
@@ -130,15 +130,15 @@ function RegisterProduct() {
 
 
     return (
-        <div className='registerProduct'>
+        <div className='registerItem'>
             <Sidebar />
             <div className="rpContainer">
                 <NavBar />
                 <div className="inputContainer">
                     <div className="title">
-                            <h1>REGISTER PRODUCT</h1>
+                        <h1>REGISTER PRODUCT</h1>
                     </div>
-                    
+
                     <Box
                         component="form"
                         sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
@@ -151,58 +151,58 @@ function RegisterProduct() {
                                 type={Text}
                                 name="partyName"
                                 select
-                                value={data.partyName} 
+                                value={data.partyName}
                                 defaultValue='Choose'
                                 onChange={handleChange}
-                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}      
+                                {...(validate.partyName && { error: true, helperText: validate.partyName })}
                             >
                                 {partyList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
-                                    )}
+                                    <MenuItem key={list} value={list}>{list}</MenuItem>
+                                )}
                             </TextField>
                             <TextField
                                 required
                                 id="outlined-required"
-                                label="Product name"
+                                label="Item name"
                                 type={Text}
-                                name="productName"
+                                name="itemName"
                                 select
-                                value={data.productName}  
+                                value={data.itemName}
                                 onChange={handleChange}
-                                    {...(validate.productName && { error: true, helperText: validate.productName })}      
+                                {...(validate.itemName && { error: true, helperText: validate.itemName })}
                             >
-                                {productList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
-                                    )}
+                                {itemList.map((list) =>
+                                    <MenuItem key={list} value={list}>{list}</MenuItem>
+                                )}
                             </TextField>
                             <TextField
                                 required
                                 id="outlined-required"
                                 label="Template name"
                                 type={Text}
-                                name="productTemplateName"
+                                name="itemTemplateName"
                                 select
-                                value={data.templateName}  
+                                value={data.templateName}
                                 onChange={handleChange}
-                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}      
+                                {...(validate.templateName && { error: true, helperText: validate.templateName })}
                             >
                                 {templateList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
-                                    )}
+                                    <MenuItem key={list} value={list}>{list}</MenuItem>
+                                )}
                             </TextField>
-                            </div>
+                        </div>
                     </Box>
                     <div className="submit">
-                            <div className="btn">
-                                <Button size='large' variant='contained' onClick={handleSubmit}>
+                        <div className="btn">
+                            <Button size='large' variant='contained' onClick={handleSubmit}>
                                 Submit
                             </Button>
-                            </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
 
-export default RegisterProduct
+export default RegisterItem

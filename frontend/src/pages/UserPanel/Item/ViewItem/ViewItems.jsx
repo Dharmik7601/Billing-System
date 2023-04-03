@@ -1,29 +1,29 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
-import "./ViewProducts.scss"
+import "./ViewItems.scss"
 import axios from "axios"
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 
 
-const ViewProducts = () => {
+const ViewItems = () => {
 
-    const Navigate =  useNavigate()
+    const Navigate = useNavigate()
 
-    const [productsData,setProductsData] = useState([])
+    const [itemsData, setItemsData] = useState([])
 
     useEffect(() => {
-        getAllProductsData()
-    },[])
+        getAllItemsData()
+    }, [])
 
-    const getAllProductsData = async () => {
+    const getAllItemsData = async () => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/product/getAll`, {
+            await axios.get(`${process.env.REACT_APP_LINK}/item/getAll`, {
                 withCredentials: true
             }).then(response => {
-                setProductsData(response.data)
+                setItemsData(response.data)
             })
         } catch (err) {
             console.log(err);
@@ -31,52 +31,52 @@ const ViewProducts = () => {
     }
 
     const columns = [
-    { field: 'id', headerName: 'ID', width: 60 },
-    { field: 'productId', headerName: 'Product ID', width: 250 },
-    {
-    field: 'productName',
-    headerName: 'Product name',
-    width: 150,
-    editable: false,
-  },
-  {
-    field: 'productDescription',
-    headerName: 'Product Description',
-    width: 300,
-    editable: false,
-  },
-  {
-    field: 'noOfTemplates',
-    headerName: 'No of Templates',
-    type: 'number',
-    width: 200,
-    editable: false,
+        { field: 'id', headerName: 'ID', width: 60 },
+        { field: 'itemId', headerName: 'Item ID', width: 250 },
+        {
+            field: 'itemName',
+            headerName: 'Item name',
+            width: 150,
+            editable: false,
         },
-   {
-       field: "View",
-        renderCell: (cellValues) => {
-        return (
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={(event) => {
-                    Navigate(`/user/product/single/${cellValues.row.productId}`)
-                }}
-            >
-            View
-            </Button>
-        );
-        }
-    },
-];
+        {
+            field: 'itemDescription',
+            headerName: 'Item Description',
+            width: 300,
+            editable: false,
+        },
+        {
+            field: 'noOfTemplates',
+            headerName: 'No of Templates',
+            type: 'number',
+            width: 200,
+            editable: false,
+        },
+        {
+            field: "View",
+            renderCell: (cellValues) => {
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={(event) => {
+                            Navigate(`/user/item/single/${cellValues.row.itemId}`)
+                        }}
+                    >
+                        View
+                    </Button>
+                );
+            }
+        },
+    ];
     return (
-        <div className='viewProducts'>
+        <div className='viewItems'>
             <Sidebar />
             <div className="vpContainer">
                 <NavBar />
                 <div className="dataTableContainer">
-                    <div className="prdouctData">
-                        <DataTable setData={productsData} columns={columns} />
+                    <div className="itemData">
+                        <DataTable setData={itemsData} columns={columns} />
                     </div>
                 </div>
             </div>
@@ -86,4 +86,4 @@ const ViewProducts = () => {
 
 
 
-export default ViewProducts
+export default ViewItems

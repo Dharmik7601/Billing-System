@@ -1,38 +1,38 @@
-import React, { useCallback, useEffect,useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
-import "./SingleProduct.scss"
+import "./SingleItem.scss"
 import axios from "axios"
 import { useParams } from 'react-router-dom'
 import Table from "../../../../components/Tables/Table"
 
-const SingleProduct = () => {
+const SingleItem = () => {
 
-    const [productInfo, setProductInfo] = useState({})
+    const [itemInfo, setItemInfo] = useState({})
     const [templateData, setTemplateData] = useState([])
-    const [soldByList,setSoldByList] = useState([])
+    const [soldByList, setSoldByList] = useState([])
 
-    const { productId } = useParams()
-    
-    
-    const getSingleProductInformation = async () => {
+    const { itemId } = useParams()
+
+
+    const getSingleItemInformation = async () => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/product/single/${productId}`, {
-                withCredentials:true
+            await axios.get(`${process.env.REACT_APP_LINK}/item/single/${itemId}`, {
+                withCredentials: true
             }).then(response => {
                 console.log(response.data);
-                setProductInfo(response.data)
+                setItemInfo(response.data)
             })
         } catch (err) {
             console.log(err);
         }
     }
 
-    const getProductTemplates = async () => {
+    const getItemTemplates = async () => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/product/template/getAll/${productId}`, {
-                withCredentials:true
+            await axios.get(`${process.env.REACT_APP_LINK}/item/template/getAll/${itemId}`, {
+                withCredentials: true
             }).then(response => {
                 setTemplateData(response.data)
             })
@@ -41,10 +41,10 @@ const SingleProduct = () => {
         }
     }
 
-    const getProductSoldBy = async () => {
+    const getItemSoldBy = async () => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/product/soldBy/getAll/${productId}`, {
-                withCredentials:true
+            await axios.get(`${process.env.REACT_APP_LINK}/item/soldBy/getAll/${itemId}`, {
+                withCredentials: true
             }).then(response => {
                 setSoldByList(response.data)
             })
@@ -54,10 +54,10 @@ const SingleProduct = () => {
     }
 
     useEffect(() => {
-        getSingleProductInformation();
-        getProductTemplates();
-        getProductSoldBy()
-    },[])
+        getSingleItemInformation();
+        getItemTemplates();
+        getItemSoldBy()
+    }, [])
 
     const columnsDataTemp = [
         {
@@ -76,48 +76,48 @@ const SingleProduct = () => {
     ];
 
     return (
-        <div className='singleProduct'>
+        <div className='singleItem'>
             <Sidebar />
-            <div className="singleProductContainer">
+            <div className="singleItemContainer">
                 <NavBar />
                 <div className="inputContainer">
-                <div className="top">
-                    <div className="tcontainer">
+                    <div className="top">
+                        <div className="tcontainer">
                             <div className="title">
-                                {productInfo.productName}
-                        </div>
-                        <div className="productInfo">
-                            <div className="productID">
-                                <span className="proKey">
-                                    Product ID:
-                                </span>
-                                <span className="proValue">
-                                    {productInfo.productId}
-                                </span>
+                                {itemInfo.itemName}
                             </div>
-                            <div className="productQunatity">
-                                <span className="proKey">
-                                    Product Description:
-                                </span>
-                                <span className="proValue">
-                                    {productInfo.productDescription}
-                                </span>
+                            <div className="itemInfo">
+                                <div className="itemID">
+                                    <span className="proKey">
+                                        Item ID:
+                                    </span>
+                                    <span className="proValue">
+                                        {itemInfo.itemId}
+                                    </span>
+                                </div>
+                                <div className="itemQunatity">
+                                    <span className="proKey">
+                                        Item Description:
+                                    </span>
+                                    <span className="proValue">
+                                        {itemInfo.itemDescription}
+                                    </span>
+                                </div>
                             </div>
                         </div>
+
                     </div>
-                    
-                </div>
                     <div className="bottom">
                         <div className="left">
                             <div className="bleftcontainer">
-                                <div className="productsSoldBy">
+                                <div className="itemsSoldBy">
                                     <Table columnsData={columnsDataTemp} rowData={templateData} />
                                 </div>
                             </div>
                         </div>
                         <div className="right">
                             <div className="brightcontainer">
-                                <div className="productsSoldBy">
+                                <div className="itemsSoldBy">
                                     <Table columnsData={columnsDataSoldBy} rowData={soldByList} />
                                 </div>
                             </div>
@@ -129,4 +129,4 @@ const SingleProduct = () => {
     )
 }
 
-export default SingleProduct
+export default SingleItem

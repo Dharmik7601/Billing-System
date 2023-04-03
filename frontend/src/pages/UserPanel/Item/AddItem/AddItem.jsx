@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from "../../../../components/SideBar/Sidebar"
 import Navbar from "../../../../components/NavBar/NavBar"
 import './AddItem.scss'
@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { MenuItem } from '@mui/material';
 import axios from "axios"
-import {checkAuth} from "../../../../components/AdditonalFunc/checkAuth"
+import { checkAuth } from "../../../../components/AdditonalFunc/checkAuth"
 import { useNavigate } from 'react-router-dom';
 
 
@@ -54,12 +54,12 @@ function AddItem() {
     //         Navigate("/")
     //         return
     //     }
-    //     Navigate('/user/product/add')
+    //     Navigate('/user/item/add')
     // }
-    
+
     useEffect(() => {
         // isUser()
-    },[])
+    }, [])
 
     const QuantityType = [
         {
@@ -72,7 +72,7 @@ function AddItem() {
         }, {
             label: "KGs",
             value: "kgs"
-        },{
+        }, {
             label: "Tons",
             value: "tons"
         },
@@ -80,16 +80,16 @@ function AddItem() {
     ]
 
     const [data, setData] = useState({
-        productName: '',
+        itemName: '',
         quantity: '',
         price: '',
-        productDescription: '',
+        itemDescription: '',
         size: '',
         quantityType: '',
-        templateName:''
+        templateName: ''
     })
 
-    const [validate,setValidate] = useState({})
+    const [validate, setValidate] = useState({})
 
     const [error, setError] = useState({
         quantity: '',
@@ -115,23 +115,23 @@ function AddItem() {
             console.log(targetName)
             setError({
                 ...error,
-                [targetName]:valid.error
+                [targetName]: valid.error
             })
         }
         setData({
             ...data,
-            [targetName]:valid.value
+            [targetName]: valid.value
         })
     }
 
     const handleSubmit = async (e) => {
         const verror = {
-            productName: '',
+            itemName: '',
             quantity: '',
             price: '',
             size: '',
             quantityType: '',
-            productDescription: '',
+            itemDescription: '',
             templateName: ''
         }
         e.preventDefault()
@@ -152,9 +152,9 @@ function AddItem() {
         }
 
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/product/create`, {
-                productName: data.productName,
-                productDescription: data.productDescription
+            await axios.post(`${process.env.REACT_APP_LINK}/item/create`, {
+                itemName: data.itemName,
+                itemDescription: data.itemDescription
             }, {
                 withCredentials: true
             }).then(response => {
@@ -164,13 +164,13 @@ function AddItem() {
             console.log(err);
         }
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/product/add/template`, {
-                productName: data.productName,
-                productQuantity: data.quantity,
-                productQuantityType: data.quantityType,
-                productSize: data.size,
+            await axios.post(`${process.env.REACT_APP_LINK}/item/add/template`, {
+                itemName: data.itemName,
+                itemQuantity: data.quantity,
+                itemQuantityType: data.quantityType,
+                itemSize: data.size,
                 templateName: data.templateName,
-                productPrice: data.price
+                itemPrice: data.price
             }, {
                 withCredentials: true
             }).then(response => {
@@ -191,112 +191,112 @@ function AddItem() {
                         <div className="title">
                             <h1>ADD ITEM</h1>
                         </div>
-                    <Box
-                        component="form"
-                        sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
-                        autoComplete="off">
-                        <div className='row1'>
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Item name"
-                                type={Text}
-                                name="itemName"
-                                value={data.itemName}  
-                                onChange={handleChange} 
-                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}      
+                        <Box
+                            component="form"
+                            sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
+                            autoComplete="off">
+                            <div className='row1'>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Item name"
+                                    type={Text}
+                                    name="itemName"
+                                    value={data.itemName}
+                                    onChange={handleChange}
+                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}
                                 />
                                 <TextField
-                                required
-                                id="outlined-required"
-                                label="Product Description"
-                                type={Text}
-                                name="productDescription"
-                                    value={data.productDescription} 
-                                multiline    
-                                onChange={handleChange} 
-                                    {...(validate.itemDescription && { error: true, helperText: validate.itemDescription })}      
-                                />    
-                                <TextField
-                                required
-                                id="outlined-required"
-                                label="Item Template Name"
-                                type={Text}
-                                name="templateName"
-                                    value={data.templateName} 
-                                multiline    
-                                onChange={handleChange} 
-                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}      
-                                /> 
+                                    required
+                                    id="outlined-required"
+                                    label="Item Description"
+                                    type={Text}
+                                    name="itemDescription"
+                                    value={data.itemDescription}
+                                    multiline
+                                    onChange={handleChange}
+                                    {...(validate.itemDescription && { error: true, helperText: validate.itemDescription })}
+                                />
+                                {/* <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Item Template Name"
+                                    type={Text}
+                                    name="templateName"
+                                    value={data.templateName}
+                                    multiline
+                                    onChange={handleChange}
+                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}
+                                /> */}
                             </div>
                             <div className="row2" style={{ display: 'flex' }} >
                                 <div className="quantity">
                                     <TextField
                                         className='itemQuantity'
                                         required
-                                id="outlined-required"
-                                label="Quantity"
-                                type={Number}
-                                name="quantity"
-                                value={data.quantity} 
-                                    onChange={handleChange}
-                                    {...(error.quantity && { error: true, helperText: error.quantity })}
-                                    {...(validate.quantity && { error: true, helperText: validate.quantity })}
-                                />
-                                
-                                <TextField
-                                    className='itemQuantity'
-                                    id="outlined-multiline-flexible"
-                                    label="Quantity Type"
-                                    required
-                                    type={Text}
-                                    name="quantityType"
-                                    onChange={handleChange}
-                                    {...(validate.quantityType && { error: true, helperText: validate.quantityType })}
-                                    select
-                                >
-                                    {QuantityType.map((type) => (
-                                        <MenuItem key={type.value} value={type.value}>
-                                            {type.label}
-                                        </MenuItem>
-                                    ))}
+                                        id="outlined-required"
+                                        label="Quantity"
+                                        type={Number}
+                                        name="quantity"
+                                        value={data.quantity}
+                                        onChange={handleChange}
+                                        {...(error.quantity && { error: true, helperText: error.quantity })}
+                                        {...(validate.quantity && { error: true, helperText: validate.quantity })}
+                                    />
+
+                                    <TextField
+                                        className='itemQuantity'
+                                        id="outlined-multiline-flexible"
+                                        label="Quantity Type"
+                                        required
+                                        type={Text}
+                                        name="quantityType"
+                                        onChange={handleChange}
+                                        {...(validate.quantityType && { error: true, helperText: validate.quantityType })}
+                                        select
+                                    >
+                                        {QuantityType.map((type) => (
+                                            <MenuItem key={type.value} value={type.value}>
+                                                {type.label}
+                                            </MenuItem>
+                                        ))}
                                     </TextField>
                                 </div>
                                 <TextField
                                     className='price'
-                                required
-                                id="outlined-required"
-                                label="Initial Price Per Quantity"
-                                type={Number}
-                                name="price"
-                                multiline
-                                value={data.price} 
+                                    required
+                                    id="outlined-required"
+                                    label="Initial Price Per Quantity"
+                                    type={Number}
+                                    name="price"
+                                    multiline
+                                    value={data.price}
                                     onChange={handleChange}
                                     {...(error.price && { error: true, helperText: error.price })}
                                     {...(validate.price && { error: true, helperText: validate.price })}
                                 />
-                            
+
                             </div>
                             <div className="row3">
                                 <TextField
-                                        required
-                                id="outlined-required"
-                                label="Item Size"
-                                type={Text}
-                                name="size"
-                                multiline
-                                value={data.size} 
+                                    required
+                                    id="outlined-required"
+                                    label="Item Size"
+                                    type={Text}
+                                    name="size"
+                                    multiline
+                                    value={data.size}
                                     onChange={handleChange}
                                     {...(error.size && { error: true, helperText: error.size })}
                                     {...(validate.size && { error: true, helperText: validate.size })}
-                                    />
+                                />
                             </div>
                         </Box>
                         <div className="submit">
                             <div className="btn">
                                 <Button size='large' variant='contained' onClick={handleSubmit}>
-                                Submit
-                            </Button>
+                                    Submit
+                                </Button>
                             </div>
                         </div>
                     </div>
