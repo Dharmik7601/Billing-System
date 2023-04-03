@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
@@ -12,10 +12,10 @@ const ViewParties = () => {
     const Navigate = useNavigate()
 
     const [partyData, setPartyData] = useState([])
-    
+
     useEffect(() => {
         getPartyDetails()
-    },[])
+    }, [])
 
     const getPartyDetails = async () => {
         try {
@@ -31,60 +31,60 @@ const ViewParties = () => {
     }
 
     const columns = [
-    { field: 'id', headerName: 'ID', width: 60 },
-    {
-        field: 'partyName',
-        headerName: 'Party name',
-        width: 150,
-        editable: false,
-    },
-    {
-        field: 'partyMobile',
-        headerName: 'Mobile number',
-        width: 200,
-        editable: false,
-    },
-    {
-        field: 'partyEmail',
-        headerName: 'Email',
-        type: 'text',
-        width: 200,
-        editable: false,
-    },
-    {
-        field: 'partyId',
-        headerName: 'PartyID',
-        type: 'text',
-        width: 300,
-        editable: false,
-        },
-    {
-        field: 'partyType',
-        headerName: 'Party Type',
-        type: 'text',
-        width: 150,
-        editable: false,
+        { field: 'id', headerName: 'ID', width: 60 },
+        {
+            field: 'partyName',
+            headerName: 'Party name',
+            width: 150,
+            editable: false,
         },
         {
-        field: "View",
-        renderCell: (cellValues) => {
-        return (
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={(event) => {
-                    Navigate(`/user/party/single/${cellValues.row.partyId}`)
-                }}
-            >
-            View
-            </Button>
-        );
-        }
-    },
-];
+            field: 'partyMobile',
+            headerName: 'Mobile number',
+            width: 200,
+            editable: false,
+        },
+        {
+            field: 'partyEmail',
+            headerName: 'Email',
+            type: 'text',
+            width: 200,
+            editable: false,
+        },
+        {
+            field: 'partyId',
+            headerName: 'PartyID',
+            type: 'text',
+            width: 300,
+            editable: false,
+        },
+        {
+            field: 'partyType',
+            headerName: 'Party Type',
+            type: 'text',
+            width: 150,
+            editable: false,
+        },
+        {
+            field: "View",
+            renderCell: (cellValues) => {
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={(event) => {
+                            Navigate(`/user/party/single/${cellValues.row.partyId}`)
+                        }}
+                    >
+                        View
+                    </Button>
+                );
+            }
+        },
+    ];
 
     return (
-        <div className='viewProducts'>
+        <div className='viewItems'>
             <Sidebar />
             <div className="vpContainer">
                 <NavBar />

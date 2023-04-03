@@ -15,7 +15,7 @@ function GenerateInvoice() {
     const [billBookList, setBillBookList] = useState([])
     const [billList, setBillList] = useState([])
     const [partyList, setPartyList] = useState([])
-    const [productList, setProductList] = useState([])
+    const [itemList, setItemList] = useState([])
     const [templateData, setTemplateData] = useState({})
     // const []
 
@@ -86,14 +86,14 @@ function GenerateInvoice() {
         }
     }
 
-    const getProductNameList = async (name) => {
+    const getItemNameList = async (name) => {
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party/products/name`, {
+            await axios.post(`${process.env.REACT_APP_LINK}/party/items/name`, {
                 partyName: name
             }, {
                 withCredentials: true
             }).then(response => {
-                setProductList(response.data)
+                setItemList(response.data)
             })
         } catch (err) {
             if (err.response) {
@@ -104,12 +104,12 @@ function GenerateInvoice() {
         }
     }
 
-    const getTemplateList = async (productName) => {
+    const getTemplateList = async (itemName) => {
         console.log(data.partyName);
-        console.log(productName);
+        console.log(itemName);
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party-product/template/name`, {
-                productName: productName,
+            await axios.post(`${process.env.REACT_APP_LINK}/party-item/template/name`, {
+                itemName: itemName,
                 partyName: data.partyName
             }, {
                 withCredentials: true
@@ -151,8 +151,8 @@ function GenerateInvoice() {
         billBookName: '',
         billNumber: '',
         partyName: '',
-        productName: '',
-        productTemplateName: '',
+        itemName: '',
+        itemTemplateName: '',
         billBookType: '',
     })
 
@@ -169,14 +169,14 @@ function GenerateInvoice() {
             })
         }
         if (targetName === 'partyName') {
-            await getProductNameList(e.target.value)
+            await getItemNameList(e.target.value)
         }
 
         setData({
             ...data,
             [targetName]: e.target.value
         })
-        if (targetName === 'productName') {
+        if (targetName === 'itemName') {
             await getTemplateList(e.target.value)
         }
         console.log(data);
@@ -186,8 +186,8 @@ function GenerateInvoice() {
         console.log(data);
         const verror = {
             partyName: '',
-            productName: '',
-            productTemplateName: '',
+            itemName: '',
+            itemTemplateName: '',
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -205,7 +205,7 @@ function GenerateInvoice() {
             return
         }
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party-product/create`, {
+            await axios.post(`${process.env.REACT_APP_LINK}/party-item/create`, {
                 data
             }, {
                 withCredentials: true
@@ -304,15 +304,15 @@ function GenerateInvoice() {
                             <TextField
                                 required
                                 id="outlined-required"
-                                label="Product name"
+                                label="Item name"
                                 type={Text}
-                                name="productName"
+                                name="itemName"
                                 select
-                                value={data.productName}  
+                                value={data.itemName}  
                                 onChange={handleChange}
-                                    {...(validate.productName && { error: true, helperText: validate.productName })}      
+                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}      
                             >
-                                {productList.map((list) =>
+                                {itemList.map((list) =>
                                         <MenuItem key={list} value={list}>{list}</MenuItem>
                                     )}
                             </TextField>
@@ -321,7 +321,7 @@ function GenerateInvoice() {
                                 id="outlined"
                                 label="Template name"
                                 type={Text}
-                                name="productTemplateName"
+                                name="itemTemplateName"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -339,16 +339,16 @@ function GenerateInvoice() {
                                     size="small"
                                 required
                                 id="outlined"
-                                label="Product Quantity"
+                                label="Item Quantity"
                                 type={Text}
-                                name="productTemplateName"
+                                name="itemTemplateName"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                                 InputProps={{
                                     readOnly: true,
                                 }}
-                                value={templateData.productQuantity}  
+                                value={templateData.itemQuantity}  
                                     {...(validate.templateName && { error: true, helperText: validate.templateName })}      
                             >
                             </TextField>
@@ -357,7 +357,7 @@ function GenerateInvoice() {
                                 id="outlined"
                                 label="Qunatiy Type"
                                 type={Text}
-                                name="productTemplateName"
+                                name="itemTemplateName"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -376,30 +376,30 @@ function GenerateInvoice() {
                                 id="outlined"
                                 label="Price Per Quantity"
                                 type={Text}
-                                name="productTemplateName"
+                                name="itemTemplateName"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                                 InputProps={{
                                     readOnly: true,
                                 }}
-                                value={templateData.productPrice}  
+                                value={templateData.itemPrice}  
                                     {...(validate.templateName && { error: true, helperText: validate.templateName })}      
                             >
                             </TextField>
                             <TextField
                                 required
                                 id="outlined"
-                                label="Product Size"
+                                label="Item Size"
                                 type={Text}
-                                name="productTemplateName"
+                                name="itemTemplateName"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                                 InputProps={{
                                     readOnly: true,
                                 }}
-                                value={templateData.productSize}  
+                                value={templateData.itemSize}  
                                     {...(validate.templateName && { error: true, helperText: validate.templateName })}      
                             >
                             </TextField>
@@ -419,7 +419,7 @@ function GenerateInvoice() {
                         //const disableRemove = value.length === 1;
                         return (
                             <>
-                                <div className="productSelect">
+                                <div className="itemSelect">
 
                                     {/* TEXT FIELDS */}
                                     <div className="selectContent">
@@ -432,14 +432,14 @@ function GenerateInvoice() {
                                             <TextField
                                                 required
                                                 id="outlined-required"
-                                                label="Product name"
+                                                label="Item name"
                                                 type={Text}
-                                                name="productName"
+                                                name="itemName"
                                                 select
-                                                value={data.productName}
+                                                value={data.itemName}
                                                 onChange={handleChange}
-                                                {...(validate.productName && { error: true, helperText: validate.productName })}>
-                                                {productList.map((list) =>
+                                                {...(validate.itemName && { error: true, helperText: validate.itemName })}>
+                                                {itemList.map((list) =>
                                                     <MenuItem key={list} value={list}>{list}</MenuItem>)}
                                             </TextField>
 
@@ -448,7 +448,7 @@ function GenerateInvoice() {
                                                 id="outlined"
                                                 label="Template name"
                                                 type={Text}
-                                                name="productTemplateName"
+                                                name="itemTemplateName"
                                                 InputLabelProps={{
                                                     shrink: true,
                                                 }}
