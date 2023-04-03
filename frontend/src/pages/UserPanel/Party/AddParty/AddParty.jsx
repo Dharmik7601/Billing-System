@@ -267,7 +267,7 @@ function AddParty() {
                 <div className="addContainer">
                     <div className="inputContainer">
                         <div className="title">
-                            <h1>ADD PARTY</h1>
+                            <h1>Add Party</h1>
                         </div>
                     <Box
                         component="form"
@@ -407,7 +407,7 @@ function AddParty() {
                         </Box>
                         <div className="submit">
                             <div className="btn">
-                                <Button size='large' variant='contained' onClick={handleSubmit}>
+                                <Button size='large' variant='outlined' color='secondary' onClick={handleSubmit}>
                                 Submit
                             </Button>
                             </div>

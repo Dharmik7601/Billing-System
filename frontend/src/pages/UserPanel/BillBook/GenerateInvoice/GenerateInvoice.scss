@@ -11,48 +11,53 @@
             padding: 20px;
             flex-direction: column;
 
-            .productSelect{
+            .itemSelect {
                 display: flex;
                 padding: 20px;
 
-                .buttons{
+                .buttons {
                     display: flex;
                     align-items: center;
                     justify-content: center;
 
-                    .addButton{
+                    .addButton {
                         padding: 20px;
                     }
                 }
             }
-            .invoiceContent{
-            -webkit-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
+
+            .invoiceContent {
+                -webkit-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 -moz-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 border-radius: 10px;
                 width: fit-content;
                 padding: 20px;
 
-            .row1,.row2,.row3,.row4,.row5 {
-                padding: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .errorMessage {
-                font-size: 10px;
-                color: red;
-            }
-
-            .submit {
-                display: flex;
-                justify-content: center;
-
-                .btn {
-                    padding: 20px;
-                    color: purple;
+                .row1,
+                .row2,
+                .row3,
+                .row4,
+                .row5 {
+                    padding: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
+
+                .errorMessage {
+                    font-size: 10px;
+                    color: red;
+                }
+
+                .submit {
+                    display: flex;
+                    justify-content: center;
+
+                    .btn {
+                        padding: 20px;
+                        color: purple;
+                    }
                 }
             }
         }
