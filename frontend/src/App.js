@@ -1,4 +1,3 @@
-import './App.css';
 import { Routes, Route } from 'react-router-dom'
 
 // Login and Regsteration components
