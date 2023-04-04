@@ -1,0 +1,55 @@
+.inovice {
+    .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .companyAddress {
+        font-size: 1px;
+    }
+
+    .logo {
+        .companyLogo {
+            height: 100px;
+            width: 400px;
+        }
+    }
+
+    .mid {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        
+        .left{
+            display: flex;
+            justify-content: right;
+            flex-direction: column;
+
+            .left-top{
+                // display: flex;
+                padding: 20px;
+                justify-content: left;
+            }
+        }
+
+        .right {
+            // display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    
+    .costDetails{
+        padding: 20px;
+    }
+
+    .paymentDetails{
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+    }
+}

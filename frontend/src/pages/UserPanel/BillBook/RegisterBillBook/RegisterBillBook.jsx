@@ -39,7 +39,7 @@ function RegisterBillBook() {
 
     const billBookType = [
         "Estimate",
-        "Retial",
+        "Retail",
         "Tax Invoice"
     ]
 

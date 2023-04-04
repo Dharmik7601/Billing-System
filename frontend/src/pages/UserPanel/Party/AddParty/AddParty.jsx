@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React,{useEffect, useState} from 'react'
 import Sidebar from "../../../../components/SideBar/Sidebar"
 import Navbar from "../../../../components/NavBar/NavBar"
 import './AddParty.scss'
@@ -7,6 +7,8 @@ import TextField from '@mui/material/TextField';
 import { MenuItem } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from "axios"
+import { checkAuth } from "../../../../components/AdditonalFunc/checkAuth"
+import { useNavigate } from 'react-router-dom';
 
 function validateName(value) {
     let error = ''
@@ -131,6 +133,20 @@ const fieldValidations = {
 
 
 function AddParty() {
+
+    const Navigate = useNavigate()
+
+    const checkUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate('/')
+            return
+        }
+    }
+    
+    useEffect(() => {
+        checkUser()
+    },[])
 
     const bankAccountType = [
         {

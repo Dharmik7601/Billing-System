@@ -40,7 +40,8 @@ const getAllBillBooks = async (req, res) => {
 }
 
 const getAllBillBooksName = async (req, res) => {
-    const billBooks = await BillBook.find({})
+    const {billBookType} = req.body
+    const billBooks = await BillBook.find({billBookType:billBookType})
     let billbooksList = []
     const bb = billBooks.map((bill) => {
             billbooksList.push(
@@ -70,4 +71,14 @@ const bills = async (req, res) => {
     res.status(StatusCodes.OK).json({msg:"done",b})
 }
 
-module.exports = {createBillBook,getAllBillBooks,bills,getAllBillBooksName,getBillInfo}
+const getNextBill = async (req, res) => {
+    const { name } = req.body;
+    const b = await BillBook.findOne({ billBookName: name }).select("availableBills")
+    console.log(b.availableBills.sort());
+    let latestBill = b.availableBills[0]
+    // for (let i = 0;i<b.availableBills.)
+    res.status(StatusCodes.OK).json(latestBill)
+}
+
+
+module.exports = {createBillBook,getAllBillBooks,bills,getAllBillBooksName,getBillInfo,getNextBill}

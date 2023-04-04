@@ -6,16 +6,26 @@ import "./ViewParties.scss"
 import axios from 'axios'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { checkAuth } from "../../../../components/AdditonalFunc/checkAuth"
 
 const ViewParties = () => {
 
     const Navigate = useNavigate()
 
+    const checkUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate('/')
+            return
+        }
+    }
+
     const [partyData, setPartyData] = useState([])
 
     useEffect(() => {
-        getPartyDetails()
-    }, [])
+        checkUser();
+        getPartyDetails();
+    },[])
 
     const getPartyDetails = async () => {
         try {
