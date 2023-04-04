@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from "../../../../components/SideBar/Sidebar"
 import NavBar from "../../../../components/NavBar/NavBar"
-import "./AddItemTemplate.scss"
+import "./AddItemTempTest.scss"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { MenuItem } from '@mui/material';
@@ -9,8 +9,6 @@ import Button from '@mui/material/Button';
 import axios from "axios"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import DeleteIcon from '@mui/icons-material/Delete';
-
 
 //MOBILE NUMBER VALIDATION//
 
@@ -40,7 +38,7 @@ const fieldValidations = {
     quantity: validateNumber
 }
 
-function AddItemTemplate() {
+function AddItemTempTest() {
 
     const PartyName = [
         {
@@ -275,10 +273,11 @@ function AddItemTemplate() {
 
                     {/* ADD BUTTON */}
                     <div className="addButton">
-                        <div className='btn' onClick={handleAdd}>
-                            <Button variant="primary" startIcon={<AddCircleOutlineIcon />}>
+                        <div className='btn'>
+                            <Button size='large' variant='outlined' color='secondary' onClick={handleAdd}>
                                 Add Item
                             </Button>
+                            {/* <h4>Add Item</h4><AddCircleOutlineIcon /> */}
                         </div>
                     </div>
 
@@ -303,7 +302,7 @@ function AddItemTemplate() {
 
                                                 <TextField
                                                     required
-                                                    className="outline"
+                                                    className="outlined-required"
                                                     label="Item name"
                                                     type={Text}
                                                     name="itemName"
@@ -312,11 +311,11 @@ function AddItemTemplate() {
                                                     onChange={handleChange}
                                                     {...(validate.itemName && { error: true, helperText: validate.itemName })}>
                                                     {/* {itemList.map((list) =>
-                                                        <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
                                                 </TextField>
                                                 <TextField
                                                     required
-                                                    className="outline"
+                                                    className="outlined-required"
                                                     label="Quantity"
                                                     type={Text}
                                                     name="quantity"
@@ -325,11 +324,11 @@ function AddItemTemplate() {
                                                     onChange={handleChange}
                                                     {...(validate.itemName && { error: true, helperText: validate.itemName })}>
                                                     {/* {itemList.map((list) =>
-                                                        <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
                                                 </TextField>
                                                 <TextField
                                                     required
-                                                    className="outline"
+                                                    className="outlined-required"
                                                     label="Quantity Type"
                                                     type={Text}
                                                     name="quantityType"
@@ -338,11 +337,11 @@ function AddItemTemplate() {
                                                     onChange={handleChange}
                                                     {...(validate.itemName && { error: true, helperText: validate.itemName })}>
                                                     {/* {itemList.map((list) =>
-                                                        <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
                                                 </TextField>
                                                 <TextField
                                                     required
-                                                    className="outline"
+                                                    className="outlined-required"
                                                     label="Price Per Quantity"
                                                     type={Text}
                                                     name="pricePerQuantity"
@@ -351,7 +350,7 @@ function AddItemTemplate() {
                                                     onChange={handleChange}
                                                     {...(validate.itemName && { error: true, helperText: validate.itemName })}>
                                                     {/* {itemList.map((list) =>
-                                                        <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
                                                 </TextField>
 
                                             </Box>
@@ -363,11 +362,9 @@ function AddItemTemplate() {
                                             //disabled={disableRemove}
                                             style={{ display: value.length === 1 ? "none" : "block" }}
                                             className="removeButton">
-                                            <Button variant="primary" startIcon={<DeleteIcon />}>
-                                                Delete
-                                            </Button>
-                                            {/* <DeleteOutlineIcon /> */}
+                                            <DeleteOutlineIcon />
                                         </div>
+
                                     </div>
                                 </Box>
                             </>
@@ -377,7 +374,7 @@ function AddItemTemplate() {
                     {/* SUBMIT */}
                     <div className="submit">
                         <div className="btn">
-                            <Button size='large' variant='contained' color='secondary' onClick={handleSubmit}>
+                            <Button size='large' variant='outlined' color='secondary' onClick={handleSubmit}>
                                 Submit
                             </Button>
                         </div>
@@ -389,7 +386,7 @@ function AddItemTemplate() {
     )
 }
 
-export default AddItemTemplate
+export default AddItemTempTest
 
 
 

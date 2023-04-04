@@ -17,7 +17,7 @@
 
                 .btn {
                     padding: 20px;
-                    color: rgb(188, 79, 188);
+                    color: purple;
                 }
             }
 
@@ -25,15 +25,8 @@
                 display: flex;
                 padding: 20px;
 
-                .selectContent {
-                    .outline {
-                        width: 270px;
-                    }
-                }
-
                 .removeButton {
-                    padding-top: 25px;
-                    color: rgb(188, 79, 188);
+                    padding-top: 30px;
                 }
             }
 
@@ -96,7 +89,6 @@
                     }
                 }
             }
-
         }
     }
 }

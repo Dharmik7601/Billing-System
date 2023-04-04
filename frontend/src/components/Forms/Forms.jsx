@@ -12,7 +12,7 @@ const Forms = (props) => {
     return (
         <div className="formInput">
             <label>{label}</label>
-            <input {...inputProps} onChange={handleChange} onBlur={handleFocus} focused={focused.toString()} />
+            <input className="inputField"{...inputProps} onChange={handleChange} onBlur={handleFocus} focused={focused.toString()} />
             <span className="e1">{errorMessage}</span>
             <span className="e2" style={{display:error[inputProps.name]?"block":"none"}}>{error[inputProps.name]}</span>
         </div>

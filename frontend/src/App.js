@@ -1,4 +1,3 @@
-import './App.css';
 import { Routes, Route } from 'react-router-dom'
 
 // Login and Regsteration components
@@ -26,7 +25,7 @@ import ViewAllBillBooks from './pages/UserPanel/BillBook/ViewAllBillBook/ViewAll
 import GenerateInvoice from './pages/UserPanel/BillBook/GenerateInvoice/GenerateInvoice';
 import Invoice from './pages/UserPanel/BillBook/Invoice/Invoice';
 
-
+import AddItemTempTest from './pages/UserPanel/Item/AddItemTemplate/AddItemTempTest';
 
 function App() {
   return (
@@ -49,6 +48,8 @@ function App() {
         <Route path='/user/item/single/:itemId' element={<SingleItem />} />
         <Route path='/user/item/add' element={<AddItem />} />
         <Route path='/user/item/add/template' element={<AddItemTemplate />} />
+
+        <Route path='/user/item/add/temptest' element={<AddItemTempTest />} />
 
         {/* Party routes */}
         <Route path='/user/party/all' element={<ViewParties />} />

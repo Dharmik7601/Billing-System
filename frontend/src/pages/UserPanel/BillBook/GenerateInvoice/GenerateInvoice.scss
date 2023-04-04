@@ -11,18 +11,30 @@
             padding: 20px;
             flex-direction: column;
 
+            .dense-table {
+
+                .headers {
+                    font-weight: 700;
+                }
+            }
+
+            .addButton {
+                display: flex;
+                justify-content: center;
+
+                .btn {
+                    padding: 20px;
+                    color: rgb(188, 79, 188);
+                }
+            }
+
             .itemSelect {
                 display: flex;
                 padding: 20px;
 
-                .buttons {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-
-                    .addButton {
-                        padding: 20px;
-                    }
+                .removeButton {
+                    padding-top: 25px;
+                    color: rgb(188, 79, 188);
                 }
             }
 
@@ -34,20 +46,35 @@
                 width: fit-content;
                 padding: 20px;
 
-                .row1,
-                .row2,
-                .row3,
-                .row4,
-                .row5 {
-                    padding: 10px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                .title {
+                    h1 {
+                        color: rgb(188, 79, 188);
+                        font-weight: bold;
+                        padding-top: 10px;
+                    }
+                }
+
+                .row1 {
+                    .outlined-required {
+                        width: 180px;
+                    }
+
+                    .outlined {
+                        width: 270px;
+                    }
                 }
 
                 .errorMessage {
                     font-size: 10px;
                     color: red;
+                }
+
+                .selectContent {
+                    width: 100px;
+
+                    .outlined-required {
+                        width: 100px;
+                    }
                 }
 
                 .submit {
@@ -56,7 +83,7 @@
 
                     .btn {
                         padding: 20px;
-                        color: purple;
+                        color: rgb(188, 79, 188);
                     }
                 }
             }

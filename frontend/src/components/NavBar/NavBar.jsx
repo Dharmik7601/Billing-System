@@ -12,9 +12,6 @@ function NavBar() {
                 <div className="dropdowns">
                     <p>Hello</p>
                     <p>user</p>
-                    <p>How</p>
-                    <p>Are</p>
-                    <p>You</p>
                 </div>
                 <div className="items">
                     <div className="item">

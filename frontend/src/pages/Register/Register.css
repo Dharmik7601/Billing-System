@@ -1,27 +1,28 @@
-.register{
+.register {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
     background: linear-gradient(rgba(255, 255, 255, 0.5),
-                rgba(255, 255, 255, 0.1)),
-            url('../../images/register_page_background_image.jpg');
+            rgba(255, 255, 255, 0.1)),
+        url('../../images/register_page_background_image.jpg');
     background-size: cover;
     background-position: center;
 }
 
-form{
+form {
     background-color: white;
     padding: 0px 60px;
     border-radius: 10px;
 }
 
-h1{
+h1 {
     color: blueviolet;
     text-align: center;
+    padding-top: 10px;
 }
 
-button{
+button {
     width: 100%;
     height: 40px;
     padding: 5px;
@@ -36,7 +37,8 @@ button{
     margin-bottom: 30px;
 }
 
-.register>form>.tologin{
+.register>form>.tologin {
+    padding-top: 5px;
     display: flex;
     margin-top: 0;
     margin-bottom: 10px;

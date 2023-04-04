@@ -5,6 +5,11 @@ import { Widgets } from '../../../components/Widgets/Widgets'
 import './Dashboard.scss'
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DataTable from '../../../components/DataTables/DataTable'
+import CategoryIcon from '@mui/icons-material/Category';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+
+
 
 function Home() {
 
@@ -13,19 +18,20 @@ function Home() {
             title : 'Items',
             link: 'See All Items',
             number: 1000,
-            logo: <InventoryIcon />
+            logo: <CategoryIcon />
         },
         {
             title : 'Parties',
             link: 'See All Parties',
             number: 67,
-            logo: <InventoryIcon />
+            logo: <AddBusinessIcon/>
         },
         {
             title : 'Bills',
             link: 'See All Bills',
             number: 10,
-            logo: <InventoryIcon />
+            logo: <AccountBalanceWalletOutlinedIcon />
+
         }
     ]
     return (

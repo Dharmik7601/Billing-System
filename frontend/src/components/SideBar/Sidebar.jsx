@@ -58,7 +58,7 @@ function Sidebar() {
                 <img src={logo} alt="company logo" />
                 {/*<span className="logo">User logo</span>*/}
             </div>
-            {/*<hr/>*/}
+            <div className='space'></div>
             <div className="center">
                 <ul style={{ marginTop: "10px" }}>
                     <li onClick={handlePage} id='dashboard'>
@@ -106,7 +106,7 @@ function Sidebar() {
                     </li>
                     <li onClick={handlePage} id='viewAllBillBook'>
                         <AccountBalanceWalletOutlinedIcon className='icon' id='viewAllBillBook' />
-                        <span >View All Bill Book</span>
+                        <span >View All Bill Books</span>
                     </li>
                     <li onClick={handlePage} id='generateInvoice'>
                         <AccountBalanceWalletOutlinedIcon className='icon' />
@@ -114,7 +114,7 @@ function Sidebar() {
                     </li>
                 </ul>
                 <ul>
-                    <p className="title">User</p>
+                    <p className="title">User Actions</p>
                     <li onClick={handlePage} id='userDetails'>
                         <AccountCircleOutlinedIcon className='icon' />
                         <span >User Details</span>
@@ -124,9 +124,6 @@ function Sidebar() {
                         <span>Log Out</span>
                     </li>
                 </ul>
-            </div>
-            <div className="bottom">
-                bottom
             </div>
         </div>
     )
