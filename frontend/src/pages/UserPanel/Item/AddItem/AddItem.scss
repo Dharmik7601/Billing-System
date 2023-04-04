@@ -1,67 +1,84 @@
-.addProductTempelate{
+.addItem {
     display: flex;
-    .aptContainer{
+
+    .addItemContainer {
         flex: 6;
-        .templateContainer{
+
+        .addContainer {
             display: flex;
             padding: 20px;
             align-items: center;
             justify-content: center;
-        
-        .inputContainer {
+
+            .inputContainer {
                 -webkit-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 -moz-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 border-radius: 10px;
                 width: fit-content;
-        
+
                 .title {
                     h1 {
                         color: rgb(188, 79, 188);
                         font-weight: bold;
+                        padding-top: 10px;
                     }
                 }
 
-                .row1{
+                .row1 {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                }
-        
-                .row2 {
-                    .quantity {
-                        border: 1px solid rgb(190, 178, 178);
-                        border-radius: 10px;
-        
-                        .productQuantity {
-                            width: 180px;
-                        }
-                    }
-        
-                    .price {
+
+                    .outlined-required {
                         width: 200px;
                     }
                 }
-        
+
+                .row2 {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    // .quantity {
+                    //     // width: 80px;
+                    // }
+
+                    .itemQuantity {
+                        width: 220px;
+                    }
+
+                    .outlined-required {
+                        width: 250px;
+                    }
+                }
+
                 .row3 {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-        
+
                 }
-        
+
                 .errorMessage {
                     font-size: 10px;
                     color: red;
                 }
-        
+
                 .submit {
                     display: flex;
                     justify-content: center;
+                    color: rgb(188, 79, 188);
                 }
-        
+
                 .btn {
                     padding: 20px;
+
+                    .click {
+                        // border-color: purple;
+                        border-width: 1px;
+
+                    }
                 }
             }
         }

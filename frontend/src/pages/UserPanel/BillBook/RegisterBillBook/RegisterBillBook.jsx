@@ -1,5 +1,5 @@
 
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from "../../../../components/SideBar/Sidebar"
 import Navbar from "../../../../components/NavBar/NavBar"
 import './RegisterBillBook.scss'
@@ -46,9 +46,9 @@ function RegisterBillBook() {
 
     useEffect(() => {
         setFinancialYears()
-    },[])
+    }, [])
 
-    const [financialYear,setFinancialYear] = useState([])
+    const [financialYear, setFinancialYear] = useState([])
 
 
     const setFinancialYears = async () => {
@@ -69,7 +69,7 @@ function RegisterBillBook() {
             setFinancialYear(financialyear)
         }
     }
-    
+
 
     const [data, setData] = useState({
         billBookName: '',
@@ -80,7 +80,7 @@ function RegisterBillBook() {
         financialYear: '',
     })
 
-    const [validate,setValidate] = useState({})
+    const [validate, setValidate] = useState({})
 
     const [error, setError] = useState({
         billBookStartNumber: '',
@@ -106,23 +106,23 @@ function RegisterBillBook() {
             console.log(targetName)
             setError({
                 ...error,
-                [targetName]:valid.error
+                [targetName]: valid.error
             })
         }
         setData({
             ...data,
-            [targetName]:valid.value
+            [targetName]: valid.value
         })
     }
 
     const handleSubmit = async (e) => {
         const verror = {
-        billBookName: '',
-        billBookDescription: '',
-        billBookType: '',
-        billBookStartNumber: '',
-        noOfBills: '',
-        financialYear: '',
+            billBookName: '',
+            billBookDescription: '',
+            billBookType: '',
+            billBookStartNumber: '',
+            noOfBills: '',
+            financialYear: '',
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -141,7 +141,7 @@ function RegisterBillBook() {
             return
         }
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/bill-book/create`,data, {
+            await axios.post(`${process.env.REACT_APP_LINK}/bill-book/create`, data, {
                 withCredentials: true
             }).then(response => {
                 alert(response.data.msg)
@@ -164,54 +164,54 @@ function RegisterBillBook() {
                 <div className="addContainer">
                     <div className="inputContainer">
                         <div className="title">
-                            <h1>ADD BILL BOOK</h1>
+                            <h1>Add Bill Book</h1>
                         </div>
-                    <Box
-                        component="form"
-                        sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
-                        autoComplete="off">
-                        <div className='row1'>
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Bill Book Name"
-                                type={Text}
-                                name="billBookName"
-                                value={data.billBookName}  
-                                onChange={handleChange}
-                                    {...(validate.billBookName && { error: true, helperText: validate.billBookName })}      
+                        <Box
+                            component="form"
+                            sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
+                            autoComplete="off">
+                            <div className='row1'>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Bill Book Name"
+                                    type={Text}
+                                    name="billBookName"
+                                    value={data.billBookName}
+                                    onChange={handleChange}
+                                    {...(validate.billBookName && { error: true, helperText: validate.billBookName })}
                                 />
-                            <TextField
-                                required
-                                id="outlined-required"
+                                <TextField
+                                    required
+                                    id="outlined-required"
                                     label="Bill Book Description"
-                                     multiline
+                                    multiline
                                     maxRows={4}
-                                type={'text'}
-                                name="billBookDescription"
-                                value={data.billBookDescription} 
+                                    type={'text'}
+                                    name="billBookDescription"
+                                    value={data.billBookDescription}
                                     onChange={handleChange}
                                     {...(validate.billBookDescription && { error: true, helperText: validate.billBookDescription })}
                                 />
                             </div>
                             <div className="row2">
                                 <TextField
-                                required
-                                id="outlined-required"
-                                label="Bill Book Type"
+                                    required
+                                    id="outlined-required"
+                                    label="Bill Book Type"
                                     type={Text}
                                     select
-                                name="billBookType"
-                                value={data.billBookType} 
+                                    name="billBookType"
+                                    value={data.billBookType}
                                     onChange={handleChange}
                                     {...(validate.billBookType && { error: true, helperText: validate.billBookType })}
                                 >
-                                {billBookType.map((type) => (
+                                    {billBookType.map((type) => (
                                         <MenuItem key={type} value={type}>
                                             {type}
                                         </MenuItem>
-                                    ))} 
-                            </TextField>
+                                    ))}
+                                </TextField>
                                 <TextField
                                     required
                                     id="outlined-multiline-flexible"
@@ -219,25 +219,25 @@ function RegisterBillBook() {
                                     type={Number}
                                     size='medium'
                                     name="billBookStartNumber"
-                                    value={data.billBookStartNumber} 
+                                    value={data.billBookStartNumber}
                                     onChange={handleChange}
-                                 {...(error.billBookStartNumber && { error: true, helperText: error.billBookStartNumber })}
+                                    {...(error.billBookStartNumber && { error: true, helperText: error.billBookStartNumber })}
                                     {...(validate.billBookStartNumber && { error: true, helperText: validate.billBookStartNumber })}
                                 />
                             </div>
                             <div className="row3">
                                 <TextField
-                                required
-                                id="outlined-required"
-                                label="No of Bills"
-                                type={Number}
-                                name="noOfBills"
-                                value={data.noOfBills} 
+                                    required
+                                    id="outlined-required"
+                                    label="Number of Bills"
+                                    type={Number}
+                                    name="noOfBills"
+                                    value={data.noOfBills}
                                     onChange={handleChange}
                                     {...(error.noOfBills && { error: true, helperText: error.noOfBills })}
                                     {...(validate.noOfBills && { error: true, helperText: validate.noOfBills })}
-                            />
-                               <TextField
+                                />
+                                <TextField
                                     id="outlined-multiline-flexible"
                                     label="Financial Year"
                                     required
@@ -252,15 +252,15 @@ function RegisterBillBook() {
                                             {year}
                                         </MenuItem>
                                     ))}
-                                    </TextField>
+                                </TextField>
                             </div>
-                            
+
                         </Box>
                         <div className="submit">
                             <div className="btn">
-                                <Button size='large' variant='contained' onClick={handleSubmit}>
-                                Submit
-                            </Button>
+                                <Button size='large' variant='contained' color='secondary' onClick={handleSubmit}>
+                                    Submit
+                                </Button>
                             </div>
                         </div>
                     </div>

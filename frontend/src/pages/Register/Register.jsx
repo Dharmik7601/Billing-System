@@ -52,7 +52,7 @@ function validateMobile(value) {
     let error = ''
     let status = true
     if (value.length < 10) {
-        error= 'Note: Mobile number should be of exact 10 digits'
+        error = 'Note: Mobile number should be of exact 10 digits'
     }
     if (value.length > 10 || value.length === '') {
         status = false
@@ -92,7 +92,7 @@ const fieldValidations = {
     first_name: validateName,
     last_name: validateName,
     mobile: validateMobile,
-    email:validateEmail
+    email: validateEmail
 }
 
 const Register = () => {
@@ -106,13 +106,13 @@ const Register = () => {
         mobile: '',
         email: '',
         password: '',
-        repassword:''
+        repassword: ''
     })
 
-    
+
 
     const [error, setError] = useState({
-        username:'',
+        username: '',
         first_name: '',
         last_name: '',
         mobile: '',
@@ -124,12 +124,12 @@ const Register = () => {
         {
             id: 1,
             label: 'Username',
-            placeholder: 'Enter username',
+            placeholder: 'Enter a username',
             name: 'username',
             type: 'text',
             errorMessage: 'Username should be of 5-16 characters and should not include special characters',
             pattern: "^[A-Za-z0-9]{5,16}$",
-            required:true
+            required: true
         },
         {
             id: 2,
@@ -138,16 +138,16 @@ const Register = () => {
             name: 'first_name',
             type: 'text',
             errorMessage: 'Please enter your first name',
-            pattern:"^[A-Za-z]{1,100}$"
+            pattern: "^[A-Za-z]{1,100}$"
         },
         {
             id: 3,
             label: 'Last Name',
-            placeholder: 'Enter yout last name',
+            placeholder: 'Enter your last name',
             name: 'last_name',
             type: 'text',
             errorMessage: 'Please enter your last name',
-            pattern:"^[A-Za-z]{1,100}$"
+            pattern: "^[A-Za-z]{1,100}$"
         },
         {
             id: 4,
@@ -155,16 +155,16 @@ const Register = () => {
             placeholder: 'Enter your mobile number',
             name: 'mobile',
             type: 'mobile',
-            errorMessage:'Please enter a valid mobile number',
-            pattern:"^[0-9]{10,}$"
+            errorMessage: 'Please enter a valid mobile number',
+            pattern: "^[0-9]{10,}$"
         },
         {
             id: 5,
             label: 'Email',
-            placeholder: 'Enter email',
+            placeholder: 'Enter your email',
             name: 'email',
             type: 'email',
-            errorMessage: 'Please enter email address'
+            errorMessage: 'Please enter your email address'
         },
         {
             id: 6,
@@ -181,31 +181,31 @@ const Register = () => {
             placeholder: 'Confirm your password',
             name: 'repassword',
             type: 'password',
-            errorMessage: 'Password does not match',
+            errorMessage: 'Passwords do not match',
             pattern: user.password
         }
     ]
-    
-    
-    
+
+
+
     const handleChange = async (e) => {
         const targetName = e.target.name
         console.log(e.target.value);
         let valid = { status: true, value: e.target.value }
         const validateFn = fieldValidations[targetName]
         if (targetName === 'username') {
-            let error =''
+            let error = ''
             await axios.post("http://localhost:5000/api/v1/user/ciua", { username: e.target.value }).then(response => {
-            console.log(response.data.available)
-            if (!response.data.available) {
-                console.log("here");
-                error = "Username already taken. Please choose another one"
-            }
+                console.log(response.data.available)
+                if (!response.data.available) {
+                    console.log("here");
+                    error = "Username already taken. Please choose another one"
+                }
                 setError({
-                    ...error, 
-                    username:error
+                    ...error,
+                    username: error
+                })
             })
-        })
         }
         if (typeof validateFn === "function") {
             valid = validateFn(valid.value) // boolean value
@@ -213,20 +213,20 @@ const Register = () => {
         if (!valid.status) {
             setError({
                 ...error,
-                [targetName]:valid.error
+                [targetName]: valid.error
             })
             return
-        } else if ((targetName === 'mobile'||targetName === 'email') && valid.status && valid.error) {
+        } else if ((targetName === 'mobile' || targetName === 'email') && valid.status && valid.error) {
             console.log(targetName)
             setError({
                 ...error,
-                [targetName]:valid.error
+                [targetName]: valid.error
             })
         }
-        else if((targetName !== 'username')) {
+        else if ((targetName !== 'username')) {
             setError({
                 ...error,
-                [targetName]:''
+                [targetName]: ''
             })
         }
         let x = { ...user };
@@ -234,8 +234,8 @@ const Register = () => {
         setUser(x);
     }
 
-    
-    
+
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         let isFormEmpty = false;
@@ -273,7 +273,7 @@ const Register = () => {
                 {inputs.map((input) => (
                     <Forms key={input.id} {...input} value={user[input.name]} handleChange={handleChange} autocomplete='off' required error={error} />
                 ))}
-                <button onClick={handleSubmit}>Submit</button>
+                <button className="submit" onClick={handleSubmit}>Submit</button>
                 <div className="tologin">
                     <p>Already a user?</p><a href='http://localhost:3000'>Login</a>
                 </div>

@@ -10,6 +10,21 @@
     background-position: center;
 }
 
+.submit {
+    /* width: 80%; */
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+button {
+    justify-content: center;
+}
+
+.title {
+    padding: 10px;
+}
+
 .login>form {
     background-color: white;
     padding: 0px 60px;
@@ -17,7 +32,7 @@
 }
 
 .login>h1 {
-    color: blueviolet;
+    color: rgb(188, 79, 188);
     text-align: center;
 }
 
@@ -26,7 +41,7 @@
     height: 40px;
     padding: 5px;
     border: none;
-    background-color: rebeccapurple;
+    background-color: rgb(188, 79, 188);
     color: white;
     border-radius: 5px;
     font-weight: bold;
@@ -36,8 +51,12 @@
     margin-bottom: 3px; */
 }
 
-.login>form>.tosignup{
+.login>form>.tosignup {
     display: flex;
     margin-bottom: 10px;
     margin-top: 0px;
+}
+
+.tosignup {
+    padding-top: 10px;
 }

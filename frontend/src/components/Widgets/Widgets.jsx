@@ -1,6 +1,7 @@
 import React from 'react'
 import './Widgets.scss'
 
+
 export const Widgets = (props) => {
 
 

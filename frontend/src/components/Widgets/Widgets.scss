@@ -13,7 +13,6 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 20px;
 
         .title{
             font-weight: bold;
@@ -23,12 +22,18 @@
 
         .link{
             width: max-content;
-            border-bottom: 1px solid black;
+            padding-left: 10px;
+            padding-bottom: 5px;
         }
-
         .number{
             font-weight: bold;
             font-size: 20px;
+            padding: 10px;
+            color: rebeccapurple;
+        }
+        .logo{
+            padding-left: 10px;
+            color: rebeccapurple;
         }
     }
 }

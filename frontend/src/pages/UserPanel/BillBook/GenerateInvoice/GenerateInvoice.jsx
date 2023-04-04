@@ -8,14 +8,22 @@ import { MenuItem } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from "axios"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 function GenerateInvoice() {
 
     const [billBookList, setBillBookList] = useState([])
     const [billList, setBillList] = useState([])
     const [partyList, setPartyList] = useState([])
-    const [productList, setProductList] = useState([])
+    const [itemList, setItemList] = useState([])
     const [templateData, setTemplateData] = useState({})
     // const []
 
@@ -54,6 +62,20 @@ function GenerateInvoice() {
         partyNameList()
     }, [])
 
+    const BillBookType = [
+        {
+            label: "Estimate",
+            value: "estimate"
+        },
+        {
+            label: "Retail",
+            value: "retail"
+        }, {
+            label: "Tax Invoice",
+            value: "tax_invoice"
+        },
+    ]
+
     const billBooksList = async () => {
         try {
             await axios.get(`${process.env.REACT_APP_LINK}/bill-book/name/getAll`, {
@@ -86,14 +108,14 @@ function GenerateInvoice() {
         }
     }
 
-    const getProductNameList = async (name) => {
+    const getItemNameList = async (name) => {
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party/products/name`, {
+            await axios.post(`${process.env.REACT_APP_LINK}/party/items/name`, {
                 partyName: name
             }, {
                 withCredentials: true
             }).then(response => {
-                setProductList(response.data)
+                setItemList(response.data)
             })
         } catch (err) {
             if (err.response) {
@@ -104,12 +126,12 @@ function GenerateInvoice() {
         }
     }
 
-    const getTemplateList = async (productName) => {
+    const getTemplateList = async (itemName) => {
         console.log(data.partyName);
-        console.log(productName);
+        console.log(itemName);
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party-product/template/name`, {
-                productName: productName,
+            await axios.post(`${process.env.REACT_APP_LINK}/party-item/template/name`, {
+                itemName: itemName,
                 partyName: data.partyName
             }, {
                 withCredentials: true
@@ -151,8 +173,8 @@ function GenerateInvoice() {
         billBookName: '',
         billNumber: '',
         partyName: '',
-        productName: '',
-        productTemplateName: '',
+        itemName: '',
+        itemTemplateName: '',
         billBookType: '',
     })
 
@@ -169,14 +191,14 @@ function GenerateInvoice() {
             })
         }
         if (targetName === 'partyName') {
-            await getProductNameList(e.target.value)
+            await getItemNameList(e.target.value)
         }
 
         setData({
             ...data,
             [targetName]: e.target.value
         })
-        if (targetName === 'productName') {
+        if (targetName === 'itemName') {
             await getTemplateList(e.target.value)
         }
         console.log(data);
@@ -186,8 +208,8 @@ function GenerateInvoice() {
         console.log(data);
         const verror = {
             partyName: '',
-            productName: '',
-            productTemplateName: '',
+            itemName: '',
+            itemTemplateName: '',
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -205,7 +227,7 @@ function GenerateInvoice() {
             return
         }
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party-product/create`, {
+            await axios.post(`${process.env.REACT_APP_LINK}/party-item/create`, {
                 data
             }, {
                 withCredentials: true
@@ -217,6 +239,19 @@ function GenerateInvoice() {
         }
     }
 
+    // DATA TABLE FUNCTIONS
+
+    function createData(name, calories, fat, carbs, protein) {
+        return { name, calories, fat, carbs, protein };
+    }
+
+    const rows = [
+        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+        createData('Eclair', 262, 16.0, 24, 6.0),
+        createData('Cupcake', 305, 3.7, 67, 4.3),
+        createData('Gingerbread', 356, 16.0, 49, 3.9),
+    ];
 
     return (
         <div className='generateInvoice'>
@@ -224,32 +259,39 @@ function GenerateInvoice() {
             <div className="generateInvoiceContainer">
                 <NavBar />
                 <div className="inputContainer">
+
+                    {/* STATIC BOX */}
                     <div className="invoiceContent">
-                        <div className="title">
-                            <h1>GENERATE INVOICE</h1>
-                        </div>
+                        <div className="title"><h1>Generate Invoice</h1></div>
                         <Box
                             component="form"
                             sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
                             autoComplete="off">
+
                             <div className="row1">
+
+                                {/* BILL BOOK TYPE */}
                                 <TextField
-                                    id="outlined"
+                                    className="outlined-required"
                                     label="Bill Book Type"
                                     type={Text}
+                                    select
                                     name="billBookType"
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
                                     value={type}
+                                    onChange={handleChange}
+                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}
                                 >
+                                    {BillBookType.map((type) =>
+                                        <MenuItem key={type.value} value={type.value}>
+                                            {type.label}
+                                        </MenuItem>
+                                    )}
                                 </TextField>
+
+                                {/* BILL BOOK */}
                                 <TextField
                                     required
-                                    id="outlined-required"
+                                    className="outlined"
                                     label="Bill Book"
                                     type={Text}
                                     name="billBookName"
@@ -263,16 +305,15 @@ function GenerateInvoice() {
                                         <MenuItem key={list} value={list}>{list}</MenuItem>
                                     )}
                                 </TextField>
-                            </div>
-                            <div className='row2'>
 
+                                {/* BILL NUMBER */}
                                 <TextField
                                     required
-                                    id="outlined-required"
+                                    className="outlined"
                                     label="Bill Number"
                                     type={Text}
+                                    disabled={true}
                                     name="billNumber"
-                                    select
                                     value={data.billNumber}
                                     defaultValue='Choose'
                                     onChange={handleChange}
@@ -282,9 +323,11 @@ function GenerateInvoice() {
                                         <MenuItem key={list} value={list}>{list}</MenuItem>
                                     )}
                                 </TextField>
+
+                                {/* PARTY NAME */}
                                 <TextField
                                     required
-                                    id="outlined-required"
+                                    className="outlined"
                                     label="Party name"
                                     type={Text}
                                     name="partyName"
@@ -299,127 +342,25 @@ function GenerateInvoice() {
                                     )}
                                 </TextField>
                             </div>
-                            {/* <div className="row3">
-                           
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Product name"
-                                type={Text}
-                                name="productName"
-                                select
-                                value={data.productName}  
-                                onChange={handleChange}
-                                    {...(validate.productName && { error: true, helperText: validate.productName })}      
-                            >
-                                {productList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
-                                    )}
-                            </TextField>
-                            <TextField
-                                required
-                                id="outlined"
-                                label="Template name"
-                                type={Text}
-                                name="productTemplateName"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                value={templateData.templateName}  
-                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}      
-                            >
-                            </TextField>
-                        </div>
-                        <div className="row4">
-                             
-                                <TextField
-                                    size="small"
-                                required
-                                id="outlined"
-                                label="Product Quantity"
-                                type={Text}
-                                name="productTemplateName"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                value={templateData.productQuantity}  
-                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}      
-                            >
-                            </TextField>
-                            <TextField
-                                required
-                                id="outlined"
-                                label="Qunatiy Type"
-                                type={Text}
-                                name="productTemplateName"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                value={templateData.quantityType}  
-                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}      
-                            >
-                            </TextField>
-                            </div>
-                            <div className="row5">
-                            
-                            <TextField
-                                required
-                                id="outlined"
-                                label="Price Per Quantity"
-                                type={Text}
-                                name="productTemplateName"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                value={templateData.productPrice}  
-                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}      
-                            >
-                            </TextField>
-                            <TextField
-                                required
-                                id="outlined"
-                                label="Product Size"
-                                type={Text}
-                                name="productTemplateName"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                value={templateData.productSize}  
-                                    {...(validate.templateName && { error: true, helperText: validate.templateName })}      
-                            >
-                            </TextField>
-                            </div> */}
+
                         </Box>
-                        <div className="submit">
-                            <div className="btn">
-                                <Button size='large' variant='contained' onClick={handleSubmit}>
-                                    Submit
-                                </Button>
-                            </div>
+                    </div>
+
+                    {/* ADD BUTTON */}
+                    <div className="addButton">
+                        <div className='btn' onClick={handleAdd}>
+                            <Button variant="primary" startIcon={<AddCircleOutlineIcon />}>
+                                Add Item
+                            </Button>
                         </div>
                     </div>
 
-
+                    {/* DUPLICATE ROW */}
                     {value.map((data, i) => {
                         //const disableRemove = value.length === 1;
                         return (
                             <>
-                                <div className="productSelect">
+                                <div className="itemSelect">
 
                                     {/* TEXT FIELDS */}
                                     <div className="selectContent">
@@ -431,56 +372,116 @@ function GenerateInvoice() {
 
                                             <TextField
                                                 required
-                                                id="outlined-required"
-                                                label="Product name"
+                                                className="outlined-required"
+                                                label="Item name"
                                                 type={Text}
-                                                name="productName"
+                                                name="itemName"
                                                 select
-                                                value={data.productName}
+                                                value={data.itemName}
                                                 onChange={handleChange}
-                                                {...(validate.productName && { error: true, helperText: validate.productName })}>
-                                                {productList.map((list) =>
+                                                {...(validate.itemName && { error: true, helperText: validate.itemName })}>
+                                                {itemList.map((list) =>
                                                     <MenuItem key={list} value={list}>{list}</MenuItem>)}
                                             </TextField>
-
                                             <TextField
                                                 required
-                                                id="outlined"
-                                                label="Template name"
+                                                className="outlined-required"
+                                                label="Item Quantity"
                                                 type={Text}
-                                                name="productTemplateName"
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                value={templateData.templateName}
-                                                {...(validate.templateName && { error: true, helperText: validate.templateName })}>
+                                                name="itemQuantity"
+                                                select
+                                                value={data.itemName}
+                                                onChange={handleChange}
+                                                {...(validate.itemName && { error: true, helperText: validate.itemName })}>
+                                                {itemList.map((list) =>
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)}
+                                            </TextField>
+                                            <TextField
+                                                required
+                                                className="outlined-required"
+                                                label="Item Quantity Type"
+                                                type={Text}
+                                                name="itemQuantityType"
+                                                select
+                                                value={data.itemName}
+                                                onChange={handleChange}
+                                                {...(validate.itemName && { error: true, helperText: validate.itemName })}>
+                                                {itemList.map((list) =>
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)}
+                                            </TextField>
+                                            <TextField
+                                                required
+                                                className="outlined-required"
+                                                label="Initial Price Per Quantity"
+                                                type={Text}
+                                                name="initialPricePerQuantity"
+                                                select
+                                                value={data.itemName}
+                                                onChange={handleChange}
+                                                {...(validate.itemName && { error: true, helperText: validate.itemName })}>
+                                                {itemList.map((list) =>
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)}
                                             </TextField>
 
                                         </Box>
                                     </div>
 
                                     {/* BUTTONS */}
-                                    <div className="buttons">
-                                        <div
-                                            onClick={() => handleAdd()}
-                                            className="addButton">
-                                            <AddCircleOutlineIcon />
-                                        </div>
-                                        <div
-                                            onClick={() => handleDelete(i)}
-                                            //disabled={disableRemove}
-                                            className="removeButton">
-                                            <DeleteOutlineIcon />
-                                        </div>
+                                    <div
+                                        onClick={() => handleDelete(i)}
+                                        //disabled={disableRemove}
+                                        style={{ display: value.length === 1 ? "none" : "block" }}
+                                        className="removeButton">
+                                        <Button variant="primary" startIcon={<DeleteIcon />}>
+                                            Delete
+                                        </Button>
+                                        {/* <DeleteOutlineIcon /> */}
                                     </div>
+
 
                                 </div>
                             </>
                         )
                     })}
+
+                    {/* DENSE DATA TABLE */}
+                    <div className='dense-table' style={{ height: 400, width: '80%' }}>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} size="large" aria-label="a dense table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell className='headers' >Dessert (100g serving)</TableCell>
+                                        <TableCell className='headers' align="center">Calories</TableCell>
+                                        <TableCell className='headers' align="center">Fat&nbsp;(g)</TableCell>
+                                        <TableCell className='headers' align="center">Carbs&nbsp;(g)</TableCell>
+                                        <TableCell className='headers' align="center">Protein&nbsp;(g)</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {rows.map((row) => (
+                                        <TableRow
+                                            key={row.name}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <TableCell component="th" scope="row">{row.name}</TableCell>
+                                            <TableCell align="center">{row.calories}</TableCell>
+                                            <TableCell align="center">{row.fat}</TableCell>
+                                            <TableCell align="center">{row.carbs}</TableCell>
+                                            <TableCell align="center">{row.protein}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
+
+                    {/* SUBMIT BUTTON */}
+                    <div className="submit">
+                        <div className="btn">
+                            <Button size='large' variant='contained' color='secondary' onClick={handleSubmit}>
+                                Submit
+                            </Button>
+                        </div>
+                    </div>
 
                 </div>
             </div>
