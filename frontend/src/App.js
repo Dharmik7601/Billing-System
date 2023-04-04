@@ -24,7 +24,7 @@ import RegisterProduct from './pages/UserPanel/Party/RegisterProduct/RegisterPro
 import RegisterBillBook from './pages/UserPanel/BillBook/RegisterBillBook/RegisterBillBook';
 import ViewAllBillBooks from './pages/UserPanel/BillBook/ViewAllBillBook/ViewAllBillBooks';
 import GenerateInvoice from './pages/UserPanel/BillBook/GenerateInvoice/GenerateInvoice';
-import Invoice from './pages/UserPanel/BillBook/Invoice/Invoice';
+import ViewInvoice from './pages/UserPanel/BillBook/ViewInvoice/ViewInvoice';
 
 
 
@@ -59,7 +59,7 @@ function App() {
         {/* Bill Book routes */}
         <Route path='/user/bill-book/register' element={<RegisterBillBook />} />
         <Route path='/user/bill-book/all' element={<ViewAllBillBooks />} />
-        <Route path='/user/bill-book/invoice' element={<Invoice />} />
+        <Route path='/user/bill-book/invoice' element={<ViewInvoice />} />
 
         {/* Generate invoice */}
         <Route path='/user/generate-invoice' element={<GenerateInvoice />} />
