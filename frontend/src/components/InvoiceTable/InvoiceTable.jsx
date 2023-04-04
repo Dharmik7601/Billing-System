@@ -33,13 +33,13 @@ const rows = [
 ];
 
 const invoiceSubtotal = subtotal(rows);
-const invoiceSubTaxes = (TAX_RATE * invoiceSubtotal)/2 
+const invoiceSubTaxes = (TAX_RATE * invoiceSubtotal) / 2
 const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 function InvoiceTable() {
   return (
-    <TableContainer component={Paper} sx={{maxHeight:500}}>
+    <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
       <Table sx={{ minWidth: 500 }} aria-label="spanning table">
         <TableHead>
           {/* <TableRow>
@@ -49,7 +49,7 @@ function InvoiceTable() {
             <TableCell align="right">Price</TableCell>
           </TableRow> */}
           <TableRow>
-            <TableCell>Product Name</TableCell>
+            <TableCell>Item Name</TableCell>
             <TableCell align="right">Quantiy</TableCell>
             <TableCell align="right">Unit</TableCell>
             <TableCell align="right">Price Per Quantity</TableCell>
@@ -61,8 +61,8 @@ function InvoiceTable() {
             <TableRow key={row.desc}>
               <TableCell>{row.desc}</TableCell>
               <TableCell align="right">{row.qty}</TableCell>
-                <TableCell align="right">{row.unit}</TableCell>
-                <TableCell align="right">1</TableCell>
+              <TableCell align="right">{row.unit}</TableCell>
+              <TableCell align="right">1</TableCell>
               <TableCell align="right">{ccyFormat(row.price)}</TableCell>
             </TableRow>
           ))}
@@ -74,15 +74,15 @@ function InvoiceTable() {
           </TableRow>
           <TableRow>
             <TableCell colSpan={2}>CGST</TableCell>
-            <TableCell align="right">{`${((TAX_RATE/2) * 100).toFixed(0)} %`}</TableCell>
+            <TableCell align="right">{`${((TAX_RATE / 2) * 100).toFixed(0)} %`}</TableCell>
             <TableCell align="right">{ccyFormat(invoiceSubTaxes)}</TableCell>
-        </TableRow>
-        <TableRow>
+          </TableRow>
+          <TableRow>
             <TableCell colSpan={2}>SGST</TableCell>
-            <TableCell align="right">{`${((TAX_RATE/2) * 100).toFixed(0)} %`}</TableCell>
+            <TableCell align="right">{`${((TAX_RATE / 2) * 100).toFixed(0)} %`}</TableCell>
             <TableCell align="right">{ccyFormat(invoiceSubTaxes)}</TableCell>
-        </TableRow>
-         <TableRow>
+          </TableRow>
+          <TableRow>
             <TableCell>Tax Sub Total</TableCell>
             <TableCell align="right">{`${((TAX_RATE) * 100).toFixed(0)} %`}</TableCell>
             <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>

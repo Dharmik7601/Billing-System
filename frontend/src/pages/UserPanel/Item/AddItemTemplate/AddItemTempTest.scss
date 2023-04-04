@@ -1,22 +1,15 @@
-.generateInvoice {
+.addItemTempelate {
     display: flex;
 
-    .generateInvoiceContainer {
+    .aptContainer {
         flex: 6;
 
-        .inputContainer {
+        .templateContainer {
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
             flex-direction: column;
-
-            .dense-table {
-
-                .headers {
-                    font-weight: 700;
-                }
-            }
 
             .addButton {
                 display: flex;
@@ -24,7 +17,7 @@
 
                 .btn {
                     padding: 20px;
-                    color: rgb(188, 79, 188);
+                    color: purple;
                 }
             }
 
@@ -33,12 +26,11 @@
                 padding: 20px;
 
                 .removeButton {
-                    padding-top: 25px;
-                    color: rgb(188, 79, 188);
+                    padding-top: 30px;
                 }
             }
 
-            .invoiceContent {
+            .inputContent {
                 -webkit-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 -moz-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
@@ -56,13 +48,23 @@
 
                 .row1 {
                     .outlined-required {
-                        width: 180px;
+                        width: 270px;
                     }
 
                     .outlined {
-                        width: 270px;
+                        width: 300px;
                     }
                 }
+
+                // .row2,
+                // .row3,
+                // .row4,
+                // .row5 {
+                //     padding: 10px;
+                //     display: flex;
+                //     align-items: center;
+                //     justify-content: center;
+                // }
 
                 .errorMessage {
                     font-size: 10px;
@@ -83,7 +85,7 @@
 
                     .btn {
                         padding: 20px;
-                        color: rgb(188, 79, 188);
+                        color: purple;
                     }
                 }
             }

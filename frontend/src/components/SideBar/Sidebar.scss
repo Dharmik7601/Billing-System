@@ -1,34 +1,39 @@
-.sidebar{
-    flex:1;
+.sidebar {
+    flex: 1;
     border-right: 0.4px solid lightgray;
     height: 100vh;
 
-    .top{
+    .space {
+        padding-top: 10px;
+    }
+
+    .top {
         height: 80px;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        .logo{
+        .logo {
             font-weight: bold;
             font-size: 20px;
             color: #171738;
         }
     }
-    hr{
+
+    hr {
         height: 0;
         border: 0.4px solid lightgray;
     }
-    
-    .center{
+
+    .center {
         margin-left: 10px;
 
-        ul{
+        ul {
             list-style: none;
             padding: 0;
-            
 
-            .title{
+
+            .title {
                 font-size: 18px;
                 font-weight: bold;
                 color: black;
@@ -37,29 +42,29 @@
             }
 
             li {
-                    display: flex;
-                    align-items: center;
-                    padding: 5px;
-                    cursor: pointer;
-            
-                    &:hover {
-                        background-color: #ece8ff;
-                    }
-            
-                    .icon {
-                        color: #8E6C88;
-                        font-size: 20px;
-                    }
-            
-                    span {
-                        margin-left: 10px;
-                        font-size: 15px;
-                        font-weight: 600;
-                        color: indigo;
-                    }
+                display: flex;
+                align-items: center;
+                padding: 5px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #ece8ff;
                 }
+
+                .icon {
+                    color: #8E6C88;
+                    font-size: 20px;
+                }
+
+                span {
+                    margin-left: 10px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: indigo;
+                }
+            }
         }
 
-        
+
     }
 }

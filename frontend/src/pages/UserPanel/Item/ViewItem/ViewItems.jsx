@@ -2,28 +2,28 @@ import React, { useEffect, useState } from 'react'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
-import "./ViewParties.scss"
-import axios from 'axios'
-import { Button } from '@mui/material'
+import "./ViewItems.scss"
+import axios from "axios"
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@mui/material'
 
-const ViewParties = () => {
+
+const ViewItems = () => {
 
     const Navigate = useNavigate()
 
-    const [partyData, setPartyData] = useState([])
+    const [itemsData, setItemsData] = useState([])
 
     useEffect(() => {
-        getPartyDetails()
+        getAllItemsData()
     }, [])
 
-    const getPartyDetails = async () => {
+    const getAllItemsData = async () => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/party/getAll`, {
+            await axios.get(`${process.env.REACT_APP_LINK}/item/getAll`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data);
-                setPartyData(response.data)
+                setItemsData(response.data)
             })
         } catch (err) {
             console.log(err);
@@ -32,37 +32,24 @@ const ViewParties = () => {
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 60 },
+        { field: 'itemId', headerName: 'Item ID', width: 250 },
         {
-            field: 'partyName',
-            headerName: 'Party name',
+            field: 'itemName',
+            headerName: 'Item name',
             width: 150,
             editable: false,
         },
         {
-            field: 'partyMobile',
-            headerName: 'Mobile number',
-            width: 200,
-            editable: false,
-        },
-        {
-            field: 'partyEmail',
-            headerName: 'Email',
-            type: 'text',
-            width: 200,
-            editable: false,
-        },
-        {
-            field: 'partyId',
-            headerName: 'PartyID',
-            type: 'text',
+            field: 'itemDescription',
+            headerName: 'Item Description',
             width: 300,
             editable: false,
         },
         {
-            field: 'partyType',
-            headerName: 'Party Type',
-            type: 'text',
-            width: 150,
+            field: 'noOfTemplates',
+            headerName: 'No of Templates',
+            type: 'number',
+            width: 200,
             editable: false,
         },
         {
@@ -73,7 +60,7 @@ const ViewParties = () => {
                         variant="contained"
                         color="primary"
                         onClick={(event) => {
-                            Navigate(`/user/party/single/${cellValues.row.partyId}`)
+                            Navigate(`/user/item/single/${cellValues.row.itemId}`)
                         }}
                     >
                         View
@@ -82,15 +69,14 @@ const ViewParties = () => {
             }
         },
     ];
-
     return (
         <div className='viewItems'>
             <Sidebar />
             <div className="vpContainer">
                 <NavBar />
                 <div className="dataTableContainer">
-                    <div className="prdouctData">
-                        <DataTable columns={columns} setData={partyData} />
+                    <div className="itemData">
+                        <DataTable setData={itemsData} columns={columns} />
                     </div>
                 </div>
             </div>
@@ -100,4 +86,4 @@ const ViewParties = () => {
 
 
 
-export default ViewParties
+export default ViewItems

@@ -1,16 +1,16 @@
-.singleProduct{
+.singleItem {
     display: flex;
     // width: 100%;
 
-    .singleProductContainer{
+    .singleItemContainer {
         flex: 6;
 
-        .inputContainer{
+        .inputContainer {
             padding: 20px;
             align-items: center;
         }
 
-        .top{
+        .top {
             display: flex;
             flex-direction: column;
             // height: 200px;
@@ -18,69 +18,71 @@
             padding: 30px;
             gap: 20px;
 
-            .tcontainer{
+            .tcontainer {
                 -webkit-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
-                    -moz-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
-                    box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
-                    border-radius: 10px;
-                    height: fit-content;
-                    width: 100%;
+                -moz-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
+                box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
+                border-radius: 10px;
+                height: fit-content;
+                width: 100%;
 
-                    .top-1,
-                        .top-2,
-                        .top-3 {
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: space-between;
-                            padding: 20px;
+                .top-1,
+                .top-2,
+                .top-3 {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding: 20px;
 
-                    .title{
+                    .title {
                         display: flex;
                         padding: 20px;
                         justify-content: center;
                         font-size: 30px;
                         color: rgb(109, 31, 109);
                         font-weight: bold;
-                    
 
-                    
+
+
                     }
-                    .productInfo{
-                        display:flex;
+
+                    .itemInfo {
+                        display: flex;
                         align-items: center;
                         justify-content: center;
                         // padding: 20px;
-                       justify-content: space-between;
+                        justify-content: space-between;
 
-                        .proKey{
+                        .proKey {
                             padding-right: 15px;
                             color: gray;
                         }
 
-                        .proValue{
+                        .proValue {
                             font-weight: bold;
                             font-size: 20px;
                         }
                     }
+                }
             }
         }
-        }
 
-        .bottom{
+        .bottom {
             display: flex;
             padding: 20px;
 
-            .bcontainer{
+            .bcontainer {
                 width: 100%;
                 -webkit-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 -moz-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
                 border-radius: 10px;
 
-                .productsSoldBy{
+                .itemsSoldBy {
                     padding: 20px;
                 }
             }
+
             // height: 250px;
         }
     }

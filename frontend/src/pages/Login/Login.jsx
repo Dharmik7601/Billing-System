@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import Forms from "../../components/Forms/Forms";
 import "./Login.css"
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from "axios";
 
 const Login = () => {
@@ -10,12 +10,12 @@ const Login = () => {
 
     const [user, setUser] = useState({
         username: '',
-        password:''
+        password: ''
     })
 
     const [error, setError] = useState({
         username: '',
-        password:''
+        password: ''
     })
 
     const inputs = [
@@ -27,28 +27,28 @@ const Login = () => {
             type: 'text',
             errorMessage: 'Username should be of 5-16 characters and should not include special characters',
             pattern: "^[A-Za-z0-9]{5,16}$",
-            required:true
+            required: true
         },
         {
             id: 2,
             label: 'Password',
-            placeholder: 'Enter a strong password',
+            placeholder: 'Enter password',
             name: 'password',
             type: 'password',
-            errorMessage: 'Please enter password',
+            errorMessage: 'Please enter your password',
         }
     ]
 
-    
+
     const handleChange = (e) => {
         const { value, name } = e.target
         setUser({
             ...user,
-            [name]:value
+            [name]: value
         })
         console.log(user)
     }
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         if ((user.username || user.password) === '') {
@@ -72,18 +72,18 @@ const Login = () => {
 
     return (
         <>
-        <div className="login">
-            <form>
-                <h1>Login</h1>
-                {inputs.map((input) => (
-                    <Forms key={input.id} {...input} value={user[input.name]} handleChange={handleChange} autocomplete='off' error={error} required/>
-                ))}
-                <button onClick={handleSubmit} className='submit'>Submit</button>
-                <div className="tosignup">
-                    <p>New user?</p><a href='http://localhost:3000/register'>Signup</a>
+            <div className="login">
+                <form>
+                    <h1 className="title">Login</h1>
+                    {inputs.map((input) => (
+                        <Forms key={input.id} {...input} value={user[input.name]} handleChange={handleChange} autocomplete='off' error={error} required />
+                    ))}
+                    <button onClick={handleSubmit} className='submit'>Submit</button>
+                    <div className="tosignup">
+                        <p>New user?</p><a href='http://localhost:3000/register'>Signup</a>
+                    </div>
+                </form>
             </div>
-            </form>
-        </div>       
         </>
     );
 }
