@@ -4,7 +4,7 @@ require('express-async-errors')
 const app = express()
 const port = process.env.PORT || 5000
 const connectDb = require('./database/connectDb')
-const productRoutes = require('./routes/productRoutes')
+const itemRoutes = require('./routes/itemRoutes')
 const partyRoutes = require('./routes/partyRoutes')
 const partyProductRoutes = require('./routes/partyProductRoutes')
 const userRoutes = require('./routes/userRoutes')
@@ -28,7 +28,7 @@ app.use(morgan('tiny'))
 app.use(express.urlencoded())
 
 
-app.use('/api/v1/product', productRoutes)
+app.use('/api/v1/item', itemRoutes)
 app.use('/api/v1/party', partyRoutes)
 app.use('/api/v1/party-product', partyProductRoutes)
 app.use('/api/v1/user', userRoutes)

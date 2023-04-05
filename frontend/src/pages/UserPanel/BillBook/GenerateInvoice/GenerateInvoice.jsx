@@ -372,7 +372,7 @@ function GenerateInvoice() {
 
                                             <TextField
                                                 required
-                                                className="outlined-required"
+                                                className="outline"
                                                 label="Item name"
                                                 type={Text}
                                                 name="itemName"
@@ -385,12 +385,15 @@ function GenerateInvoice() {
                                             </TextField>
                                             <TextField
                                                 required
-                                                className="outlined-required"
+                                                className="outline"
                                                 label="Item Quantity"
                                                 type={Text}
                                                 name="itemQuantity"
                                                 select
                                                 value={data.itemName}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                                 onChange={handleChange}
                                                 {...(validate.itemName && { error: true, helperText: validate.itemName })}>
                                                 {itemList.map((list) =>
@@ -398,11 +401,14 @@ function GenerateInvoice() {
                                             </TextField>
                                             <TextField
                                                 required
-                                                className="outlined-required"
+                                                className="outline"
                                                 label="Item Quantity Type"
                                                 type={Text}
                                                 name="itemQuantityType"
                                                 select
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                                 value={data.itemName}
                                                 onChange={handleChange}
                                                 {...(validate.itemName && { error: true, helperText: validate.itemName })}>
@@ -411,12 +417,15 @@ function GenerateInvoice() {
                                             </TextField>
                                             <TextField
                                                 required
-                                                className="outlined-required"
+                                                className="outline"
                                                 label="Initial Price Per Quantity"
                                                 type={Text}
                                                 name="initialPricePerQuantity"
                                                 select
                                                 value={data.itemName}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                                 onChange={handleChange}
                                                 {...(validate.itemName && { error: true, helperText: validate.itemName })}>
                                                 {itemList.map((list) =>
