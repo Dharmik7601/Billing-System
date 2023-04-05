@@ -1,39 +1,40 @@
-const Product = require('../model/productModel')
+const Item = require('../model/itemSchema')
 const { StatusCodes } = require('http-status-codes')
 const { NotFoundError } = require('../error')
 
-const createProduct = async (req, res) => {
+const createItem = async (req, res) => {
     console.log(req.body)
-    const product = await Product.create(req.body)
-    res.status(StatusCodes.CREATED).json({msg:'Success',product})
+    const item = await Item.create(req.body)
+    res.status(StatusCodes.CREATED).json({msg:'Item Added'})
 }
 
-const getAllProducts = async (req, res) => {
-    const products = await Product.find({})
-    let getProducts = []
+const getAllItems = async (req, res) => {
+    const items = await Item.find({})
+    let getItems = []
     let i = 1 
-    const pro = products.map((product) => {
-        getProducts.push({
+    const pro = items.map((item) => {
+        getItems.push({
             id:i,
-            productId: product._id,
-            productName: product.productName,
-            productDescription: product.productDescription,
-            noOfTemplates: product.productTemplates.length
+            itemId: item._id,
+            itemName: item.itemName,
+            itemDescription: item.itemDescription,
+            noOfTemplates: item.itemTemplates.length
         })
         i++;
     })
     await Promise.all(pro)
-    res.status(StatusCodes.OK).json(getProducts)
+    res.status(StatusCodes.OK).json(getItems)
 }
 
-const getAllProductsName = async (req, res) => {
-    const products = await Product.find({}).select("productName")
-    let productList = []
-    const pro = products.map((product) => {
-        productList.push(product.productName)
+const getAllItemsName = async (req, res) => {
+    const items = await Item.find({}).select("itemName")
+    if(!items) throw new NotFoundError(`No items found`)
+    let itemList = []
+    const pro = items.map((item) => {
+        itemList.push(item.itemName)
     })
     await Promise.all(pro)
-    res.status(StatusCodes.OK).json(productList)
+    res.status(StatusCodes.OK).json(itemList)
 }
 
 const getAllProductsTemplatesName = async (req, res) => {
@@ -66,15 +67,15 @@ const getAllProductsTemplates = async (req, res) => {
 }
 
 const getAllProductsSoldBy = async (req, res) => {
-    const { productId } = req.params;
-    const products = await Product.findOne({ _id: productId }).populate("soldBy").select("soldBy")
-    if (!products) throw new NotFoundError(`No product found with product id : ${productId}`)
-    console.log(products);
-    const supplierList = products.soldBy
-    let productList = []
+    const { itemId } = req.params;
+    const items = await Item.findOne({ _id: itemId }).populate("soldBy").select("soldBy")
+    if (!items) throw new NotFoundError(`No product found with product id : ${productId}`)
+    console.log(items);
+    const supplierList = items.soldBy
+    let itemList = []
     const pro = supplierList.map((list) => {
-        productList.push({
-            supplierName: list.partyName
+        itemList.push({
+            supplierName: itemId.partyName
         })
     })
     await Promise.all(pro)
@@ -100,14 +101,15 @@ const productsAvailableToList = async (req, res) => {
     res.status(StatusCodes.OK).json(productList)
 }
 
-const getSingleProduct = async (req, res) => {
-    const {productId} = req.params
-    const product = await Product.findOne({_id:productId})
-    let getProducts = {
-        productId: product._id,
-        productName: product.productName,
-        productDescription: product.productDescription
+const getSingleItem = async (req, res) => {
+    const { itemId } = req.params
+    const item = await Item.findOne({ _id: itemId })
+    if(!item) throw new NotFoundError(`No item found`)
+    let getItemInfo = {
+        itemId: item._id,
+        itemName: item.itemName,
+        itemDescription: item.itemDescription
     }
-    res.status(StatusCodes.OK).json(getProducts)
+    res.status(StatusCodes.OK).json(getItemInfo)
 }
-module.exports = {createProduct,getAllProducts,productsAvailableToList,getAllProductsName,getSingleProduct,getAllProductsTemplatesName,getAllProductsTemplates,getAllProductsSoldBy}
+module.exports = {createItem,getAllItems,productsAvailableToList,getAllItemsName,getSingleItem,getAllProductsTemplatesName,getAllProductsTemplates,getAllProductsSoldBy}

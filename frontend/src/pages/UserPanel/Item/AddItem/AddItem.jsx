@@ -37,8 +37,8 @@ function validateNumber(value) {
 }
 
 const fieldValidations = {
-    price: validateNumber,
-    quantity: validateNumber
+    itemPrice: validateNumber,
+    itemQuantity: validateNumber
 }
 
 
@@ -68,7 +68,7 @@ function AddItem() {
         },
         {
             label: "Dozen",
-            value: "12"
+            value: "dozen"
         }, {
             label: "KGs",
             value: "kgs"
@@ -81,12 +81,11 @@ function AddItem() {
 
     const [data, setData] = useState({
         itemName: '',
-        quantity: '',
-        price: '',
         itemDescription: '',
-        size: '',
-        quantityType: '',
-        templateName: ''
+        itemQuantity: '',
+        itemPrice: '',
+        itemSize: '',
+        itemQuantityType: ''
     })
 
     const [validate, setValidate] = useState({})
@@ -122,17 +121,17 @@ function AddItem() {
             ...data,
             [targetName]: valid.value
         })
+        console.log(data);
     }
 
     const handleSubmit = async (e) => {
         const verror = {
             itemName: '',
-            quantity: '',
-            price: '',
-            size: '',
-            quantityType: '',
+            itemQuantity: '',
+            itemPrice: '',
+            itemSize: '',
+            itemQuantityType: '',
             itemDescription: '',
-            templateName: ''
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -152,33 +151,19 @@ function AddItem() {
         }
 
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/item/create`, {
-                itemName: data.itemName,
-                itemDescription: data.itemDescription
-            }, {
+            await axios.post(`${process.env.REACT_APP_LINK}/item/create`,data, {
                 withCredentials: true
             }).then(response => {
-                console.log(response);
+                alert(response.data.msg)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
-        try {
-            await axios.post(`${process.env.REACT_APP_LINK}/item/add/template`, {
-                itemName: data.itemName,
-                itemQuantity: data.quantity,
-                itemQuantityType: data.quantityType,
-                itemSize: data.size,
-                templateName: data.templateName,
-                itemPrice: data.price
-            }, {
-                withCredentials: true
-            }).then(response => {
-                console.log(response);
-            })
-        } catch (err) {
-            console.log(err);
-        }
+        window.location.reload()
     }
 
     return (
@@ -189,7 +174,7 @@ function AddItem() {
                 <div className="addContainer">
                     <div className="inputContainer">
                         <div className="title">
-                            <h1>Add Item</h1>
+                            <h1>ADD ITEM</h1>
                         </div>
                         <Box
                             component="form"
@@ -222,12 +207,12 @@ function AddItem() {
                                     className="outlined-required"
                                     label="Item Size"
                                     type={Text}
-                                    name="size"
+                                    name="itemSize"
                                     multiline
-                                    value={data.size}
+                                    value={data.itemSize}
                                     onChange={handleChange}
-                                    {...(error.size && { error: true, helperText: error.size })}
-                                    {...(validate.size && { error: true, helperText: validate.size })}
+                                    {...(error.itemSize && { error: true, helperText: error.itemSize })}
+                                    {...(validate.itemSize && { error: true, helperText: validate.itemSize })}
                                 />
                             </div>
                             <div className="row2" style={{ display: 'flex' }} >
@@ -238,11 +223,11 @@ function AddItem() {
                                         // id="outlined-required"
                                         label="Quantity"
                                         type={Number}
-                                        name="quantity"
-                                        value={data.quantity}
+                                        name="itemQuantity"
+                                        value={data.itemQuantity}
                                         onChange={handleChange}
-                                        {...(error.quantity && { error: true, helperText: error.quantity })}
-                                        {...(validate.quantity && { error: true, helperText: validate.quantity })}
+                                        {...(error.itemQuantity && { error: true, helperText: error.itemQuantity })}
+                                        {...(validate.itemQuantity && { error: true, helperText: validate.itemQuantity })}
                                     />
 
                                     <TextField
@@ -251,9 +236,9 @@ function AddItem() {
                                         label="Quantity Type"
                                         required
                                         type={Text}
-                                        name="quantityType"
+                                        name="itemQuantityType"
                                         onChange={handleChange}
-                                        {...(validate.quantityType && { error: true, helperText: validate.quantityType })}
+                                        {...(validate.itemQuantityType && { error: true, helperText: validate.itemQuantityType })}
                                         select
                                     >
                                         {QuantityType.map((type) => (
@@ -267,12 +252,12 @@ function AddItem() {
                                         className="outlined-required"
                                         label="Initial Price Per Quantity"
                                         type={Number}
-                                        name="price"
+                                        name="itemPrice"
                                         multiline
-                                        value={data.price}
+                                        value={data.itemPrice}
                                         onChange={handleChange}
-                                        {...(error.price && { error: true, helperText: error.price })}
-                                        {...(validate.price && { error: true, helperText: validate.price })}
+                                        {...(error.itemPrice && { error: true, helperText: error.itemPrice })}
+                                        {...(validate.itemPrice && { error: true, helperText: validate.itemPrice })}
                                     />
                                 </div>
 

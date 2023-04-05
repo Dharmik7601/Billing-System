@@ -1,7 +1,8 @@
 .sidebar {
     flex: 1;
     border-right: 0.4px solid lightgray;
-    height: 100vh;
+    // height: ;
+    min-height: 100vh;
 
     .space {
         padding-top: 10px;
@@ -12,6 +13,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        .companyLogo{
+            height: 200rem;
+        }
 
         .logo {
             font-weight: bold;

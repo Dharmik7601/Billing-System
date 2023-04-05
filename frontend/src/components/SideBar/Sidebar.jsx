@@ -55,7 +55,7 @@ function Sidebar() {
     return (
         <div className='sidebar'>
             <div className="top">
-                <img src={logo} alt="company logo" />
+                <img src={logo} alt="company logo" className='compamyLogo'/>
                 {/*<span className="logo">User logo</span>*/}
             </div>
             <div className='space'></div>

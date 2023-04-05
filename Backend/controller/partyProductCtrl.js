@@ -1,6 +1,6 @@
 const PartyProduct = require('../model/partyProductModel')
 const Party = require('../model/partyModel')
-const Product = require('../model/productModel')
+const Produc = require('../model/itemSchema')
 const ProductTemplate = require('../model/productTemplateModel')
 const { StatusCodes } = require('http-status-codes')
 const { NotFoundError } = require('../error')

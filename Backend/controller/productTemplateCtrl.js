@@ -1,5 +1,5 @@
 const ProductTemplate = require('../model/productTemplateModel')
-const Product = require('../model/productModel')
+const Product = require('../model/itemSchema')
 const { StatusCodes } = require('http-status-codes')
 const {NotFoundError} = require('../error')
 

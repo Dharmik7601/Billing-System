@@ -55,8 +55,8 @@ const SingleItem = () => {
 
     useEffect(() => {
         getSingleItemInformation();
-        getItemTemplates();
-        getItemSoldBy()
+        // getItemTemplates();
+        // getItemSoldBy()
     }, [])
 
     const columnsDataTemp = [
@@ -108,7 +108,7 @@ const SingleItem = () => {
 
                     </div>
                     <div className="bottom">
-                        <div className="left">
+                        {/* <div className="left">
                             <div className="bleftcontainer">
                                 <div className="itemsSoldBy">
                                     <Table columnsData={columnsDataTemp} rowData={templateData} />
@@ -121,7 +121,7 @@ const SingleItem = () => {
                                     <Table columnsData={columnsDataSoldBy} rowData={soldByList} />
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

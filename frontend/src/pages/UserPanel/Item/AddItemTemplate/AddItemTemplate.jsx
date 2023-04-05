@@ -84,7 +84,7 @@ function AddItemTemplate() {
         templateName: ''
     })
 
-    const [nameList, setNameList] = useState([])
+    const [itemNameList, setItemNameList] = useState([])
 
     const [validate, setValidate] = useState({})
 
@@ -132,7 +132,7 @@ function AddItemTemplate() {
             await axios.get(`${process.env.REACT_APP_LINK}/item/name/getAll`, {
                 withCredentials: true
             }).then(response => {
-                setNameList(response.data)
+                setItemNameList(response.data)
             })
         } catch (err) {
             console.log(err);
@@ -195,7 +195,8 @@ function AddItemTemplate() {
         setValue(inputdata)
     }
 
-    const handleDelete = (i) => {
+    const handleDelete = (i,e) => {
+        console.log(e);
         if (value.length === 1) {
             return;
         }
@@ -311,8 +312,8 @@ function AddItemTemplate() {
                                                     value={data.itemName}
                                                     onChange={handleChange}
                                                     {...(validate.itemName && { error: true, helperText: validate.itemName })}>
-                                                    {/* {itemList.map((list) =>
-                                                        <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                                                    {itemNameList.map((list) =>
+                                                        <MenuItem key={list} value={list}>{list}</MenuItem>)}
                                                 </TextField>
                                                 <TextField
                                                     required
@@ -320,8 +321,10 @@ function AddItemTemplate() {
                                                     label="Quantity"
                                                     type={Text}
                                                     name="quantity"
-                                                    select
                                                     value={data.itemName}
+                                                    InputLabelProps={{
+                                                    shrink: true,
+                                                    }}
                                                     onChange={handleChange}
                                                     {...(validate.itemName && { error: true, helperText: validate.itemName })}>
                                                     {/* {itemList.map((list) =>
@@ -336,6 +339,9 @@ function AddItemTemplate() {
                                                     select
                                                     value={data.itemName}
                                                     onChange={handleChange}
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
                                                     {...(validate.itemName && { error: true, helperText: validate.itemName })}>
                                                     {/* {itemList.map((list) =>
                                                         <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
@@ -348,26 +354,28 @@ function AddItemTemplate() {
                                                     name="pricePerQuantity"
                                                     select
                                                     value={data.itemName}
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
                                                     onChange={handleChange}
                                                     {...(validate.itemName && { error: true, helperText: validate.itemName })}>
                                                     {/* {itemList.map((list) =>
                                                         <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
                                                 </TextField>
-
                                             </Box>
                                         </div>
 
                                         {/* DELETE BUTTON */}
                                         <div
-                                            onClick={() => handleDelete(i)}
+                                            onClick={(e) => handleDelete(i,e)}
                                             //disabled={disableRemove}
                                             style={{ display: value.length === 1 ? "none" : "block" }}
                                             className="removeButton">
                                             <Button variant="primary" startIcon={<DeleteIcon />}>
                                                 Delete
                                             </Button>
-                                            {/* <DeleteOutlineIcon /> */}
-                                        </div>
+                                            {/* {/* <DeleteOutlineIcon /> */}
+                                         </div> 
                                     </div>
                                 </Box>
                             </>
