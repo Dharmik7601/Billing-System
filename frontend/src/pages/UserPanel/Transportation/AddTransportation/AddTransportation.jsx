@@ -122,7 +122,7 @@ function validateAccNumber(value) {
 
 
 const fieldValidations = {
-    // partyName: validateName,
+    // transportationName: validateName,
     mobile: validateMobile,
     email: validateEmail,
     // gstNo: validateGstNo,
@@ -177,7 +177,7 @@ function AddTransportation() {
     ]
 
     const [data, setData] = useState({
-        partyName: '',
+        transportationName: '',
         email: '',
         mobile: '',
         address: '',
@@ -186,13 +186,13 @@ function AddTransportation() {
         accountName: '',
         accountNumber: '',
         accountType: '',
-        partyType: ''
+        transportationType: ''
     })
 
     const [validate, setValidate] = useState({})
 
     const [error, setError] = useState({
-        partyName: '',
+        transportationName: '',
         email: '',
         mobile: '',
         address: '',
@@ -232,7 +232,7 @@ function AddTransportation() {
 
     const handleSubmit = async (e) => {
         const verror = {
-            partyName: '',
+            transportationName: '',
             email: '',
             mobile: '',
             address: '',
@@ -241,7 +241,7 @@ function AddTransportation() {
             accountName: '',
             accountNumber: '',
             accountType: '',
-            partyType: ''
+            transportationType: ''
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -260,7 +260,7 @@ function AddTransportation() {
             return
         }
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party/create`, data, {
+            await axios.post(`${process.env.REACT_APP_LINK}/transportation/create`, data, {
                 withCredentials: true
             }).then(response => {
                 alert(response.data.msg)
@@ -297,11 +297,11 @@ function AddTransportation() {
                                     id="outlined-required"
                                     label="Transportation name"
                                     type={Text}
-                                    name="partyName"
-                                    value={data.partyName}
+                                    name="transportationName"
+                                    value={data.transportationName}
                                     onChange={handleChange}
-                                    {...(error.partyName && { error: true, helperText: error.partyName })}
-                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}
+                                    {...(error.transportationName && { error: true, helperText: error.transportationName })}
+                                    {...(validate.transportationName && { error: true, helperText: validate.transportationName })}
                                 />
                                 {/* TRANSPORTATION TYPE */}
                                 <TextField
@@ -309,9 +309,9 @@ function AddTransportation() {
                                     label="Transportation Type"
                                     required
                                     type={Text}
-                                    name="partyType"
+                                    name="transportationType"
                                     onChange={handleChange}
-                                    {...(validate.partyType && { error: true, helperText: validate.partyType })}
+                                    {...(validate.transportationType && { error: true, helperText: validate.transportationType })}
                                     select
                                 >
                                     {TransportationType.map((type) => (
@@ -330,9 +330,9 @@ function AddTransportation() {
                                     label="Transportation Type"
                                     required
                                     type={Text}
-                                    name="partyType"
+                                    name="transportationType"
                                     onChange={handleChange}
-                                    {...(validate.partyType && { error: true, helperText: validate.partyType })}
+                                    {...(validate.transportationType && { error: true, helperText: validate.transportationType })}
                                     select
                                 >
                                     {TransportationType.map((type) => (
