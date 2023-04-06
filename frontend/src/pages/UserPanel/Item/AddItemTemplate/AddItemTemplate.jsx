@@ -427,11 +427,14 @@ function AddItemTemplate() {
 
                                                 <TextField
                                                     required
-                                                    className="outline"
+                                                    className="map-field"
                                                     label="Item name"
                                                     type={Text}
                                                     name="itemName"
                                                     select
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
                                                     value={value[i]}
                                                     onChange={(onChangeValue) => handleRowChange(onChangeValue,i)}
                                                 {...(itemDetailsListValidation[i].itemName && { error: true, helperText: itemDetailsListValidation[i].itemName })}
@@ -441,7 +444,7 @@ function AddItemTemplate() {
                                                 </TextField>
                                                 <TextField
                                                     required
-                                                    className="outline"
+                                                    className="map-field"
                                                     label="Quantity"
                                                     type={Text}
                                                     name="itemQuantity"
@@ -456,7 +459,7 @@ function AddItemTemplate() {
                                                 </TextField>
                                                 <TextField
                                                     required
-                                                    className="outline"
+                                                    className="map-field"
                                                     label="Quantity Type"
                                                     type={Text}
                                                     name="itemQuantityType"
@@ -473,7 +476,7 @@ function AddItemTemplate() {
                                                 </TextField>
                                                 <TextField
                                                     required
-                                                    className="outline"
+                                                    className="map-field"
                                                     label="Price Per Quantity"
                                                     type={Text}
                                                     name="itemPrice"
