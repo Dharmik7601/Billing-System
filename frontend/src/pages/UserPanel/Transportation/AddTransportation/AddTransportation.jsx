@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from "../../../../components/SideBar/Sidebar"
 import Navbar from "../../../../components/NavBar/NavBar"
 import './AddTransportation.scss'
@@ -122,7 +122,7 @@ function validateAccNumber(value) {
 
 
 const fieldValidations = {
-    // partyName: validateName,
+    // transportationName: validateName,
     mobile: validateMobile,
     email: validateEmail,
     // gstNo: validateGstNo,
@@ -136,17 +136,17 @@ function AddTransportation() {
 
     const Navigate = useNavigate()
 
-    const checkUser = async () => {
-        let check = await checkAuth()
-        if (!check) {
-            Navigate('/')
-            return
-        }
-    }
-    
-    useEffect(() => {
-        checkUser()
-    },[])
+    // const checkUser = async () => {
+    //     let check = await checkAuth()
+    //     if (!check) {
+    //         Navigate('/')
+    //         return
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     checkUser()
+    // }, [])
 
     const bankAccountType = [
         {
@@ -177,7 +177,7 @@ function AddTransportation() {
     ]
 
     const [data, setData] = useState({
-        partyName: '',
+        transportationName: '',
         email: '',
         mobile: '',
         address: '',
@@ -186,13 +186,13 @@ function AddTransportation() {
         accountName: '',
         accountNumber: '',
         accountType: '',
-        partyType: ''
+        transportationType: ''
     })
 
     const [validate, setValidate] = useState({})
 
     const [error, setError] = useState({
-        partyName: '',
+        transportationName: '',
         email: '',
         mobile: '',
         address: '',
@@ -232,7 +232,7 @@ function AddTransportation() {
 
     const handleSubmit = async (e) => {
         const verror = {
-            partyName: '',
+            transportationName: '',
             email: '',
             mobile: '',
             address: '',
@@ -241,7 +241,7 @@ function AddTransportation() {
             accountName: '',
             accountNumber: '',
             accountType: '',
-            partyType: ''
+            transportationType: ''
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -260,7 +260,7 @@ function AddTransportation() {
             return
         }
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party/create`, data, {
+            await axios.post(`${process.env.REACT_APP_LINK}/transportation/create`, data, {
                 withCredentials: true
             }).then(response => {
                 alert(response.data.msg)
@@ -289,46 +289,64 @@ function AddTransportation() {
                             component="form"
                             sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
                             autoComplete="off">
+
                             <div className='row1'>
+                                {/* TRANSPORTATION NAME */}
                                 <TextField
                                     required
                                     id="outlined-required"
                                     label="Transportation name"
                                     type={Text}
-                                    name="partyName"
-                                    value={data.partyName}
+                                    name="transportationName"
+                                    value={data.transportationName}
                                     onChange={handleChange}
-                                    {...(error.partyName && { error: true, helperText: error.partyName })}
-                                    {...(validate.partyName && { error: true, helperText: validate.partyName })}
+                                    {...(error.transportationName && { error: true, helperText: error.transportationName })}
+                                    {...(validate.transportationName && { error: true, helperText: validate.transportationName })}
                                 />
+                                {/* TRANSPORTATION TYPE */}
                                 <TextField
+                                    id="outlined-multiline-flexible"
+                                    label="Transportation Type"
                                     required
-                                    id="outlined-required"
-                                    label="Email address"
-                                    type={'email'}
-                                    name="email"
-                                    value={data.email}
+                                    type={Text}
+                                    name="transportationType"
                                     onChange={handleChange}
-                                    {...(error.email && { error: true, helperText: error.email })}
-                                    {...(validate.email && { error: true, helperText: validate.email })}
-                                />
+                                    {...(validate.transportationType && { error: true, helperText: validate.transportationType })}
+                                    select
+                                >
+                                    {TransportationType.map((type) => (
+                                        <MenuItem key={type.value} value={type.value}>
+                                            {type.label}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
                             </div>
+
                             <div className="row2">
+
+                                {/* TRANSPORTATION TYPE */}
                                 <TextField
+                                    id="outlined-multiline-flexible"
+                                    label="Transportation Type"
                                     required
-                                    id="outlined-required"
-                                    label="Phone number"
-                                    type={Number}
-                                    name="mobile"
-                                    value={data.mobile}
+                                    type={Text}
+                                    name="transportationType"
                                     onChange={handleChange}
-                                    {...(error.mobile && { error: true, helperText: error.mobile })}
-                                    {...(validate.mobile && { error: true, helperText: validate.mobile })}
-                                />
+                                    {...(validate.transportationType && { error: true, helperText: validate.transportationType })}
+                                    select
+                                >
+                                    {TransportationType.map((type) => (
+                                        <MenuItem key={type.value} value={type.value}>
+                                            {type.label}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+
+                                {/* OFFICE ADDRESS */}
                                 <TextField
                                     required
                                     id="outlined-multiline-flexible"
-                                    label="Address"
+                                    label="Office Address"
                                     multiline
                                     maxRows={4}
                                     size='medium'
@@ -338,7 +356,10 @@ function AddTransportation() {
                                     {...(validate.address && { error: true, helperText: validate.address })}
                                 />
                             </div>
+
                             <div className="row3">
+
+                                {/* GST NUMBER */}
                                 <TextField
                                     required
                                     id="outlined-required"
@@ -350,23 +371,30 @@ function AddTransportation() {
                                     {...(error.gstNo && { error: true, helperText: error.gstNo })}
                                     {...(validate.gstNo && { error: true, helperText: validate.gstNo })}
                                 />
-                                <TextField
-                                    id="outlined-multiline-flexible"
-                                    label="Bank IFSC Code"
-                                    required
-                                    type={Number}
-                                    name="ifscCode"
-                                    value={data.ifscCode}
-                                    onChange={handleChange}
-                                    {...(error.ifscCode && { error: true, helperText: error.ifscCode })}
-                                    {...(validate.ifscCode && { error: true, helperText: validate.ifscCode })}
-                                />
-                            </div>
-                            <div className="row4">
+
+                                {/* EMAIL */}
                                 <TextField
                                     required
                                     id="outlined-required"
-                                    label="Account number"
+                                    label="Email address"
+                                    type={'email'}
+                                    name="email"
+                                    value={data.email}
+                                    onChange={handleChange}
+                                    {...(error.email && { error: true, helperText: error.email })}
+                                    {...(validate.email && { error: true, helperText: validate.email })}
+                                />
+
+                            </div>
+
+
+                            <div className="row4">
+
+                                {/* BANK ACCOUNT NUMBER */}
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Bank Account number"
                                     type={Number}
                                     name="accountNumber"
                                     value={data.accountNumber}
@@ -374,51 +402,23 @@ function AddTransportation() {
                                     {...(error.accountNumber && { error: true, helperText: error.accountNumber })}
                                     {...(validate.accountNumber && { error: true, helperText: validate.accountNumber })}
                                 />
-                                <TextField
-                                    id="outlined-multiline-flexible"
-                                    label="Account Name"
-                                    required
-                                    type={Text}
-                                    name="accountName"
-                                    value={data.accountName}
-                                    onChange={handleChange}
-                                    {...(error.accountName && { error: true, helperText: error.accountName })}
-                                    {...(validate.accountName && { error: true, helperText: validate.accountName })}
-                                />
-                            </div>
-                            <div className="row5">
+
+                                {/* PHONE NUMBER */}
                                 <TextField
                                     required
                                     id="outlined-required"
-                                    label="Account Type"
-                                    select
-                                    type={Text}
-                                    name="accountType"
+                                    label="Phone number"
+                                    type={Number}
+                                    name="mobile"
+                                    value={data.mobile}
                                     onChange={handleChange}
-                                    {...(validate.accountType && { error: true, helperText: validate.accountType })}
-                                >
-                                    {bankAccountType.map((type) => (
-                                        <MenuItem key={type.value} value={type.value}>
-                                            {type.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-                                <TextField
-                                    id="outlined-multiline-flexible"
-                                    label="Transportation Type"
-                                    required
-                                    type={Text}
-                                    name="partyType"
-                                    onChange={handleChange}
-                                    {...(validate.partyType && { error: true, helperText: validate.partyType })}
-                                    select
-                                >
-                                    {TransportationType.map((type) => (
-                                        <MenuItem key={type.value} value={type.value}>
-                                            {type.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+                                    {...(error.mobile && { error: true, helperText: error.mobile })}
+                                    {...(validate.mobile && { error: true, helperText: validate.mobile })}
+                                />
+                            </div>
+                            <div className="row5">
+
+
                             </div>
                         </Box>
                         <div className="submit">

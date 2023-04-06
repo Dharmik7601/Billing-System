@@ -37,6 +37,21 @@ const getAllItemsName = async (req, res) => {
     res.status(StatusCodes.OK).json(itemList)
 }
 
+const getItemDetails = async (req, res) => {
+    const { itemName } = req.params;
+    const item = await Item.findOne({ itemName: itemName })
+    if (!item) throw new NotFoundError(`No item found with name: ${itemName}`)
+    let itemDetails = {
+            itemName: item.itemName,
+            itemPrice: item.itemPrice,
+            itemQuantity: item.itemQuantity,
+            itemQuantityType: item.itemQuantityType,
+            itemSize: item.itemSize
+    }
+    console.log(itemDetails);
+    res.status(StatusCodes.OK).json(itemDetails)
+}
+
 const getAllProductsTemplatesName = async (req, res) => {
     const { productName } = req.body;
     console.log(productName);
@@ -112,4 +127,4 @@ const getSingleItem = async (req, res) => {
     }
     res.status(StatusCodes.OK).json(getItemInfo)
 }
-module.exports = {createItem,getAllItems,productsAvailableToList,getAllItemsName,getSingleItem,getAllProductsTemplatesName,getAllProductsTemplates,getAllProductsSoldBy}
+module.exports = {createItem,getAllItems,productsAvailableToList,getAllItemsName,getSingleItem,getAllProductsTemplatesName,getAllProductsTemplates,getAllProductsSoldBy,getItemDetails}

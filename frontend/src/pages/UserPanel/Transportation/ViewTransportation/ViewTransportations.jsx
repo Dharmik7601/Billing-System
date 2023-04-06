@@ -12,24 +12,24 @@ const ViewTransportations = () => {
 
     const Navigate = useNavigate()
 
-    const checkUser = async () => {
-        let check = await checkAuth()
-        if (!check) {
-            Navigate('/')
-            return
-        }
-    }
+    // const checkUser = async () => {
+    //     let check = await checkAuth()
+    //     if (!check) {
+    //         Navigate('/')
+    //         return
+    //     }
+    // }
 
-    const [partyData, setTransportationData] = useState([])
+    const [transportationData, setTransportationData] = useState([])
 
-    useEffect(() => {
-        checkUser();
-        getTransportationDetails();
-    },[])
+    // useEffect(() => {
+    //     checkUser();
+    //     getTransportationDetails();
+    // }, [])
 
     const getTransportationDetails = async () => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/party/getAll`, {
+            await axios.get(`${process.env.REACT_APP_LINK}/transportation/getAll`, {
                 withCredentials: true
             }).then(response => {
                 console.log(response.data);
@@ -41,38 +41,35 @@ const ViewTransportations = () => {
     }
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 60 },
         {
-            field: 'partyName',
+            field: 'id',
+            headerName: 'ID',
+            width: 60
+        },
+        {
+            field: 'transportationName',
             headerName: 'Transportation name',
-            width: 150,
+            width: 250,
             editable: false,
         },
         {
-            field: 'partyMobile',
-            headerName: 'Mobile number',
-            width: 200,
-            editable: false,
-        },
-        {
-            field: 'partyEmail',
-            headerName: 'Email',
-            type: 'text',
-            width: 200,
-            editable: false,
-        },
-        {
-            field: 'partyId',
-            headerName: 'TransportationID',
-            type: 'text',
-            width: 300,
-            editable: false,
-        },
-        {
-            field: 'partyType',
+            field: 'transportationType',
             headerName: 'Transportation Type',
             type: 'text',
-            width: 150,
+            width: 250,
+            editable: false,
+        },
+        {
+            field: 'mobile',
+            headerName: 'Mobile number',
+            width: 250,
+            editable: false,
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            type: 'text',
+            width: 250,
             editable: false,
         },
         {
@@ -83,7 +80,7 @@ const ViewTransportations = () => {
                         variant="contained"
                         color="primary"
                         onClick={(event) => {
-                            Navigate(`/user/party/single/${cellValues.row.partyId}`)
+                            Navigate(`/user/transportation/single/${cellValues.row.transportationId}`)
                         }}
                     >
                         View
@@ -100,7 +97,7 @@ const ViewTransportations = () => {
                 <NavBar />
                 <div className="dataTableContainer">
                     <div className="prdouctData">
-                        <DataTable columns={columns} setData={partyData} />
+                        <DataTable columns={columns} setData={transportationData} />
                     </div>
                 </div>
             </div>
