@@ -8,7 +8,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation';
 import { useNavigate } from 'react-router-dom'
-import logo from "../../images/acute-logo.png";
+import logo from "../../images/acute-logo-transparent.png";
 
 function Sidebar() {
     const Navigate = useNavigate()
