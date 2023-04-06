@@ -40,7 +40,7 @@ const partySchema = new mongoose.Schema({
     },
     accountType: {
         type: String,
-        enum:['saving','current','OD'],
+        // enum:['saving','current','OD'],
         required: [true, 'Please provide account type'],
     },
     partyType: {
@@ -48,7 +48,7 @@ const partySchema = new mongoose.Schema({
         required: [true, 'Please provide partyType'],
         enum:['supplier','buyer','both']
     },
-    productLists: [{
+    templateUsed: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:'PartyProduct'
     }]

@@ -5,9 +5,9 @@ const router = express.Router()
 
 router.post('/create', createBillBook)
 router.get('/getALL', getAllBillBooks) 
-router.get('/name/getAll', getAllBillBooksName) 
+router.get('/name/getAll/:billBookType', getAllBillBooksName) 
 router.post('/type/bills', getBillInfo) 
-router.post('/test', getNextBill)
+router.get('/get/next-bill/:billBookName', getNextBill)
 router.post('/test1',bills)
 
 module.exports = router

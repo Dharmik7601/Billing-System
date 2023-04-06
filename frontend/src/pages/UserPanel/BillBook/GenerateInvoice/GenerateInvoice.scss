@@ -11,6 +11,10 @@
             padding: 20px;
             flex-direction: column;
 
+            .itemDetailsTable{
+                width: 60em;
+            }
+
             .dense-table {
 
                 .headers {
@@ -31,10 +35,13 @@
             .itemSelect {
                 display: flex;
                 padding: 20px;
+                .outline{
+                    width: 16em;
+                }
 
                 .selectContent{
                     .outline{
-                        width: 15em;
+                        width: 14em;
                     }
                 }
 
@@ -61,12 +68,13 @@
                 }
 
                 .row1 {
-                    .outlined-required {
-                        width: 180px;
-                    }
 
                     .outlined {
-                        width: 270px;
+                            width: 8em;
+                        }
+
+                    .outlined-required {
+                        width: 12em;
                     }
                 }
 

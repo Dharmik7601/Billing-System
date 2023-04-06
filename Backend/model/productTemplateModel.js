@@ -3,43 +3,38 @@ const mongoose = require('mongoose')
 const productTemplateSchema = new mongoose.Schema({
     partyName: {
         type: String,
-        required:[true,'PLease provide product name']
+        required:[true,'PLease provide party name']
     },
     templateName: {
         type: String,
         unique: true,
-        default: 'Default',
-        required:[true,'Please provide product template name']
+        required:[true,'Please provide template name']
     },
-    productList: [
+    templateDescription: {
+        type: String,
+        required: [true,'Please provide template description']
+    },
+    itemList: [
         {
             _id: false,
-            productName: {
+            itemName: {
                 type: String,
-                required: [true,'Please provide product name']
+                required: [true,'Please provide item name']
             },
-            productPrice: {
+            itemPrice: {
                 type: Number,
-                required: [true,'Please provide product price']
-            }
+                required: [true,'Please provide item price']
+            },
+            itemQuantity: {
+                type: Number,
+                required: [true,'Please provide item quantity']
+            },
+            itemQuantityType: {
+                type: String,
+                required: [true,'Please provide item quantity type']
+            },
         }
     ]
-    // productPrice: {
-    //     type: Number,
-    //     requried:[true,'Please provide price']
-    // },
-    // productQuantity: {
-    //     type: Number,
-    //     requried: [true, 'Please provide product quantity'],
-    // },
-    // productQuantityType: {
-    //     type: String,
-    //     requried:[true,"Please provide quantity type"]
-    // },
-    // productSize: {
-    //     type: String,
-    //     required:[true,'Please provide product size']
-    // }
 }, {
     timestamps:true
 })

@@ -36,26 +36,11 @@ function validateNumber(value) {
 }
 
 const fieldValidations = {
-    price: validateNumber,
-    quantity: validateNumber
+    itemPrice: validateNumber,
+    itemQuantity: validateNumber
 }
 
 function AddItemTemplate() {
-
-    const PartyName = [
-        {
-            label: "Party Name",
-            value: "party_name"
-        },
-        {
-            label: "Template Name",
-            value: "temp_name"
-        }, {
-            label: "Template Description",
-            value: "temp_description"
-        },
-
-    ]
 
     const QuantityType = [
         {
@@ -64,7 +49,7 @@ function AddItemTemplate() {
         },
         {
             label: "Dozen",
-            value: "12"
+            value: "dozen"
         }, {
             label: "KGs",
             value: "kgs"
@@ -76,24 +61,201 @@ function AddItemTemplate() {
     ]
 
     const [data, setData] = useState({
-        itemName: '',
-        quantity: '',
-        price: '',
-        quantityType: '',
-        size: '',
-        templateName: ''
+        partyName: '',
+        templateName: '',
+        templateDescription: '',
+        itemList:[]
     })
 
     const [itemNameList, setItemNameList] = useState([])
+    const [partyNameList,setPartyNameList] = useState([])
 
     const [validate, setValidate] = useState({})
 
+    const [itemDetailsListValidation, setItemDetailsListValidattion] = useState([
+        {
+            itemName: '',
+            itemPrice: '',
+            itemQuantity: '',
+            itemQuantityType: ''
+        }
+    ])
+
     const [error, setError] = useState({
-        quantity: '',
-        price: ''
+        itemPrice: '',
+        itemQuantity: ''
     })
 
     const handleChange = (e) => {
+        const {name,value} = e.target
+        setData({
+            ...data,
+            [name]: value
+        })
+        console.log(data);
+    }
+
+    useEffect(() => {
+        getItemsNameList()
+        getPartyNameList()
+    }, [])
+
+    const getItemsNameList = async () => {
+        try {
+            await axios.get(`${process.env.REACT_APP_LINK}/item/name/getAll`, {
+                withCredentials: true
+            }).then(response => {
+                setItemNameList(response.data)
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getPartyNameList = async () => {
+        try {
+            await axios.get(`${process.env.REACT_APP_LINK}/party/getAll/name`, {
+                withCredentials: true
+            }).then(response => {
+                setPartyNameList(response.data)
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const checkItemListValidate = async () => {
+        let set = [...itemDetailsListValidation]
+        let isItemDetailsEmpty = false
+        for (let i = 0; i < itemDetailsList.length; i++){
+            console.log(i);
+            let itemValidation = {
+                itemName: '',
+                itemPrice: '',
+                itemQuantity: '',
+                itemQuantityType:''
+            }
+            for (let x in itemDetailsList[i]) {
+                if (itemDetailsList[i][x] === '') {
+                    itemValidation[x] = 'This field is required'
+                    isItemDetailsEmpty = true
+                }
+            }
+            console.log(itemValidation);
+            
+            console.log(set[i]);
+            set[i] = itemValidation
+            console.log(set[i]);
+            
+        }
+        setItemDetailsListValidattion(set)
+        return isItemDetailsEmpty
+    }
+    console.log("vvvvv", itemDetailsListValidation);
+
+    const handleSubmit = async (e) => {
+        
+        let checkIsItemDetailsEmpty = await checkItemListValidate()
+
+        const verror = {
+            templateName: '',
+            templateDescription: '',
+            partyName:''
+        }
+        e.preventDefault()
+        let isFormEmpty = false;
+        for (let x in data) {
+            if (data[x] === '' && data[x] !== 'itemList') {
+                isFormEmpty = true;
+                verror[x] = 'This field is required'
+            }
+            console.log(verror);
+        }
+        console.log(error);
+        if (isFormEmpty || checkIsItemDetailsEmpty) {
+            await setValidate(verror)
+            console.log(validate);
+            alert('Please fill out the remaining details')
+            return
+        }
+
+        setData({
+            ...data,
+            itemList: itemDetailsList
+        })
+
+        try {
+            await axios.post(`${process.env.REACT_APP_LINK}/item/add/template`, data, {
+                withCredentials: true
+            }).then(response => {
+                alert(response.data.msg)
+                window.location.reload()
+                return
+            })
+        } catch (err) {
+            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
+        }
+    }
+
+    const [value, setValue] = useState([1]);
+    const [itemDetailsList, setItemDetailsList] = useState([
+        {
+            itemName: '',
+            itemPrice: '',
+            itemQuantity: '',
+            itemQuantityType: ''
+        }
+    ])
+
+    const handleAdd = () => {
+        const x = [...value, []]
+        setValue(x)
+        const y = [...itemDetailsList, {
+            itemName: '',
+            itemPrice: '',
+            itemQuantity: '',
+            itemQuantityType: ''
+        }]
+        setItemDetailsList(y)
+        const z = [...itemDetailsListValidation, {
+            itemName: '',
+            itemPrice: '',
+            itemQuantity: '',
+            itemQuantityType: ''
+        }]
+        setItemDetailsListValidattion(z)
+    }
+
+    const isAvailable = async (itemName) => {
+        for (let x = 0; x < value.length;x++) {
+            if (value[x] === itemName) {
+                return false
+            }
+        }
+        return true
+    }
+
+    const handleRowChange = async (onChangeValue, i) => {
+        let check = await isAvailable(onChangeValue.target.value)
+        console.log(check);
+        if (!check) {
+            alert('Item already selected')
+            return
+        }
+        await getItemDetails(onChangeValue.target.value,i)
+        const inputdata = [...value]
+        console.log(onChangeValue.target.value);
+        inputdata[i] = onChangeValue.target.value;
+        setValue(inputdata)
+        console.log(value);
+    }
+
+    const handleItemDetails = async (e,i) => {
         const targetName = e.target.name
         console.log(e.target.value);
         let valid = { status: true, value: e.target.value }
@@ -116,93 +278,53 @@ function AddItemTemplate() {
             })
         }
         console.log("HEre");
-        setData({
-            ...data,
-            [targetName]: valid.value
-        })
-        console.log(data);
+        let x = [...itemDetailsList]
+        x[i][targetName] = valid.value
+        setItemDetailsList(x)
+        // setItemDetailsList({
+        //     ...itemDetailsList,
+        //     [targetName]: valid.value
+        // })
+        console.log(itemDetailsList);
     }
 
-    useEffect(() => {
-        getItemsNameList()
-    }, [])
+    console.log("baaa", value);
+    console.log("paaa",itemDetailsList);
 
-    const getItemsNameList = async () => {
+    const getItemDetails = async (itemName,i) => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/item/name/getAll`, {
+            await axios.get(`${process.env.REACT_APP_LINK}/item/get/details/${itemName}`, {
                 withCredentials: true
             }).then(response => {
-                setItemNameList(response.data)
+                console.log(response.data)
+                const itemDetails = [...itemDetailsList]
+                itemDetails[i] = response.data
+                setItemDetailsList(itemDetails)
+                
+                // itemDetailsList.push(response.data)
+                console.log(itemDetailsList);
             })
         } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const handleSubmit = async (e) => {
-        const verror = {
-            itemName: '',
-            quantity: '',
-            price: '',
-            size: '',
-            quantityType: '',
-            templateName: ''
-        }
-        e.preventDefault()
-        let isFormEmpty = false;
-        for (let x in data) {
-            if (data[x] === '') {
-                isFormEmpty = true;
-                verror[x] = 'This field is required'
+            if (err.response) {
+                console.log(err);
+                alert(err.response.data.msg)
+                return
             }
-            console.log(verror);
-        }
-        console.log(error);
-        if (isFormEmpty) {
-            await setValidate(verror)
-            console.log(validate);
-            alert('Please fill out the remaining details')
-            return
-        }
-        try {
-            await axios.post(`${process.env.REACT_APP_LINK}/item/add/template`, {
-                itemName: data.itemName,
-                itemQuantity: data.quantity,
-                itemQuantityType: data.quantityType,
-                itemSize: data.size,
-                templateName: data.templateName,
-                itemPrice: data.price
-            }, {
-                withCredentials: true
-            }).then(response => {
-                console.log(response);
-            })
-        } catch (err) {
-            console.log(err);
+            alert('Something went wrong')
         }
     }
 
-    const [value, setValue] = useState([1]);
 
-    const handleAdd = () => {
-        const x = [...value, []]
-        setValue(x)
-    }
-
-    const handleRowChange = (onChangeValue, i) => {
-        const inputdata = [...value]
-        inputdata[i] = onChangeValue.target.value;
-        setValue(inputdata)
-    }
-
-    const handleDelete = (i,e) => {
-        console.log(e);
-        if (value.length === 1) {
-            return;
-        }
-        const deleteValue = [...value];
-        deleteValue.splice(i, 1);
+    const handleDelete = async (i,e) => {
+        const deleteValue = await [...value];
+        await deleteValue.splice(i, 1);
         setValue(deleteValue);
+        const deletItemDetails = await [...itemDetailsList]
+        await deletItemDetails.splice(i, 1)
+        setItemDetailsList(deletItemDetails)
+        const deletItemValidation = await [...itemDetailsListValidation]
+        await deletItemValidation.splice(i, 1)
+        setItemDetailsListValidattion(deletItemValidation)
     };
 
 
@@ -215,7 +337,7 @@ function AddItemTemplate() {
 
                     {/* STATIC BOX */}
                     <div className="inputContent">
-                        <div className="title"><h1>Add Item Template</h1></div>
+                        <div className="title"><h1>ADD ITEM TEMPLATE</h1></div>
                         <Box
                             component="form"
                             sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
@@ -235,11 +357,11 @@ function AddItemTemplate() {
                                     {...(validate.partyName && { error: true, helperText: validate.partyName })}
                                     select
                                 >
-                                    {/* {PartyName.map((type) => (
-                                        <MenuItem key={type.value} value={type.value}>
-                                            {type.label}
+                                    {partyNameList.map((type) => (
+                                        <MenuItem key={type} value={type}>
+                                            {type}
                                         </MenuItem>
-                                    ))} */}
+                                    ))}
                                 </TextField>
 
                                 {/* Template Name */}
@@ -261,9 +383,11 @@ function AddItemTemplate() {
                                     className="outlined"
                                     label="Template Description"
                                     type={Text}
-                                    name="description"
+                                    name="templateDescription"
                                     multiline
-                                    value={data.size}
+                                    value={data.templateDescription}
+                                    onChange={handleChange}
+                                    {...(validate.templateDescription && { error: true, helperText: validate.templateDescription })}
                                 // onChange={handleChange}
                                 // {...(error.size && { error: true, helperText: error.size })}
                                 // {...(validate.size && { error: true, helperText: validate.size })}
@@ -297,7 +421,6 @@ function AddItemTemplate() {
                                         {/* TEXT FIELDS */}
                                         <div className="selectContent">
                                             <Box
-                                                value={data} onChange={e => handleRowChange(e, i)}
                                                 component="form"
                                                 sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
                                                 autoComplete="off">
@@ -309,9 +432,10 @@ function AddItemTemplate() {
                                                     type={Text}
                                                     name="itemName"
                                                     select
-                                                    value={data.itemName}
-                                                    onChange={handleChange}
-                                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}>
+                                                    value={value[i]}
+                                                    onChange={(onChangeValue) => handleRowChange(onChangeValue,i)}
+                                                {...(itemDetailsListValidation[i].itemName && { error: true, helperText: itemDetailsListValidation[i].itemName })}
+                                                >
                                                     {itemNameList.map((list) =>
                                                         <MenuItem key={list} value={list}>{list}</MenuItem>)}
                                                 </TextField>
@@ -320,13 +444,13 @@ function AddItemTemplate() {
                                                     className="outline"
                                                     label="Quantity"
                                                     type={Text}
-                                                    name="quantity"
-                                                    value={data.itemName}
+                                                    name="itemQuantity"
+                                                    value={itemDetailsList[i].itemQuantity}
                                                     InputLabelProps={{
                                                     shrink: true,
                                                     }}
-                                                    onChange={handleChange}
-                                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}>
+                                                    onChange={(e) => handleItemDetails(e,i)}
+                                                    {...(itemDetailsListValidation[i].itemQuantity && { error: true, helperText: itemDetailsListValidation[i].itemQuantity })}>
                                                     {/* {itemList.map((list) =>
                                                         <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
                                                 </TextField>
@@ -335,30 +459,30 @@ function AddItemTemplate() {
                                                     className="outline"
                                                     label="Quantity Type"
                                                     type={Text}
-                                                    name="quantityType"
+                                                    name="itemQuantityType"
                                                     select
-                                                    value={data.itemName}
-                                                    onChange={handleChange}
+                                                    value={itemDetailsList[i].itemQuantityType}
+                                                    defaultValue={''}
+                                                    onChange={(e) => handleItemDetails(e,i)}
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
-                                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}>
-                                                    {/* {itemList.map((list) =>
-                                                        <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                                                    {...(itemDetailsListValidation[i].itemQuantityType && { error: true, helperText: itemDetailsListValidation[i].itemQuantityType })}>
+                                                    {QuantityType.map((list) =>
+                                                        <MenuItem key={list.value} value={list.value}>{list.label}</MenuItem>)}
                                                 </TextField>
                                                 <TextField
                                                     required
                                                     className="outline"
                                                     label="Price Per Quantity"
                                                     type={Text}
-                                                    name="pricePerQuantity"
-                                                    select
-                                                    value={data.itemName}
+                                                    name="itemPrice"
+                                                    value={itemDetailsList[i].itemPrice}
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
-                                                    onChange={handleChange}
-                                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}>
+                                                    onChange={(e) => handleItemDetails(e,i)}
+                                                    {...(itemDetailsListValidation[i].itemPrice && { error: true, helperText: itemDetailsListValidation[i].itemPrice })}>
                                                     {/* {itemList.map((list) =>
                                                         <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
                                                 </TextField>
@@ -375,7 +499,7 @@ function AddItemTemplate() {
                                                 Delete
                                             </Button>
                                             {/* {/* <DeleteOutlineIcon /> */}
-                                         </div> 
+                                        </div> 
                                     </div>
                                 </Box>
                             </>
