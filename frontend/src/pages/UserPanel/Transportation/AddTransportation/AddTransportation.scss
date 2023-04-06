@@ -1,0 +1,43 @@
+.addTransportation{
+    display: flex;
+    .addTransportationContainer{
+        flex: 6;
+        .addContainer{
+            display: flex;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+
+            .inputContainer{
+                -webkit-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
+                -moz-box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
+                box-shadow: 0px 3px 12px 1px rgba(196, 196, 196, 1);
+                border-radius: 10px;
+                width: fit-content;
+
+                .title{
+                    h1{
+                        color: rgb(188, 79, 188);
+                        font-weight: bold;
+                        padding-top: 10px;
+                    }
+                }
+
+                .errorMessage{
+                    font-size: 10px;
+                    color: red;
+                }
+
+                .submit{
+                    display: flex;
+                    justify-content: center;
+
+                    .btn{
+                        padding: 20px;
+                        color: purple;
+                    }
+                }
+            }
+        }
+    }
+}
