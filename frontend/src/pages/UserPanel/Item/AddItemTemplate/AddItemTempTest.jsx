@@ -10,35 +10,142 @@ import axios from "axios"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
-//MOBILE NUMBER VALIDATION//
+function InputRow({ id, onDelete }) {
+    const [inputs, setInputs] = useState({
+        itemName: '',
+        itemPrice: '',
+        itemQuantity: '',
+        itemQuantityType: '',
+    });
 
-function validateNumber(value) {
-    let error = ''
-    let status = true
-    if (value.length > 10 || value.length === '') {
-        status = false
-        // error = 'Mobile: Cannot be empty or accept more than 10 digits'
-    }
-    for (let number of value) {
-        if (isNaN(number)) {
-            error = "Note: Number expected"
-            status = false
-            break
-        }
-    }
-    return {
-        status,
-        value,
-        error
-    }
-}
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setInputs({ ...inputs, [name]: value });
+    };
 
-const fieldValidations = {
-    price: validateNumber,
-    quantity: validateNumber
+    const handleDelete = () => {
+        onDelete(id);
+    };
+
+    return (
+        <Box
+            component="form"
+            sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
+            autoComplete="off">
+            <div className="itemSelect">
+
+                <div className="selectContent">
+
+                    {/* TEXT FIELDS */}
+                    <TextField
+                        name="itemName" value={inputs.itemName} onChange={handleInputChange}
+                        //value={data} onChange={e => handleRowChange(e, i)}
+                        required
+                        className="outlined-required"
+                        label="Item name"
+                        type={Text}
+                    //name="itemName"
+                    //select
+                    //value={data.itemName}
+                    //onChange={handleChange}
+                    //{...(validate.itemName && { error: true, helperText: validate.itemName })}
+                    >
+                        {/* {itemList.map((list) =>
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                    </TextField>
+                    <TextField
+                        name="itemQuantity" value={inputs.itemQuantity} onChange={handleInputChange}
+                        //value={data} onChange={e => handleRowChange(e, i)}
+                        required
+                        className="outlined-required"
+                        label="Quantity"
+                        type={Text}
+                    //name="quantity"
+                    //select
+                    //value={data.itemName}
+                    //onChange={handleChange}
+                    //{...(validate.itemName && { error: true, helperText: validate.itemName })}
+                    >
+                        {/* {itemList.map((list) =>
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                    </TextField>
+                    <TextField
+                        name="itemQuantityType" value={inputs.itemQuantityType} onChange={handleInputChange}
+                        //value={data} onChange={e => handleRowChange(e, i)}
+                        required
+                        className="outlined-required"
+                        label="Quantity Type"
+                        type={Text}
+                        //name="quantityType"
+                        select
+                    //value={data.itemName}
+                    //onChange={handleChange}
+                    //{...(validate.itemName && { error: true, helperText: validate.itemName })}
+                    >
+                        {/* {itemList.map((list) =>
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                    </TextField>
+                    <TextField
+                        name="itemPrice" value={inputs.itemPrice} onChange={handleInputChange}
+                        //value={data} onChange={e => handleRowChange(e, i)}
+                        required
+                        className="outlined-required"
+                        label="Price Per Quantity"
+                        type={Text}
+                        //name="pricePerQuantity"
+                        select
+                    //value={data.itemName}
+                    //onChange={handleChange}
+                    //{...(validate.itemName && { error: true, helperText: validate.itemName })}
+                    >
+                        {/* {itemList.map((list) =>
+                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
+                    </TextField>
+
+                    {/* DELETE BUTTON */}
+                    <div
+                        onClick={handleDelete}
+                        //disabled={disableRemove}
+                        //style={{ display: value.length === 1 ? "none" : "block" }}
+                        className="removeButton">
+                        <DeleteOutlineIcon />
+                    </div>
+
+                </div>
+            </div>
+        </Box>
+    );
 }
 
 function AddItemTempTest() {
+
+    //MOBILE NUMBER VALIDATION//
+
+    function validateNumber(value) {
+        let error = ''
+        let status = true
+        if (value.length > 10 || value.length === '') {
+            status = false
+            // error = 'Mobile: Cannot be empty or accept more than 10 digits'
+        }
+        for (let number of value) {
+            if (isNaN(number)) {
+                error = "Note: Number expected"
+                status = false
+                break
+            }
+        }
+        return {
+            status,
+            value,
+            error
+        }
+    }
+
+    const fieldValidations = {
+        price: validateNumber,
+        quantity: validateNumber
+    }
 
     const PartyName = [
         {
@@ -180,28 +287,16 @@ function AddItemTempTest() {
         }
     }
 
-    const [value, setValue] = useState([1]);
+    const [rows, setRows] = useState([{ id: 1 }]);
 
-    const handleAdd = () => {
-        const x = [...value, []]
-        setValue(x)
-    }
-
-    const handleRowChange = (onChangeValue, i) => {
-        const inputdata = [...value]
-        inputdata[i] = onChangeValue.target.value;
-        setValue(inputdata)
-    }
-
-    const handleDelete = (i) => {
-        if (value.length === 1) {
-            return;
-        }
-        const deleteValue = [...value];
-        deleteValue.splice(i, 1);
-        setValue(deleteValue);
+    const handleAddRow = () => {
+        setRows([...rows, { id: rows.length + 1 }]);
     };
 
+    const handleDeleteRow = (id) => {
+        const updatedRows = rows.filter((row) => row.id !== id);
+        setRows(updatedRows);
+    };
 
     return (
         <div className='addItemTempelate'>
@@ -274,104 +369,20 @@ function AddItemTempTest() {
                     {/* ADD BUTTON */}
                     <div className="addButton">
                         <div className='btn'>
-                            <Button size='large' variant='outlined' color='secondary' onClick={handleAdd}>
+                            <Button size='large' variant='outlined' color='secondary' onClick={handleAddRow}>
                                 Add Item
                             </Button>
                             {/* <h4>Add Item</h4><AddCircleOutlineIcon /> */}
                         </div>
                     </div>
 
-                    {/* DUPLICATE */}
-                    {value.map((data, i) => {
-                        //const disableRemove = value.length === 1;
-                        return (
-                            <>
-                                <Box
-                                    component="form"
-                                    sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
-                                    autoComplete="off">
-                                    <div className="itemSelect">
+                    {/* DUPLICATE ROW */}
+                    {rows.map((row) => (
+                        <InputRow key={row.id} id={row.id} onDelete={handleDeleteRow} />
+                    ))}
+                    {/* <button onClick={handleAddRow}>Add Row</button> */}
 
-                                        {/* TEXT FIELDS */}
-                                        <div className="selectContent">
-                                            <Box
-                                                value={data} onChange={e => handleRowChange(e, i)}
-                                                component="form"
-                                                sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
-                                                autoComplete="off">
-
-                                                <TextField
-                                                    required
-                                                    className="outlined-required"
-                                                    label="Item name"
-                                                    type={Text}
-                                                    name="itemName"
-                                                    select
-                                                    value={data.itemName}
-                                                    onChange={handleChange}
-                                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}>
-                                                    {/* {itemList.map((list) =>
-                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
-                                                </TextField>
-                                                <TextField
-                                                    required
-                                                    className="outlined-required"
-                                                    label="Quantity"
-                                                    type={Text}
-                                                    name="quantity"
-                                                    select
-                                                    value={data.itemName}
-                                                    onChange={handleChange}
-                                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}>
-                                                    {/* {itemList.map((list) =>
-                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
-                                                </TextField>
-                                                <TextField
-                                                    required
-                                                    className="outlined-required"
-                                                    label="Quantity Type"
-                                                    type={Text}
-                                                    name="quantityType"
-                                                    select
-                                                    value={data.itemName}
-                                                    onChange={handleChange}
-                                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}>
-                                                    {/* {itemList.map((list) =>
-                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
-                                                </TextField>
-                                                <TextField
-                                                    required
-                                                    className="outlined-required"
-                                                    label="Price Per Quantity"
-                                                    type={Text}
-                                                    name="pricePerQuantity"
-                                                    select
-                                                    value={data.itemName}
-                                                    onChange={handleChange}
-                                                    {...(validate.itemName && { error: true, helperText: validate.itemName })}>
-                                                    {/* {itemList.map((list) =>
-                                                    <MenuItem key={list} value={list}>{list}</MenuItem>)} */}
-                                                </TextField>
-
-                                            </Box>
-                                        </div>
-
-                                        {/* DELETE BUTTON */}
-                                        <div
-                                            onClick={() => handleDelete(i)}
-                                            //disabled={disableRemove}
-                                            style={{ display: value.length === 1 ? "none" : "block" }}
-                                            className="removeButton">
-                                            <DeleteOutlineIcon />
-                                        </div>
-
-                                    </div>
-                                </Box>
-                            </>
-                        )
-                    })}
-
-                    {/* SUBMIT */}
+                    {/* SUBMIT BUTTON*/}
                     <div className="submit">
                         <div className="btn">
                             <Button size='large' variant='outlined' color='secondary' onClick={handleSubmit}>
@@ -383,32 +394,7 @@ function AddItemTempTest() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default AddItemTempTest
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default AddItemTempTest;

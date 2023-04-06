@@ -9,13 +9,17 @@
     }
 
     .top {
-        height: 80px;
+        padding: 5px;
+        // height: 80px;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        height: 10em;
+        // align-items: center;
+        // justify-content: center;
 
         .companyLogo{
-            height: 200rem;
+            // align-items: center;
+            // justify-content: center;
+            height: 100vh;
         }
 
         .logo {

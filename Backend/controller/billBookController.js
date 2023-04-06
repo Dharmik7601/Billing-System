@@ -40,8 +40,9 @@ const getAllBillBooks = async (req, res) => {
 }
 
 const getAllBillBooksName = async (req, res) => {
-    const {billBookType} = req.body
-    const billBooks = await BillBook.find({billBookType:billBookType})
+    const { billBookType } = req.params
+    const billBooks = await BillBook.find({ billBookType: billBookType })
+    if(billBooks.length === 0) throw new NotFoundError(`No bill book found with type: ${billBookType}`)
     let billbooksList = []
     const bb = billBooks.map((bill) => {
             billbooksList.push(
@@ -72,11 +73,11 @@ const bills = async (req, res) => {
 }
 
 const getNextBill = async (req, res) => {
-    const { name } = req.body;
-    const b = await BillBook.findOne({ billBookName: name }).select("availableBills")
+    const { billBookName } = req.params;
+    const b = await BillBook.findOne({ billBookName: billBookName }).select("availableBills")
+    if(!b) throw new NotFoundError(`No bill found`)
     console.log(b.availableBills.sort());
     let latestBill = b.availableBills[0]
-    // for (let i = 0;i<b.availableBills.)
     res.status(StatusCodes.OK).json(latestBill)
 }
 
