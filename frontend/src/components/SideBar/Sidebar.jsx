@@ -6,6 +6,7 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation';
 import { useNavigate } from 'react-router-dom'
 import logo from "../../images/acute-logo-transparent.png";
 
@@ -36,6 +37,12 @@ function Sidebar() {
             // case "registerItem":
             //     Navigate('/user/party/register-item')
             //     break
+            case "addTransportation":
+                Navigate('/user/transportation/add')
+                break
+            case "allTransportation":
+                Navigate('/user/transportation/all')
+                break
             case "userDetails":
                 Navigate('/user/home')
                 break
@@ -55,7 +62,7 @@ function Sidebar() {
     return (
         <div className='sidebar'>
             <div className="top">
-                <img src={logo} alt="company logo" className='compamyLogo'/>
+                <img src={logo} alt="company logo" className='compamyLogo' />
                 {/*<span className="logo">User logo</span>*/}
             </div>
             <div className='space'></div>
@@ -97,6 +104,17 @@ function Sidebar() {
                         <CategoryIcon className='icon' id='registerItem'/>
                         <span id='registerItem' >Register Item</span>
                     </li> */}
+                </ul>
+                <ul>
+                    <p className="title">Transportation</p>
+                    <li onClick={handlePage} id='addTransportation'>
+                        <EmojiTransportationIcon className='icon' />
+                        <span id='addTransportation'>Add Transportation</span>
+                    </li>
+                    <li onClick={handlePage} id='allTransportation'>
+                        <EmojiTransportationIcon className='icon' />
+                        <span id='allTransportation'>View All</span>
+                    </li>
                 </ul>
                 <ul>
                     <p className="title">Order</p>
