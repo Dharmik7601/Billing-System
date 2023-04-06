@@ -31,8 +31,15 @@ const ViewItems = () => {
     }
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 60 },
-        { field: 'itemId', headerName: 'Item ID', width: 250 },
+        { 
+            field: 'id', 
+            headerName: 'ID', 
+            width: 60 
+        },
+        { 
+            field: 'itemId', 
+            headerName: 'Item ID', 
+            width: 250 },
         {
             field: 'itemName',
             headerName: 'Item name',

@@ -56,13 +56,13 @@ const ViewTransportations = () => {
             field: 'transportationType',
             headerName: 'Transportation Type',
             type: 'text',
-            width: 250,
+            width: 200,
             editable: false,
         },
         {
             field: 'mobile',
             headerName: 'Mobile number',
-            width: 250,
+            width: 200,
             editable: false,
         },
         {

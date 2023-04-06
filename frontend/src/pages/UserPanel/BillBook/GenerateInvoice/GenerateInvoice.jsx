@@ -489,11 +489,11 @@ function GenerateInvoice() {
             selector: (row) => row.itemPrice,
             sortable: true
         },
-        {
-            name: "ITEM SIZE",
-            selector: (row) => row.itemSize,
-            sortable: true
-        },
+        // {
+        //     name: "ITEM SIZE",
+        //     selector: (row) => row.itemSize,
+        //     sortable: true
+        // },
     ];
 
     // DATA TABLE FUNCTIONS
@@ -628,11 +628,14 @@ function GenerateInvoice() {
 
                                             <TextField
                                                 required
-                                                className="outline"
+                                                className="map-field"
                                                 label="Item name"
                                                 type={Text}
                                                 name="itemName"
                                                 select
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                                 value={value[i]}
                                                 onChange={(e)=>handleRowChange(e,i)}
                                             {...(itemDetailsListValidation[i].itemName && { error: true, helperText: itemDetailsListValidation[i].itemName })}
@@ -642,7 +645,7 @@ function GenerateInvoice() {
                                             </TextField>
                                             <TextField
                                                 required
-                                                className="outline"
+                                                className="map-field"
                                                 label="Item Quantity"
                                                 type={Text}
                                                 name="itemQuantity"
@@ -658,7 +661,7 @@ function GenerateInvoice() {
                                             </TextField>
                                             <TextField
                                                 required
-                                                className="outline"
+                                                className="map-field"
                                                 label="Item Quantity Type"
                                                 type={Text}
                                                 name="itemQuantityType"
@@ -676,7 +679,7 @@ function GenerateInvoice() {
                                             </TextField>
                                             <TextField
                                                 required
-                                                className="outline"
+                                                className="map-field"
                                                 label="Initial Price Per Quantity"
                                                 type={Text}
                                                 name="itemPrice"
