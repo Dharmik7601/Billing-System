@@ -11,8 +11,17 @@
             padding: 20px;
             flex-direction: column;
 
-            .itemDetailsTable{
+            .title {
+                h1 {
+                    color: rgb(188, 79, 188);
+                    font-weight: bold;
+                    padding-top: 10px;
+                }
+            }
+
+            .itemDetailsTable {
                 width: 60em;
+                padding: 20px;
             }
 
             .dense-table {
@@ -35,11 +44,12 @@
             .itemSelect {
                 display: flex;
                 padding: 20px;
-                .outline{
+
+                .outline {
                     width: 16em;
                 }
 
-                .selectContent{
+                .selectContent {
                     .map-field {
                         width: 10.4em;
                     }
@@ -59,19 +69,11 @@
                 width: fit-content;
                 padding: 20px;
 
-                .title {
-                    h1 {
-                        color: rgb(188, 79, 188);
-                        font-weight: bold;
-                        padding-top: 10px;
-                    }
-                }
-
                 .row1 {
 
                     .outlined {
-                            width: 10em;
-                        }
+                        width: 10em;
+                    }
 
                     .outlined-required {
                         width: 12em;

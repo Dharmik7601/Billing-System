@@ -18,12 +18,15 @@ import SingleParty from './pages/UserPanel/Party/SingleParty/SingleParty';
 import AddParty from './pages/UserPanel/Party/AddParty/AddParty';
 import AddTransportation from './pages/UserPanel/Transportation/AddTransportation/AddTransportation';
 import ViewTransportations from './pages/UserPanel/Transportation/ViewTransportation/ViewTransportations';
+import SingleTransportation from './pages/UserPanel/Transportation/SingleTransportation/SingleTransportation';
 import AddItem from './pages/UserPanel/Item/AddItem/AddItem';
 import Testing from './pages/Testing/Testing';
 import AddItemTemplate from './pages/UserPanel/Item/AddItemTemplate/AddItemTemplate';
 import RegisterItem from './pages/UserPanel/Party/RegisterItem/RegisterItem';
 import RegisterBillBook from './pages/UserPanel/BillBook/RegisterBillBook/RegisterBillBook';
 import ViewAllBillBooks from './pages/UserPanel/BillBook/ViewAllBillBook/ViewAllBillBooks';
+import BillBookDetails from './pages/UserPanel/BillBook/BillBookDetails/BillBookDetails';
+import SingleBillBook from './pages/UserPanel/BillBook/SingleBillBook/SingleBillBook';
 import GenerateInvoice from './pages/UserPanel/BillBook/GenerateInvoice/GenerateInvoice';
 import ViewInvoice from './pages/UserPanel/BillBook/ViewInvoice/ViewInvoice';
 
@@ -62,11 +65,14 @@ function App() {
         {/* Transportation routes */}
         <Route path='/user/transportation/add' element={<AddTransportation />} />
         <Route path='/user/transportation/all' element={<ViewTransportations />} />
+        <Route path='/user/transportation/all/transport-info' element={<SingleTransportation />} />
 
         {/* Bill Book routes */}
         <Route path='/user/bill-book/register' element={<RegisterBillBook />} />
         <Route path='/user/bill-book/all' element={<ViewAllBillBooks />} />
         <Route path='/user/bill-book/invoice' element={<ViewInvoice />} />
+        <Route path='/user/bill-book/all/bill-book-details' element={<BillBookDetails />} />
+        <Route path='/user/bill-book/all/bill-book-details/single-bill-book' element={<SingleBillBook />} />
 
         {/* Generate invoice */}
         <Route path='/user/generate-invoice' element={<GenerateInvoice />} />
