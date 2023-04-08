@@ -12,26 +12,35 @@
 
     .logo {
         .companyLogo {
-            height: 100px;
-            width: 400px;
+            height: 10em;
+            width: 20em;
         }
     }
 
     .mid {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         padding: 10px;
-        
-        .left{
+        // width: 70em;
+
+        .left {
             display: flex;
             justify-content: right;
             flex-direction: column;
 
-            .left-top{
+            .left-top {
                 // display: flex;
                 padding: 20px;
                 justify-content: left;
+
+                table,
+                th,
+                td {
+                    border: 1px solid;
+                    padding: 20px;
+                    text-align: center;
+                }
             }
         }
 
@@ -39,17 +48,45 @@
             // display: flex;
             align-items: center;
             justify-content: center;
+            border-width: 1px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid;
+            padding: 20px;
         }
     }
-    
-    .costDetails{
-        padding: 20px;
+
+    .left-bottom {
+        align-items: center;
     }
 
-    .paymentDetails{
+    table,
+    th,
+    td {
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid;
+
+    }
+
+    .costDetails {
+        padding: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .paymentDetails {
         padding: 10px;
         display: flex;
         flex-direction: column;
-        justify-content: left;
+        align-items: center;
+
+        .payment {
+            padding: 10px;
+        }
     }
 }
