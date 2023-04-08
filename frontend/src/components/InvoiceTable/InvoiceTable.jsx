@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,51 +7,88 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const TAX_RATE = 0.12;
+
+const InvoiceTable = ( {rowData,invoiceType} ) => {
+
+const getTaxRate = () => {
+  if (invoiceType === 'Estimate') {
+      return 0.0
+  }
+  return 0.12
+}
 
 function ccyFormat(num) {
   return `${num.toFixed(2)}`;
 }
 
-function priceRow(qty, unit) {
-  return qty * unit;
+function priceRow(qty, price) {
+  console.log(qty, price);
+  return qty * price;
 }
 
-function createRow(desc, qty, unit) {
-  const price = priceRow(qty, unit);
-  return { desc, qty, unit, price };
+function createRow(desc, qty, qtyType, price) {
+  const rowTotal = priceRow(qty, price)
+  return { desc, qty, qtyType, price,rowTotal };
 }
 
 function subtotal(items) {
-  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+  return items.map(({ rowTotal }) => rowTotal).reduce((sum, i) => sum + i, 0);
 }
 
+// const rowData = [{
+//   itemName: 'Paperclips (Box)',
+//   itemPrice: 100,
+//   itemQuantity: 1.15,
+//   itemQuantityType: 'Dozen'
+// },
+// {
+//   itemName: 'Paperclips2222 (Box)',
+//   itemPrice: 100,
+//   itemQuantity: 1.15,
+//   itemQuantityType: 'Dozen'
+//   },
+// {
+//   itemName: 'Paperclips123 (Box)',
+//   itemPrice: 100,
+//   itemQuantity: 1.15,
+//   itemQuantityType: 'Dozen'
+// }]
+
+
 const rows = [
-  createRow('Paperclips (Box)', 100, 1.15),
-  createRow('Paper (Case)', 10, 45.99),
-  createRow('Waste Basket', 2, 17.99),
+  // createRow('Paperclips (Box)', 100, 1.15),
+  // createRow('Paper (Case)', 10, 45.99),
+  // createRow('Waste Basket', 2, 17.99),
 ];
 
-const invoiceSubtotal = subtotal(rows);
-const invoiceSubTaxes = (TAX_RATE * invoiceSubtotal) / 2
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+const createRows = () => {
+  rowData.map((singleRow) => {
+    rows.push(createRow(singleRow.itemName,singleRow.itemQuantity,singleRow.itemQuantityType,singleRow.itemPrice))
+  })
+}
 
-function InvoiceTable() {
+createRows()
+
+
+const invoiceSubtotal = subtotal(rows);
+const invoiceSubTaxes = (getTaxRate() * invoiceSubtotal) / 2
+const invoiceTaxes = getTaxRate() * invoiceSubtotal;
+const invoiceTotal = getInvoiceTotal();
+
+function getInvoiceTotal() {
+  if (invoiceType === 'Estimate') {
+    return invoiceSubtotal
+  }
+  return invoiceSubtotal + invoiceTaxes
+}
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
       <Table sx={{ minWidth: 400 }} aria-label="spanning table">
         <TableHead>
-          {/* <TableRow>
-            <TableCell align="center" colSpan={3}>
-              Details
-            </TableCell>
-            <TableCell align="right">Price</TableCell>
-          </TableRow> */}
           <TableRow>
             <TableCell>Item Name</TableCell>
             <TableCell align="right">Quantiy</TableCell>
-            <TableCell align="right">Unit</TableCell>
+            <TableCell align="right">Quantity Type</TableCell>
             <TableCell align="right">Price Per Quantity</TableCell>
             <TableCell align="right">Initial</TableCell>
           </TableRow>
@@ -61,32 +98,32 @@ function InvoiceTable() {
             <TableRow key={row.desc}>
               <TableCell>{row.desc}</TableCell>
               <TableCell align="right">{row.qty}</TableCell>
-              <TableCell align="right">{row.unit}</TableCell>
-              <TableCell align="right">1</TableCell>
-              <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+              <TableCell align="right">{row.qtyType}</TableCell>
+              <TableCell align="right">{row.price}</TableCell>
+              <TableCell align="right">{ccyFormat( row.rowTotal)}</TableCell>
             </TableRow>
           ))}
-
           <TableRow>
             <TableCell rowSpan={3} />
             <TableCell colSpan={3}>Subtotal</TableCell>
             <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow >
             <TableCell colSpan={2}>CGST</TableCell>
-            <TableCell align="right">{`${((TAX_RATE / 2) * 100).toFixed(0)} %`}</TableCell>
+            <TableCell align="right">{`${((getTaxRate() / 2) * 100).toFixed(0)} %`}</TableCell>
             <TableCell align="right">{ccyFormat(invoiceSubTaxes)}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow >
             <TableCell colSpan={2}>SGST</TableCell>
-            <TableCell align="right">{`${((TAX_RATE / 2) * 100).toFixed(0)} %`}</TableCell>
+            <TableCell align="right">{`${((getTaxRate() / 2) * 100).toFixed(0)} %`}</TableCell>
             <TableCell align="right">{ccyFormat(invoiceSubTaxes)}</TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow >
             <TableCell>Tax Sub Total</TableCell>
-            <TableCell align="right">{`${((TAX_RATE) * 100).toFixed(0)} %`}</TableCell>
+            <TableCell align="right">{`${((getTaxRate()) * 100).toFixed(0)} %`}</TableCell>
             <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-          </TableRow>
+            </TableRow>
+          
           <TableRow>
             <TableCell colSpan={2}>Total</TableCell>
             <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>

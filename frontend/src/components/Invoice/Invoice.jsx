@@ -27,11 +27,11 @@ const Invoice = () => {
                     <div className="left-top">
                         <table className='invoiceTable'>
                             <tr>
-                                <th colspan="4">Invoice Information</th>
+                                <th colspan="4">Invoice ID: xxxxxxxxxx</th>
                                 <th colspan="3">Shipping Information</th>
                             </tr>
                             <tr>
-                                <th>Invoice ID</th>
+                                <th>Invoice Type</th>
                                 <th>Invoice Number</th>
                                 <th>Invoice Date</th>
                                 <th>Due Date</th>
