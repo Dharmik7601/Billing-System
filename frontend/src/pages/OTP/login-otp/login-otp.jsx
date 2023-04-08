@@ -9,7 +9,7 @@ function LoginOtp() {
     const Navigate = useNavigate()
 
     const [data, setData] = useState({
-        otp:''
+        otp: ''
     })
 
     const [error, setError] = useState({
@@ -18,19 +18,19 @@ function LoginOtp() {
 
     const input = {
         id: 1,
-        label: 'A mail has been sent to your registered email with OTP',
+        label: 'An OTP has been sent to your registered email',
         placeholder: 'Enter OTP',
-        errorMessage: 'Please enter a valid otp',
+        errorMessage: 'Please enter a valid OTP',
         name: 'otp',
-        type:'text',
-        pattern:"^[0-9a-zA-Z]{1,}$"
+        type: 'text',
+        pattern: "^[0-9a-zA-Z]{1,}$"
     }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setData({
             ...data,
-            [name]:value
+            [name]: value
         })
         console.log(data);
     }
@@ -51,7 +51,7 @@ function LoginOtp() {
         } catch (err) {
             if (err.response) {
                 alert(err.response.data.msg)
-            }else{
+            } else {
                 alert("Something went wrong")
             }
         }
@@ -60,11 +60,11 @@ function LoginOtp() {
     return (
         <div className='otp'>
             <form>
-                <p className="text">Verfiy Yourself</p>
+                <h1 className="title">Verify Yourself</h1>
                 <Forms key={input.id} {...input} handleChange={handleChange} error={error} />
-                <button onClick={handleSubmit}>Submit</button>
+                <button className='submit' onClick={handleSubmit}>Submit</button>
                 <div className="resend">
-                    <p>Did not recieved OTP?</p><a href='http://localhost:3000'>Login</a>
+                    <p>Did not receive OTP?</p><a href='http://localhost:3000'>Login</a>
                 </div>
             </form>
         </div>

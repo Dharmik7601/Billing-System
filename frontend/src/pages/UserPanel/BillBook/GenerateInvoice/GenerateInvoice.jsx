@@ -11,14 +11,6 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Table from '../../../../components/Tables/Table';
 
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
-// import Paper from '@mui/material/Paper';
-
 
 function validateNumber(value) {
     let error = ''
@@ -85,7 +77,6 @@ function GenerateInvoice() {
     const [partyList, setPartyList] = useState([])
     const [itemNameList, setItemNameList] = useState([])
     const [templateData, setTemplateData] = useState({})
-    // const []
 
 
     //    PRODUCT & TEMPLATE NAME ROW DUPLICATION
@@ -121,7 +112,7 @@ function GenerateInvoice() {
     const checkItemListValidate = async () => {
         let set = [...itemDetailsListValidation]
         let isItemDetailsEmpty = false
-        for (let i = 0; i < itemDetailsList.length; i++){
+        for (let i = 0; i < itemDetailsList.length; i++) {
             console.log(i);
             let itemValidation = {
                 itemName: '',
@@ -136,18 +127,18 @@ function GenerateInvoice() {
                 }
             }
             console.log(itemValidation);
-            
+
             console.log(set[i]);
             set[i] = itemValidation
             console.log(set[i]);
-            
+
         }
         setItemDetailsListValidattion(set)
         return isItemDetailsEmpty
     }
 
     const isAvailable = async (itemName) => {
-        for (let x = 0; x < value.length;x++) {
+        for (let x = 0; x < value.length; x++) {
             if (value[x] === itemName) {
                 return false
             }
@@ -162,7 +153,7 @@ function GenerateInvoice() {
             alert('Item already selected')
             return
         }
-        await getItemDetails(onChangeValue.target.value,i)
+        await getItemDetails(onChangeValue.target.value, i)
         const inputdata = [...value]
         console.log(onChangeValue.target.value);
         inputdata[i] = onChangeValue.target.value;
@@ -179,7 +170,7 @@ function GenerateInvoice() {
     //     setValue(deleteValue);
     // };
 
-    const handleItemDetails = async (e,i) => {
+    const handleItemDetails = async (e, i) => {
         const targetName = e.target.name
         console.log(e.target.value);
         let valid = { status: true, value: e.target.value }
@@ -212,7 +203,7 @@ function GenerateInvoice() {
         console.log(itemDetailsList);
     }
 
-    const getItemDetails = async (itemName,i) => {
+    const getItemDetails = async (itemName, i) => {
         try {
             await axios.get(`${process.env.REACT_APP_LINK}/item/get/details/${itemName}`, {
                 withCredentials: true
@@ -221,7 +212,7 @@ function GenerateInvoice() {
                 const itemDetails = [...itemDetailsList]
                 itemDetails[i] = response.data
                 setItemDetailsList(itemDetails)
-                
+
                 // itemDetailsList.push(response.data)
                 console.log(itemDetailsList);
             })
@@ -266,7 +257,7 @@ function GenerateInvoice() {
             value: "Tax Invoice"
         },
     ]
-    
+
     const [number, setNumber] = useState('')
 
     const [data, setData] = useState({
@@ -274,7 +265,7 @@ function GenerateInvoice() {
         billBookNumber: '',
         partyName: '',
         billBookType: '',
-        itemList:[]
+        itemList: []
     })
 
     const [validate, setValidate] = useState({})
@@ -364,7 +355,7 @@ function GenerateInvoice() {
     }
 
     const getBillBookNextBill = async (billBookName) => {
-        let number 
+        let number
         try {
             await axios.get(`${process.env.REACT_APP_LINK}/bill-book/get/next-bill/${billBookName}`, {
                 withCredentials: true
@@ -416,7 +407,7 @@ function GenerateInvoice() {
         }
         setData({
             ...data,
-            [targetName] : e.target.value
+            [targetName]: e.target.value
         })
         console.log(data);
     }
@@ -427,22 +418,29 @@ function GenerateInvoice() {
             billBookName: '',
             billBookNumber: '',
             billBookType: '',
-            partyName: ''
+            partyName: '',
+            //NEW FIELDS
+            billBookFinancialYear: '',
+            transportationName: '',
+            transportationType: '',
+            billingAddress: '',
+            billingDate: '',
+            billDueDate: '',
         }
         e.preventDefault()
         let isFormEmpty = false;
         for (let x in data) {
-            if (data[x] === '' && x!=='billBookNumber') {
+            if (data[x] === '' && x !== 'billBookNumber') {
                 isFormEmpty = true;
                 verror[x] = 'This field is required'
             }
-            
+
             console.log(verror);
         }
         console.log(number);
         if (number === '') {
-                verror.billBookNumber = 'This field is required'
-            }
+            verror.billBookNumber = 'This field is required'
+        }
         if (isFormEmpty || checkIsItemDetailsEmpty) {
             await setValidate(verror)
             console.log(validate);
@@ -452,7 +450,7 @@ function GenerateInvoice() {
 
         setData({
             ...data,
-            billBookNumber: number, 
+            billBookNumber: number,
             itemList: itemDetailsList
         })
         // try {
@@ -517,9 +515,12 @@ function GenerateInvoice() {
                 <NavBar />
                 <div className="inputContainer">
 
+                    {/* TITLE */}
+                    <div className="title"><h1>GENERATE INVOICE</h1></div>
+
                     {/* STATIC BOX */}
                     <div className="invoiceContent">
-                        <div className="title"><h1>GENERATE INVOICE</h1></div>
+
                         <Box
                             component="form"
                             sx={{ '& .MuiTextField-root': { m: 2, width: '30ch' }, }}
@@ -603,6 +604,11 @@ function GenerateInvoice() {
                         </Box>
                     </div>
 
+                    {/* UPDATING TABLE */}
+                    <div className="itemDetailsTable">
+                        <Table columnsData={columnsDataItemDetails} rowData={itemDetailsList} />
+                    </div>
+
                     {/* ADD BUTTON */}
                     <div className="addButton">
                         <div className='btn' onClick={handleAdd}>
@@ -637,8 +643,8 @@ function GenerateInvoice() {
                                                     shrink: true,
                                                 }}
                                                 value={value[i]}
-                                                onChange={(e)=>handleRowChange(e,i)}
-                                            {...(itemDetailsListValidation[i].itemName && { error: true, helperText: itemDetailsListValidation[i].itemName })}
+                                                onChange={(e) => handleRowChange(e, i)}
+                                                {...(itemDetailsListValidation[i].itemName && { error: true, helperText: itemDetailsListValidation[i].itemName })}
                                             >
                                                 {itemNameList.map((list) =>
                                                     <MenuItem key={list} value={list}>{list}</MenuItem>)}
@@ -653,7 +659,7 @@ function GenerateInvoice() {
                                                 InputLabelProps={{
                                                     shrink: true,
                                                 }}
-                                                onChange={(e)=>handleItemDetails(e,i)}
+                                                onChange={(e) => handleItemDetails(e, i)}
                                                 {...(itemDetailsListValidation[i].itemQuantity && { error: true, helperText: itemDetailsListValidation[i].itemQuantity })}
                                             >
                                                 {/* {itemList.map((list) =>
@@ -670,7 +676,7 @@ function GenerateInvoice() {
                                                 }}
                                                 select
                                                 value={itemDetailsList[i].itemQuantityType}
-                                                onChange={(e)=>handleItemDetails(e,i)}
+                                                onChange={(e) => handleItemDetails(e, i)}
                                                 {...(itemDetailsListValidation[i].itemQuantityType && { error: true, helperText: itemDetailsListValidation[i].itemQuantityType })}
                                                 defaultValue={''}
                                             >
@@ -687,7 +693,7 @@ function GenerateInvoice() {
                                                 InputLabelProps={{
                                                     shrink: true,
                                                 }}
-                                                onChange={(e)=>handleItemDetails(e,i)}
+                                                onChange={(e) => handleItemDetails(e, i)}
                                                 {...(itemDetailsListValidation[i].itemPrice && { error: true, helperText: itemDetailsListValidation[i].itemPrice })}
                                             >
                                                 {/* {itemList.map((list) =>
@@ -715,8 +721,29 @@ function GenerateInvoice() {
                         )
                     })}
 
-                    {/* DENSE DATA TABLE */}
-                    {/* <div className='dense-table' style={{ height: 400, width: '80%' }}>
+                    {/* SUBMIT BUTTON */}
+                    <div className="submit">
+                        <div className="btn">
+                            <Button size='large' variant='contained' color='secondary' onClick={handleSubmit}>
+                                Submit
+                            </Button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default GenerateInvoice
+
+
+
+
+
+{/* DENSE DATA TABLE */ }
+{/* <div className='dense-table' style={{ height: 400, width: '80%' }}>
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} size="large" aria-label="a dense table">
                                 <TableHead>
@@ -744,31 +771,6 @@ function GenerateInvoice() {
                             </Table>
                         </TableContainer>
                     </div> */}
-                    <div className="itemDetailsTable">
-                        <Table columnsData={columnsDataItemDetails} rowData={itemDetailsList} />
-                    </div>
-                    {/* SUBMIT BUTTON */}
-                    <div className="submit">
-                        <div className="btn">
-                            <Button size='large' variant='contained' color='secondary' onClick={handleSubmit}>
-                                Submit
-                            </Button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    )
-}
-
-export default GenerateInvoice
-
-
-
-
-
-
 
 
 

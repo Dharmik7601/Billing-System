@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
-import "./ViewAllBillBooks.scss"
+import "./BillBookDetails.scss"
 import axios from 'axios'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-function ViewAllBillBooks() {
+function BillBookDetails() {
     const Navigate = useNavigate()
 
     const [billBookData, setBillBookData] = useState([])
@@ -30,10 +30,20 @@ function ViewAllBillBooks() {
     }
 
     const columnsBillBook = [
-        { field: 'id', headerName: 'ID', width: 60 },
         {
-            field: 'billBookName',
-            headerName: 'Bill Book name',
+            field: 'id',
+            headerName: 'ID',
+            width: 60
+        },
+        {
+            field: 'billID',
+            headerName: 'Bill ID',
+            width: 300,
+            editable: false,
+        },
+        {
+            field: 'billNumber',
+            headerName: 'Bill Number',
             width: 200,
             editable: false,
         },
@@ -41,27 +51,6 @@ function ViewAllBillBooks() {
             field: 'billBookType',
             headerName: 'Bill Book Type',
             width: 200,
-            editable: false,
-        },
-        {
-            field: 'billBookStartNumber',
-            headerName: 'Starting Number',
-            type: 'text',
-            width: 150,
-            editable: false,
-        },
-        {
-            field: 'noOfBills',
-            headerName: 'No of Bills',
-            type: 'text',
-            width: 150,
-            editable: false,
-        },
-        {
-            field: 'availableBills',
-            headerName: 'Available Bills',
-            type: 'text',
-            width: 150,
             editable: false,
         },
         {
@@ -79,7 +68,7 @@ function ViewAllBillBooks() {
                         variant="contained"
                         color="primary"
                         onClick={(event) => {
-                            Navigate(`/user/bill-book/all/bill-book-details`)
+                            Navigate(`/user/bill-book/all/bill-book-details/single-bill-book`)
                         }}
                     >
                         View
@@ -104,4 +93,4 @@ function ViewAllBillBooks() {
     )
 }
 
-export default ViewAllBillBooks
+export default BillBookDetails
