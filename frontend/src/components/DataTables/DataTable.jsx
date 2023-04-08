@@ -35,7 +35,6 @@ const columnsD =[
       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
 ];
-
 const rows = [
   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },

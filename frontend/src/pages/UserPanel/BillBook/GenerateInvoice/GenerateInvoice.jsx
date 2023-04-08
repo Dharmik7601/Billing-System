@@ -10,6 +10,7 @@ import axios from "axios"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Table from '../../../../components/Tables/Table';
+import InvoiceTable from '../../../../components/InvoiceTable/InvoiceTable'
 
 
 function validateNumber(value) {
@@ -260,16 +261,30 @@ function GenerateInvoice() {
 
     const [number, setNumber] = useState('')
 
+    const date = new Date();
+    const futureDate = date.getDate() ;
+    date.setDate(futureDate);
+    const defaultValue = date.toLocaleDateString('en-CA');
+
     const [data, setData] = useState({
         billBookName: '',
         billBookNumber: '',
         partyName: '',
         billBookType: '',
-        itemList: []
+        itemList: [],
+        billDate: defaultValue,
+        billBookFinancialYear:'',
+        billingAddress: '',
+        shippingName: '',
+        shippingType: '',
+        shippingCompany: '',
+        shippingAddress:'',
+        billDueDate: ''
     })
 
     const [validate, setValidate] = useState({})
 
+    console.log(data.billDate);
 
     const getItemsNameList = async () => {
         try {
@@ -412,6 +427,8 @@ function GenerateInvoice() {
         console.log(data);
     }
 
+    console.log(data.billDate);
+
     const handleSubmit = async (e) => {
         let checkIsItemDetailsEmpty = await checkItemListValidate()
         const verror = {
@@ -419,13 +436,14 @@ function GenerateInvoice() {
             billBookNumber: '',
             billBookType: '',
             partyName: '',
-            //NEW FIELDS
-            billBookFinancialYear: '',
-            transportationName: '',
-            transportationType: '',
+            //NEW FIELDS,
+            billBookFinancialYear:'',
+            billDate: defaultValue,
             billingAddress: '',
-            billingDate: '',
-            billDueDate: '',
+            shippingCompany: '',
+            shippingType: '',
+            shippingAddress: '',
+            billDueDate: ''
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -519,6 +537,14 @@ function GenerateInvoice() {
                     <div className="title"><h1>GENERATE INVOICE</h1></div>
 
                     {/* STATIC BOX */}
+
+
+                    {/* UPDATING TABLE */}
+                    <div className="itemDetailsTable">
+                        {/* <Table columnsData={columnsDataItemDetails} rowData={itemDetailsList} /> */}
+                        <InvoiceTable rowData={itemDetailsList} invoiceType={data.billBookType} />
+                    </div>
+
                     <div className="invoiceContent">
 
                         <Box
@@ -586,6 +612,36 @@ function GenerateInvoice() {
                                 <TextField
                                     required
                                     className="outlined-required"
+                                    label="Bill Date"
+                                    type={'date'}
+                                    name="billDate"
+                                    defaultValue={data.billDate}
+                                    value={data.billDate}
+                                    onChange={handleChange}
+                                >
+                                </TextField>
+                            </div>
+
+                            <div className="row2">
+                                <TextField
+                                    required
+                                    className="outlined-required"
+                                    label="Bill Book Financial Year"
+                                    type={Text}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    name="billBookFinancialYear"
+                                    value={data.billBookFinancialYear}
+                                    {...(validate.billBookFinancialYear && { error: true, helperText: validate.billBookFinancialYear })}
+                                >
+                                    {partyList.map((list) =>
+                                        <MenuItem key={list} value={list}>{list}</MenuItem>
+                                    )}
+                                </TextField>
+                                <TextField
+                                    required
+                                    className="outlined-required"
                                     label="Party name"
                                     type={Text}
                                     name="partyName"
@@ -599,14 +655,83 @@ function GenerateInvoice() {
                                         <MenuItem key={list} value={list}>{list}</MenuItem>
                                     )}
                                 </TextField>
+                                <TextField
+                                    required
+                                    multiline
+                                    className="outlined-required-long"
+                                    label="Billing Address"
+                                    type={Text}
+                                    name="billingAddress"
+                                    value={data.billingAddress}
+                                    defaultValue='Choose'
+                                    onChange={handleChange}
+                                    {...(validate.billingAddress && { error: true, helperText: validate.billingAddress })}
+                                >
+                                </TextField>
                             </div>
-
+                            <div className="row3">
+                                <TextField
+                                    required
+                                    className="outlined-required-mid"
+                                    label="Bill Due Date"
+                                    type={'date'}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    name="billDueDate"
+                                    value={data.billDueDate}
+                                    {...(validate.billDueDate && { error: true, helperText: validate.billDueDate })}
+                                >
+                                </TextField>
+                                <TextField
+                                    required
+                                    className="outlined-required-mid"
+                                    label="Shipping Type"
+                                    type={Text}
+                                    name="shippingType"
+                                    select
+                                    value={data.shippingType}
+                                    defaultValue='Choose'
+                                    onChange={handleChange}
+                                    {...(validate.shippingType && { error: true, helperText: validate.shippingType })}
+                                >
+                                    {partyList.map((list) =>
+                                        <MenuItem key={list} value={list}>{list}</MenuItem>
+                                    )}
+                                </TextField>
+                                <TextField
+                                    required
+                                    className="outlined-required-mid"
+                                    label="Shipping Company"
+                                    type={Text}
+                                    select
+                                    name="shippingCompany"
+                                    value={data.shippingCompany}
+                                    defaultValue='Choose'
+                                    onChange={handleChange}
+                                    {...(validate.shippingCompany && { error: true, helperText: validate.shippingCompany })}
+                                >
+                                    {partyList.map((list) =>
+                                        <MenuItem key={list} value={list}>{list}</MenuItem>
+                                    )}
+                                </TextField>
+                            </div>
+                            <div className="row4">
+                                <TextField
+                                    required
+                                    multiline
+                                    className="outlined-required-long"
+                                    label="Shipping Address"
+                                    type={Text}
+                                    name="shippingAddress"
+                                    value={data.shippingAddress}
+                                    defaultValue='Choose'
+                                    onChange={handleChange}
+                                    {...(validate.shippingAddress && { error: true, helperText: validate.shippingAddress })}
+                                >
+                                </TextField>
+                            </div>
                         </Box>
-                    </div>
-
-                    {/* UPDATING TABLE */}
-                    <div className="itemDetailsTable">
-                        <Table columnsData={columnsDataItemDetails} rowData={itemDetailsList} />
                     </div>
 
                     {/* ADD BUTTON */}
