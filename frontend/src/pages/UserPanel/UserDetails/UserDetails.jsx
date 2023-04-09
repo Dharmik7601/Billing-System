@@ -11,19 +11,19 @@ import { checkAuth } from "../../../components/AdditonalFunc/checkAuth"
 
 function UserDetails() {
 
-//    const checkUser = async () => {
-//         let check = await checkAuth()
-//         if (!check) {
-//             Navigate('/')
-//             return
-//         }
-//     }
+    //    const checkUser = async () => {
+    //         let check = await checkAuth()
+    //         if (!check) {
+    //             Navigate('/') 
+    //             return
+    //         }
+    //     }
 
-//     useEffect(() => {
-//         checkUser()
-//     }, [])
+    //     useEffect(() => {
+    //         checkUser()
+    //     }, [])
 
- 
+
 
     return (
         <div className='userDetails'>
@@ -41,59 +41,44 @@ function UserDetails() {
                             autoComplete="off">
 
                             <div className='row1'>
-                                {/* USERNAME */}                                
+                                {/* USERNAME */}
                                 <TextField
                                     id="outlined-required"
-                                    label="USERNAME"
+                                    label="Username"
                                     type={Text}
-                                    name="userName"
+                                    name="username"
                                     disabled="true"
                                     InputLabelProps={{
-                                                    shrink: true,
-                                                }}
+                                        shrink: true,
+                                    }}
                                 />
-                                {/* TRANSPORTATION TYPE */}
+                                {/* FULL NAME */}
                                 <TextField
                                     id="outlined-multiline-flexible"
-                                    label="Transportation Type"
+                                    label="Full Name"
                                     required
                                     type={Text}
-                                    name="transportationType"                      
+                                    name="fName + lName"
+                                    disabled="true"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
                             </div>
 
                             <div className="row2">
 
-                                {/* TRANSPORTATION TYPE */}
-                                <TextField
-                                    id="outlined-multiline-flexible"
-                                    label="Transportation Description"
-                                    required
-                                    type={Text}
-                                    name="transportationDescription"
-                                />
-
-                                {/* OFFICE ADDRESS */}
-                                <TextField
-                                    required
-                                    id="outlined-multiline-flexible"
-                                    label="Office Address"
-                                    multiline
-                                    maxRows={4}
-                                    size='medium'
-                                    name="address"
-                                />
-                            </div>
-
-                            <div className="row3">
-
-                                {/* GST NUMBER */}
+                                {/* PHONE NUMBER */}
                                 <TextField
                                     required
                                     id="outlined-required"
-                                    label="GST number"
+                                    label="Phone number"
                                     type={Number}
-                                    name="gstNo"
+                                    name="mobile"
+                                    disabled="true"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
 
                                 {/* EMAIL */}
@@ -103,12 +88,77 @@ function UserDetails() {
                                     label="Email address"
                                     type={'email'}
                                     name="email"
+                                    disabled="true"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
 
                             </div>
 
+                            <div className="row3">
+
+                                {/* COMPANY NAME */}
+                                <TextField
+                                    id="outlined-multiline-flexible"
+                                    label="Company Name"
+                                    required
+                                    type={Text}
+                                    name="companyName"
+                                    disabled="true"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+
+                                {/* COMPANY ADDRESS */}
+                                <TextField
+                                    required
+                                    id="outlined-multiline-flexible"
+                                    label="Company Address"
+                                    multiline
+                                    maxRows={4}
+                                    size='medium'
+                                    name="companyAddress"
+                                    disabled="true"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
 
                             <div className="row4">
+
+                                {/* COMPANY GST NUMBER */}
+                                <TextField
+                                    id="outlined-multiline-flexible"
+                                    label="Company GST Number"
+                                    required
+                                    type={Text}
+                                    name="companyGstNumber"
+                                    disabled="true"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+
+                                {/* COMPANY EMAIL */}
+                                <TextField
+                                    required
+                                    id="outlined-multiline-flexible"
+                                    label="Company Email"
+                                    multiline
+                                    maxRows={4}
+                                    size='medium'
+                                    name="companyEmail"
+                                    disabled="true"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
+
+                            <div className="row5">
 
                                 {/* BANK ACCOUNT NUMBER */}
                                 <TextField
@@ -117,29 +167,28 @@ function UserDetails() {
                                     label="Bank Account number"
                                     type={Number}
                                     name="accountNumber"
+                                    disabled="true"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
 
-                                {/* PHONE NUMBER */}
+                                {/* IFSC CODE */}
                                 <TextField
                                     required
-                                    id="outlined-required"
-                                    label="Phone number"
-                                    type={Number}
-                                    name="mobile"
+                                    id="outlined-multiline-flexible"
+                                    label="IFSC Code"
+                                    name="ifscCode"
+                                    disabled="true"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
                             </div>
-                            <div className="row5">
 
-
-                            </div>
+                            <div className='bottom-space'></div>
                         </Box>
-                        <div className="submit">
-                            <div className="btn">
-                                <Button size='large' variant='contained' color='secondary'>
-                                    Submit
-                                </Button>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

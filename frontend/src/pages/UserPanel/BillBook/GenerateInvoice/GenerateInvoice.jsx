@@ -262,7 +262,7 @@ function GenerateInvoice() {
     const [number, setNumber] = useState('')
 
     const date = new Date();
-    const futureDate = date.getDate() ;
+    const futureDate = date.getDate();
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
@@ -273,12 +273,12 @@ function GenerateInvoice() {
         billBookType: '',
         itemList: [],
         billDate: defaultValue,
-        billBookFinancialYear:'',
+        billBookFinancialYear: '',
         billingAddress: '',
         shippingName: '',
         shippingType: '',
         shippingCompany: '',
-        shippingAddress:'',
+        shippingAddress: '',
         billDueDate: ''
     })
 
@@ -437,7 +437,7 @@ function GenerateInvoice() {
             billBookType: '',
             partyName: '',
             //NEW FIELDS,
-            billBookFinancialYear:'',
+            billBookFinancialYear: '',
             billDate: defaultValue,
             billingAddress: '',
             shippingCompany: '',
@@ -672,7 +672,7 @@ function GenerateInvoice() {
                             <div className="row3">
                                 <TextField
                                     required
-                                    className="outlined-required-mid"
+                                    className="outlined-required"
                                     label="Bill Due Date"
                                     type={'date'}
                                     InputLabelProps={{
