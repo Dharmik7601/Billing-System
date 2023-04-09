@@ -276,7 +276,7 @@ function GenerateInvoice() {
     })
 
     const date = new Date();
-    const futureDate = date.getDate() ;
+    const futureDate = date.getDate();
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
@@ -765,7 +765,7 @@ function GenerateInvoice() {
                             <div className="row3">
                                 <TextField
                                     required
-                                    className="outlined-required-mid"
+                                    className="outlined-required"
                                     label="Bill Due Date"
                                     type={'date'}
                                     onChange={handleChange}

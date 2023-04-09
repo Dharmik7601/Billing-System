@@ -69,25 +69,29 @@
                 width: fit-content;
                 padding: 20px;
 
-                .row1,.row2,.row3,.row4 {
+                .row1,
+                .row2,
+                .row3,
+                .row4 {
 
                     .outlined {
-                        width: 10em;
+                        width: 11em;
                     }
 
                     .outlined-required {
                         width: 12em;
                     }
 
-                    .outlined-required-mid{
+                    .outlined-required-mid {
                         width: 15em;
                     }
-                        .outlined-required-long {
-                                width: 25em;
-                            }
+
+                    .outlined-required-long {
+                        width: 25em;
+                    }
                 }
 
-                
+
 
                 .errorMessage {
                     font-size: 10px;

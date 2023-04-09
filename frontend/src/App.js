@@ -29,6 +29,7 @@ import BillBookDetails from './pages/UserPanel/BillBook/BillBookDetails/BillBook
 import SingleBillBook from './pages/UserPanel/BillBook/SingleBillBook/SingleBillBook';
 import GenerateInvoice from './pages/UserPanel/BillBook/GenerateInvoice/GenerateInvoice';
 import ViewInvoice from './pages/UserPanel/BillBook/ViewInvoice/ViewInvoice';
+import UserDetails from './pages/UserPanel/UserDetails/UserDetails';
 
 import AddItemTempTest from './pages/UserPanel/Item/AddItemTemplate/AddItemTempTest';
 
@@ -76,7 +77,9 @@ function App() {
 
         {/* Generate invoice */}
         <Route path='/user/generate-invoice' element={<GenerateInvoice />} />
-
+		
+		{/* User Details */}
+        <Route path='/user/user-details' element={<UserDetails />} />
 
         {/* Testing Routes */}
         <Route path='/test' element={<Testing />} />

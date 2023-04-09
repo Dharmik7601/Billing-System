@@ -44,7 +44,7 @@ function Sidebar() {
                 Navigate('/user/shipping/all')
                 break
             case "userDetails":
-                Navigate('/user/home')
+                Navigate('/user/user-details')
                 break
             case "registerBillBook":
                 Navigate('/user/bill-book/register')
