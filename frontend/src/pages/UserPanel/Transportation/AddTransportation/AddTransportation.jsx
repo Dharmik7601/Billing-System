@@ -136,17 +136,17 @@ function AddTransportation() {
 
     const Navigate = useNavigate()
 
-    // const checkUser = async () => {
-    //     let check = await checkAuth()
-    //     if (!check) {
-    //         Navigate('/')
-    //         return
-    //     }
-    // }
+     const checkUser = async () => {
+         let check = await checkAuth()
+         if (!check) {
+             Navigate('/')
+             return
+         }
+     }
 
-    // useEffect(() => {
-    //     checkUser()
-    // }, [])
+     useEffect(() => {
+         checkUser()
+     }, [])
 
     const bankAccountType = [
         {
@@ -327,13 +327,12 @@ function AddTransportation() {
                                 {/* TRANSPORTATION TYPE */}
                                 <TextField
                                     id="outlined-multiline-flexible"
-                                    label="Transportation Type"
+                                    label="Transportation Description"
                                     required
                                     type={Text}
-                                    name="transportationType"
+                                    name="transportationDescription"
                                     onChange={handleChange}
-                                    {...(validate.transportationType && { error: true, helperText: validate.transportationType })}
-                                    select
+                                    {...(validate.transportationDescription && { error: true, helperText: validate.transportationDescription })}
                                 >
                                     {TransportationType.map((type) => (
                                         <MenuItem key={type.value} value={type.value}>
