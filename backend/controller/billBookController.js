@@ -1,6 +1,7 @@
 const BillBook = require('../model/billBookModel')
 const { StatusCodes } = require('http-status-codes')
 const { NotFoundError } = require('../error')
+const Invoice = require('../model/invoiceModel')
 
 const createBillBook = async (req, res) => {
     const billBook = await BillBook.create(req.body)
@@ -35,7 +36,6 @@ const getAllBillBooks = async (req, res) => {
             i++;
         })
     await Promise.all(bb)
-    console.log(billbooksList);
     res.status(StatusCodes.OK).json(billbooksList)
 }
 
@@ -68,18 +68,41 @@ const bills = async (req, res) => {
     const b = await BillBook.findOneAndUpdate({ billBookName: name }, {
         $pull: {availableBills:id}
     })
-    console.log(b.availableBills);
     res.status(StatusCodes.OK).json({msg:"done",b})
 }
 
 const getNextBill = async (req, res) => {
     const { billBookName } = req.params;
-    const b = await BillBook.findOne({ billBookName: billBookName }).select("availableBills")
+    const b = await BillBook.findOne({ billBookName: billBookName }).select("availableBills financialYear")
     if(!b) throw new NotFoundError(`No bill found`)
-    console.log(b.availableBills.sort());
-    let latestBill = b.availableBills[0]
-    res.status(StatusCodes.OK).json(latestBill)
+    let billDetails = {
+        lastBill: b.availableBills[0],
+        billBookFinancialYear: b.financialYear
+    } 
+    res.status(StatusCodes.OK).json(billDetails)
 }
 
+const getBillBookDetails = async (req, res) => {
+    const { billBookName } = req.params
+    const billBook = await BillBook.findOne({ billBookName: billBookName })
+    if (!billBook) throw new NotFoundError(`No bill book found with name: ${billBookName}`)
+    let billList = []
+    let i = 1
+    const createdBills = billBook.billsCreated.sort()
+    const b = createdBills.map( async (billNumber) => {
+        const invoice = await Invoice.findOne({ billBookName: billBookName, billBookNumber: billNumber })
+        if (invoice) {
+            billList.push({
+                id: i,
+                billId: invoice._id.toString(),
+                billBookNumber: invoice.billBookNumber,
+                billDate: invoice.billDate.toDateString(),
+            })
+            i++
+        }
+    })
+    await Promise.all(b)
+    res.status(StatusCodes.OK).json(billList)
+}
 
-module.exports = {createBillBook,getAllBillBooks,bills,getAllBillBooksName,getBillInfo,getNextBill}
+module.exports = {createBillBook,getAllBillBooks,bills,getAllBillBooksName,getBillInfo,getNextBill,getBillBookDetails}

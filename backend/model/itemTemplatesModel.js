@@ -1,13 +1,12 @@
 const mongoose = require('mongoose')
 
-const productTemplateSchema = new mongoose.Schema({
+const itemTemplateSchema = new mongoose.Schema({
     partyName: {
         type: String,
         required:[true,'PLease provide party name']
     },
     templateName: {
         type: String,
-        unique: true,
         required:[true,'Please provide template name']
     },
     templateDescription: {
@@ -39,4 +38,4 @@ const productTemplateSchema = new mongoose.Schema({
     timestamps:true
 })
 
-module.exports = mongoose.model("ProductTemplate",productTemplateSchema)
+module.exports = mongoose.model("ItemTemplate",itemTemplateSchema)

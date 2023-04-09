@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
-import "./ViewParties.scss"
+import "./ViewAllShippingInfo.scss"
 import axios from 'axios'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { checkAuth } from "../../../../components/AdditonalFunc/checkAuth"
 
-const ViewParties = () => {
+const ViewAllShippingInfo = () => {
 
     const Navigate = useNavigate()
 
@@ -20,20 +20,19 @@ const ViewParties = () => {
         }
     }
 
-
-    const [partyData, setPartyData] = useState([])
+    const [shippingData, setShippingData] = useState([])
 
     useEffect(() => {
         isUser();
-        getPartyDetails();
-    },[])
+        getShippingDetails();
+    }, [])
 
-    const getPartyDetails = async () => {
+    const getShippingDetails = async () => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/party/getAll`, {
+            await axios.get(`${process.env.REACT_APP_LINK}/shipping/get/All`, {
                 withCredentials: true
             }).then(response => {
-                setPartyData(response.data)
+                setShippingData(response.data)
             })
         } catch (err) {
             if (err.response) {
@@ -45,38 +44,35 @@ const ViewParties = () => {
     }
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 60 },
         {
-            field: 'partyName',
-            headerName: 'Party name',
-            width: 150,
+            field: 'id',
+            headerName: 'ID',
+            width: 60
+        },
+        {
+            field: 'shippingId',
+            headerName: 'Shipping ID',
+            width: 250,
             editable: false,
         },
         {
-            field: 'partyMobile',
-            headerName: 'Mobile number',
+            field: 'shippingName',
+            headerName: 'Shipping Company name',
+            width: 250,
+            editable: false,
+        },
+        {
+            field: 'shippingType',
+            headerName: 'Shipping Type',
+            type: 'text',
             width: 200,
             editable: false,
         },
         {
-            field: 'partyEmail',
+            field: 'email',
             headerName: 'Email',
             type: 'text',
-            width: 200,
-            editable: false,
-        },
-        {
-            field: 'partyId',
-            headerName: 'PartyID',
-            type: 'text',
-            width: 300,
-            editable: false,
-        },
-        {
-            field: 'partyType',
-            headerName: 'Party Type',
-            type: 'text',
-            width: 150,
+            width: 250,
             editable: false,
         },
         {
@@ -87,7 +83,7 @@ const ViewParties = () => {
                         variant="contained"
                         color="primary"
                         onClick={(event) => {
-                            Navigate(`/user/party/single/${cellValues.row.partyId}`)
+                            Navigate(`/user/shipping/single/info/${cellValues.row.shippingId}`)
                         }}
                     >
                         View
@@ -97,6 +93,20 @@ const ViewParties = () => {
         },
     ];
 
+
+    // const rows = [
+    //     { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+    //     { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+    //     { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+    //     { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+    //     { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+    //     { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+    //     { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+    //     { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+    //     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+    // ];
+
+
     return (
         <div className='viewItems'>
             <Sidebar />
@@ -104,7 +114,7 @@ const ViewParties = () => {
                 <NavBar />
                 <div className="dataTableContainer">
                     <div className="prdouctData">
-                        <DataTable columns={columns} setData={partyData} />
+                        <DataTable columns={columns} setData={shippingData} />
                     </div>
                 </div>
             </div>
@@ -114,4 +124,4 @@ const ViewParties = () => {
 
 
 
-export default ViewParties
+export default ViewAllShippingInfo

@@ -25,6 +25,9 @@ const billBookSchema = new mongoose.Schema({
     availableBills: [{
         type: Number
     }],
+    billsCreated: [{
+        type: Number
+    }],
     financialYear: {
         type: String,
         required: [true, 'Please provide financial year'],

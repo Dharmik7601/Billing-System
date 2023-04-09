@@ -3,6 +3,7 @@ const { StatusCodes } = require('http-status-codes')
 const { generateOtp, generateOtpToken,generateJWTToken } = require('../middleware/AdditionalFunc')
 const { NotFoundError,UnauthenticatedError } = require('../error')
 const sendMail = require('./emailController')
+const Company = require('../model/companyModel')
 
 const checkAuth = async (req, res) => {
     res.status(StatusCodes.OK).json({user:true})
@@ -85,8 +86,28 @@ const getAllUser = async (req, res) => {
     res.status(StatusCodes.OK).json(user)
 }
 
+const getUserInfo = async (req, res) => {
+    const {username,email} = req.user
+    const user = await User.findOne({ username: username, email: email })
+    if (!user) throw new NotFoundError(`No user found`)
+    const company = await Company.findOne({})
+    if (!company) throw new NotFoundError(`No company found`)
+    res.status(StatusCodes.OK).json({
+        userId: user._id,
+        username: user.username,
+        fullName: user.first_name + " " + user.last_name,
+        userEmail: user.email,
+        userMobile: user.mobile,
+        companyName: company.companyName,
+        companyAddress: company.companyAddress,
+        companyGstNumber: company.gstNumber,
+        companyAccountNumber: company.accountNumber,
+        companyIfscCode: company.ifscCode,
+        companyEmail: company.companyEmail
+    })
+}
+
 const checkIfUsernameAvailable = async (req, res) => {
-    console.log(req.body)
     const { username }  = req.body
     const user = await User.findOne({ username: username })
     if (!user) {
@@ -95,4 +116,14 @@ const checkIfUsernameAvailable = async (req, res) => {
     res.status(StatusCodes.OK).json({available:false})
 }
 
-module.exports = { createUser, getAllUser, checkIfUsernameAvailable, checkRegisterOtp,login,checkLoginOtp,checkAuth}
+const logout = async (req, res) => {
+    const cookie = req.cookies;
+    if (!cookie) throw new NotFoundError('Cookie not found');
+    res.clearCookie("UToken", {
+            httpOnly: true,
+            secure: true
+    });
+    return res.sendStatus(StatusCodes.FORBIDDEN)
+}
+
+module.exports = { createUser, getAllUser, checkIfUsernameAvailable, checkRegisterOtp,login,checkLoginOtp,checkAuth,getUserInfo,logout}

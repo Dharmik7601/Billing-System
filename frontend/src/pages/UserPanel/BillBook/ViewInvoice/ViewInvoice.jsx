@@ -1,33 +1,50 @@
 // import { Container, Button } from "react-bootstrap"; 
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-// import { Container, Button } from "react-bootstrap";
+// import { Container, Button } from "react-bcheckAuthootstrap";
 import { useEffect, useState } from "react";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Invoice from "../../../../components/Invoice/Invoice"
+import { checkAuth } from '../../../../components/AdditonalFunc/checkAuth';
 
 
 const ViewInvoice = () => {
 
 	const Navigate = useNavigate()
 
-	const { userId, email, loanId } = useParams()
+	const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
-	const [sanctionLetterDetails,setSanctionLetterDetails] = useState({})
+	const { invoiceId } = useParams()
+
+	const [invoiceDetails, setInvoiceDetails] = useState({}) 
+	const [itemDetails,setItemDetails] = useState([])
+	const [partyDetails, setPartyDetails] = useState({})
+	const [companyDetails,setCompanyDetails] = useState({})
 	
 	useEffect(() => {
-		// getSanctionLetterDetails()
+		getInvoiceDetails()
+		isUser()
 	},[])
 	
-	const getSanctionLetterDetails = async () => {
+    const getInvoiceDetails = async () => {
+
 		try {
-                    await axios.get(`http://localhost:5000/api/v1/admin/getUser/loan/details/saction/letter/details/${userId}/${email}/${loanId}`, {
+                    await axios.get(`${process.env.REACT_APP_LINK}/invoice/get/info/${invoiceId}`, {
                         withCredentials: true
-                    }).then(response => {
-                        setSanctionLetterDetails(response.data)
+					}).then(response => {;
+                        setItemDetails(response.data.itemDetails)
+						setInvoiceDetails(response.data.invoiceDetails)
+						setPartyDetails(response.data.partyDetails)
+						setCompanyDetails(response.data.companyDetails)
                     })
                 } catch (err) {
                     if (err.response) {
@@ -54,8 +71,7 @@ const ViewInvoice = () => {
 			const componentHeight = doc.internal.pageSize.getHeight();
 			doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
 			setLoader(false);
-			console.log(doc);
-			doc.save('sanction-letter-.pdf');
+			doc.save(`${invoiceDetails.billBookType}_${invoiceDetails.billBookNumber}_${invoiceDetails.billBookFinancialYear}.pdf`);
 		})
 	}
 
@@ -65,7 +81,7 @@ const ViewInvoice = () => {
 		<>
 			<Container fixed>
 			<div className="invoiceContainer">
-				<Invoice />
+					<Invoice invoiceDetails={invoiceDetails} itemDetails={itemDetails} partyDetails={partyDetails} companyDetails={companyDetails} />
 			</div>
 				<div className="text-center p-3 mb-3">
 					<Button

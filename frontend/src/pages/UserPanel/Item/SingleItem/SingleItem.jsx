@@ -6,8 +6,22 @@ import "./SingleItem.scss"
 import axios from "axios"
 import { useParams } from 'react-router-dom'
 import Table from "../../../../components/Tables/Table"
+import { useNavigate } from 'react-router-dom'
+import { checkAuth } from '../../../../components/AdditonalFunc/checkAuth'
 
 const SingleItem = () => {
+    const Navigate = useNavigate()
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
+
+    useEffect(() => {
+        isUser()
+    })
 
     const [itemInfo, setItemInfo] = useState({})
     const [templateData, setTemplateData] = useState([])
@@ -21,37 +35,40 @@ const SingleItem = () => {
             await axios.get(`${process.env.REACT_APP_LINK}/item/single/${itemId}`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data);
                 setItemInfo(response.data)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.reponse.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 
-    const getItemTemplates = async () => {
-        try {
-            await axios.get(`${process.env.REACT_APP_LINK}/item/template/getAll/${itemId}`, {
-                withCredentials: true
-            }).then(response => {
-                setTemplateData(response.data)
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // const getItemTemplates = async () => {
+    //     try {
+    //         await axios.get(`${process.env.REACT_APP_LINK}/item/template/getAll/${itemId}`, {
+    //             withCredentials: true
+    //         }).then(response => {
+    //             setTemplateData(response.data)
+    //         })
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
-    const getItemSoldBy = async () => {
-        try {
-            await axios.get(`${process.env.REACT_APP_LINK}/item/soldBy/getAll/${itemId}`, {
-                withCredentials: true
-            }).then(response => {
-                setSoldByList(response.data)
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // const getItemSoldBy = async () => {
+    //     try {
+    //         await axios.get(`${process.env.REACT_APP_LINK}/item/soldBy/getAll/${itemId}`, {
+    //             withCredentials: true
+    //         }).then(response => {
+    //             setSoldByList(response.data)
+    //         })
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
     useEffect(() => {
         getSingleItemInformation();

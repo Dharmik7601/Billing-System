@@ -10,7 +10,8 @@ import axios from "axios"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import { checkAuth } from "../../../../components/AdditonalFunc/checkAuth"
+import { useNavigate } from 'react-router-dom';
 
 //MOBILE NUMBER VALIDATION//
 
@@ -41,6 +42,15 @@ const fieldValidations = {
 }
 
 function AddItemTemplate() {
+
+    const Navigate = useNavigate()
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
     const QuantityType = [
         {
@@ -98,6 +108,7 @@ function AddItemTemplate() {
     useEffect(() => {
         getItemsNameList()
         getPartyNameList()
+        isUser()
     }, [])
 
     const getItemsNameList = async () => {
@@ -153,9 +164,18 @@ function AddItemTemplate() {
     }
     console.log("vvvvv", itemDetailsListValidation);
 
+    const addReaminingDetails = async () => {
+        await setData({
+            ...data,
+            itemList: itemDetailsList
+        })
+    }
+
     const handleSubmit = async (e) => {
         
         let checkIsItemDetailsEmpty = await checkItemListValidate()
+
+        await addReaminingDetails()
 
         const verror = {
             templateName: '',
@@ -179,13 +199,15 @@ function AddItemTemplate() {
             return
         }
 
-        setData({
-            ...data,
-            itemList: itemDetailsList
-        })
 
+        
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/item/add/template`, data, {
+            await axios.post(`${process.env.REACT_APP_LINK}/item/add/template`, {
+                partyName: data.partyName,
+                templateName: data.templateName,
+                templateDescription: data.templateDescription,
+                itemList: itemDetailsList
+            }, {
                 withCredentials: true
             }).then(response => {
                 alert(response.data.msg)
@@ -285,9 +307,14 @@ function AddItemTemplate() {
         //     ...itemDetailsList,
         //     [targetName]: valid.value
         // })
+        setData({
+            ...data,
+            itemList:itemDetailsList
+        })
         console.log(itemDetailsList);
     }
 
+    console.log("dadad", data);
     console.log("baaa", value);
     console.log("paaa",itemDetailsList);
 
@@ -312,6 +339,10 @@ function AddItemTemplate() {
             }
             alert('Something went wrong')
         }
+        setData({
+            ...data,
+            itemList:itemDetailsList
+        })
     }
 
 

@@ -16,13 +16,12 @@ import SingleItem from './pages/UserPanel/Item/SingleItem/SingleItem';
 import ViewParties from './pages/UserPanel/Party/ViewParty/ViewParties';
 import SingleParty from './pages/UserPanel/Party/SingleParty/SingleParty';
 import AddParty from './pages/UserPanel/Party/AddParty/AddParty';
-import AddTransportation from './pages/UserPanel/Transportation/AddTransportation/AddTransportation';
-import ViewTransportations from './pages/UserPanel/Transportation/ViewTransportation/ViewTransportations';
-import SingleTransportation from './pages/UserPanel/Transportation/SingleTransportation/SingleTransportation';
+import AddShipping from './pages/UserPanel/Shipping/AddShippingInfo/AddShipping';
+import ViewAllShippingInfo from './pages/UserPanel/Shipping/ViewAllShippingInfo/ViewAllShippingInfo';
+import SingleShippingInfo from './pages/UserPanel/Shipping/SingleShippingInfo/SingleShippingInfo';
 import AddItem from './pages/UserPanel/Item/AddItem/AddItem';
 import Testing from './pages/Testing/Testing';
 import AddItemTemplate from './pages/UserPanel/Item/AddItemTemplate/AddItemTemplate';
-import RegisterItem from './pages/UserPanel/Party/RegisterItem/RegisterItem';
 import RegisterBillBook from './pages/UserPanel/BillBook/RegisterBillBook/RegisterBillBook';
 import ViewAllBillBooks from './pages/UserPanel/BillBook/ViewAllBillBook/ViewAllBillBooks';
 import BillBookDetails from './pages/UserPanel/BillBook/BillBookDetails/BillBookDetails';
@@ -31,7 +30,6 @@ import GenerateInvoice from './pages/UserPanel/BillBook/GenerateInvoice/Generate
 import ViewInvoice from './pages/UserPanel/BillBook/ViewInvoice/ViewInvoice';
 import UserDetails from './pages/UserPanel/UserDetails/UserDetails';
 
-import AddItemTempTest from './pages/UserPanel/Item/AddItemTemplate/AddItemTempTest';
 
 function App() {
   return (
@@ -55,24 +53,21 @@ function App() {
         <Route path='/user/item/add' element={<AddItem />} />
         <Route path='/user/item/add/template' element={<AddItemTemplate />} />
 
-        <Route path='/user/item/add/temptest' element={<AddItemTempTest />} />
-
         {/* Party routes */}
         <Route path='/user/party/all' element={<ViewParties />} />
         <Route path='/user/party/single/:partyId' element={<SingleParty />} />
         <Route path='/user/party/add' element={<AddParty />} />
-        <Route path='/user/party/register-item' element={<RegisterItem />} />
 
         {/* Transportation routes */}
-        <Route path='/user/transportation/add' element={<AddTransportation />} />
-        <Route path='/user/transportation/all' element={<ViewTransportations />} />
-        <Route path='/user/transportation/all/transport-info' element={<SingleTransportation />} />
+        <Route path='/user/shipping/add' element={<AddShipping />} />
+        <Route path='/user/shipping/all' element={<ViewAllShippingInfo />} />
+        <Route path='/user/shipping/single/info/:shippingId' element={<SingleShippingInfo />} />
 
         {/* Bill Book routes */}
         <Route path='/user/bill-book/register' element={<RegisterBillBook />} />
         <Route path='/user/bill-book/all' element={<ViewAllBillBooks />} />
-        <Route path='/user/bill-book/invoice' element={<ViewInvoice />} />
-        <Route path='/user/bill-book/all/bill-book-details' element={<BillBookDetails />} />
+        <Route path='/user/bill-book/invoice/:invoiceId' element={<ViewInvoice />} />
+        <Route path='/user/bill-book/all/bill-book-details/:billBookName' element={<BillBookDetails />} />
         <Route path='/user/bill-book/all/bill-book-details/single-bill-book' element={<SingleBillBook />} />
 
         {/* Generate invoice */}

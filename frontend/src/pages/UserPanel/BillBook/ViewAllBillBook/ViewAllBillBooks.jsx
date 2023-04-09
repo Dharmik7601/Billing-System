@@ -6,14 +6,24 @@ import "./ViewAllBillBooks.scss"
 import axios from 'axios'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { checkAuth } from '../../../../components/AdditonalFunc/checkAuth'
 
 function ViewAllBillBooks() {
     const Navigate = useNavigate()
+
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
     const [billBookData, setBillBookData] = useState([])
 
     useEffect(() => {
         getBillBookDetails()
+        isUser()
     }, [])
 
     const getBillBookDetails = async () => {
@@ -21,11 +31,14 @@ function ViewAllBillBooks() {
             await axios.get(`${process.env.REACT_APP_LINK}/bill-book/getAll`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data);
                 setBillBookData(response.data)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 
@@ -79,7 +92,7 @@ function ViewAllBillBooks() {
                         variant="contained"
                         color="primary"
                         onClick={(event) => {
-                            Navigate(`/user/bill-book/all/bill-book-details`)
+                            Navigate(`/user/bill-book/all/bill-book-details/${cellValues.row.billBookName}`)
                         }}
                     >
                         View

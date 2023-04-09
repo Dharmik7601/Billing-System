@@ -6,16 +6,26 @@ import "./ViewItems.scss"
 import axios from "axios"
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
+import { checkAuth } from '../../../../components/AdditonalFunc/checkAuth'
 
 
 const ViewItems = () => {
 
     const Navigate = useNavigate()
 
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
+
     const [itemsData, setItemsData] = useState([])
 
     useEffect(() => {
         getAllItemsData()
+        isUser()
     }, [])
 
     const getAllItemsData = async () => {
@@ -26,7 +36,11 @@ const ViewItems = () => {
                 setItemsData(response.data)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 

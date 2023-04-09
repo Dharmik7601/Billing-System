@@ -9,12 +9,12 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation';
 import { useNavigate } from 'react-router-dom'
 import logo from "../../images/acute-logo-transparent.png";
+import axios from 'axios';
 
 function Sidebar() {
     const Navigate = useNavigate()
 
     const handlePage = (e) => {
-        console.log(e.target.id);
         switch (e.target.id) {
             case "dashboard":
                 Navigate('/user/home')
@@ -38,10 +38,10 @@ function Sidebar() {
             //     Navigate('/user/party/register-item')
             //     break
             case "addTransportation":
-                Navigate('/user/transportation/add')
+                Navigate('/user/shipping/add')
                 break
             case "allTransportation":
-                Navigate('/user/transportation/all')
+                Navigate('/user/shipping/all')
                 break
             case "userDetails":
                 Navigate('/user/user-details')
@@ -55,8 +55,25 @@ function Sidebar() {
             case "generateInvoice":
                 Navigate('/user/generate-invoice')
                 break
+            case "logout":
+                logoutUser()
+                break
             default:
                 alert('Invalid')
+        }
+    }
+
+    const logoutUser = async () => {
+        try {
+            await axios.get(`${process.env.REACT_APP_LINK}/user/logout`, {
+                withCredentials: true
+            }).then(response => {
+                Navigate('/')
+                return
+            })
+        } catch (err) {
+            Navigate('/')
+            return
         }
     }
     return (
@@ -106,10 +123,10 @@ function Sidebar() {
                     </li> */}
                 </ul>
                 <ul>
-                    <p className="title">Transportation</p>
+                    <p className="title">Shipping</p>
                     <li onClick={handlePage} id='addTransportation'>
                         <EmojiTransportationIcon className='icon' />
-                        <span id='addTransportation'>Add Transportation</span>
+                        <span id='addTransportation'>Add Shipping</span>
                     </li>
                     <li onClick={handlePage} id='allTransportation'>
                         <EmojiTransportationIcon className='icon' />
@@ -137,9 +154,9 @@ function Sidebar() {
                         <AccountCircleOutlinedIcon className='icon' />
                         <span >User Details</span>
                     </li>
-                    <li>
-                        <LogoutOutlinedIcon className='icon' />
-                        <span>Log Out</span>
+                    <li onClick={handlePage} id='logout'>
+                        <LogoutOutlinedIcon className='icon' id='logout' />
+                        <span id='logout'>Log Out</span>
                     </li>
                 </ul>
             </div>
