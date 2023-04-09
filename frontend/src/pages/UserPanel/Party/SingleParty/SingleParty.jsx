@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
 import "./SingleParty.scss"
 import axios from 'axios'
 import Table from '../../../../components/Tables/Table'
+import { checkAuth } from '../../../../components/AdditonalFunc/checkAuth'
 
 function SingleParty() {
+    const Navigate = useNavigate()
+
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
     const [partyinfo, setPartyinfo] = useState({})
     const [partyitemInfo, setPartyItemInfo] = useState([])
@@ -19,11 +29,14 @@ function SingleParty() {
             await axios.get(`${process.env.REACT_APP_LINK}/party/single/${partyId}`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data);
                 setPartyinfo(response.data)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 
@@ -32,17 +45,21 @@ function SingleParty() {
             await axios.get(`${process.env.REACT_APP_LINK}/party/party-item/all/${partyId}`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data);
                 setPartyItemInfo(response.data)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 
     useEffect(() => {
         getPartyInfo();
         getPartyItemInfo()
+        isUser()
     }, [])
 
     const columnsPartyItem = [

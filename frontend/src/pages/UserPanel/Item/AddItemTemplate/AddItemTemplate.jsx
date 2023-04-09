@@ -10,7 +10,8 @@ import axios from "axios"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import { checkAuth } from "../../../../components/AdditonalFunc/checkAuth"
+import { useNavigate } from 'react-router-dom';
 
 //MOBILE NUMBER VALIDATION//
 
@@ -41,6 +42,15 @@ const fieldValidations = {
 }
 
 function AddItemTemplate() {
+
+    const Navigate = useNavigate()
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
     const QuantityType = [
         {
@@ -98,6 +108,7 @@ function AddItemTemplate() {
     useEffect(() => {
         getItemsNameList()
         getPartyNameList()
+        isUser()
     }, [])
 
     const getItemsNameList = async () => {

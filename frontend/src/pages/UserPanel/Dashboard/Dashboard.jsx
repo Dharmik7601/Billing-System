@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavBar from '../../../components/NavBar/NavBar'
 import Sidebar from '../../../components/SideBar/Sidebar'
 import { Widgets } from '../../../components/Widgets/Widgets'
@@ -8,10 +8,26 @@ import DataTable from '../../../components/DataTables/DataTable'
 import CategoryIcon from '@mui/icons-material/Category';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
-
+import { checkAuth } from "../../../components/AdditonalFunc/checkAuth"
+import { useNavigate } from 'react-router-dom'
 
 
 function Home() {
+
+    const Navigate = useNavigate()
+
+    useEffect(() => {
+        isUser()
+    })
+
+    
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
     const inputs = [
         {

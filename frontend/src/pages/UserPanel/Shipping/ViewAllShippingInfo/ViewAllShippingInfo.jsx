@@ -12,18 +12,18 @@ const ViewAllShippingInfo = () => {
 
     const Navigate = useNavigate()
 
-    // const checkUser = async () => {
-    //     let check = await checkAuth()
-    //     if (!check) {
-    //         Navigate('/')
-    //         return
-    //     }
-    // }
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
     const [shippingData, setShippingData] = useState([])
 
     useEffect(() => {
-        // checkUser();
+        isUser();
         getShippingDetails();
     }, [])
 

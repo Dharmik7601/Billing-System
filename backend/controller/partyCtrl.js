@@ -47,7 +47,6 @@ const getPartyProductList = async (req, res) => {
 }
 
 const getPartyProductNameList = async (req, res) => {
-    console.log(req.body);
     const {partyName} = req.body
     const party = await Party.findOne({ partyName: partyName }).populate("productLists")
     if (!party) throw new NotFoundError(`No party found with id: ${partyName}`)
@@ -59,7 +58,6 @@ const getPartyProductNameList = async (req, res) => {
         )
     })
     await Promise.all(pro)
-    console.log(getParty);
     res.status(StatusCodes.OK).json(getParty)
 }
 
@@ -67,7 +65,6 @@ const getSingleParty = async (req, res) => {
     const { partyId } = req.params
     const party = await Party.findOne({ _id: partyId })
     if (!party) throw new NotFoundError(`No party found with id: ${partyId}`)
-    console.log(party);
     let getParty = {
             partyName: party.partyName,
             partyType: party.partyType,
@@ -113,7 +110,6 @@ const getProductsUnderParty = async (req, res) => {
 const checkIfProductExists = async (req, res) => {
     const { productName, partyName } = req.body;
     const party = await Party.findOne({ partyName: partyName }).populate("productLists").select("productLists")
-    console.log(party)
     for (let i = 0; i < party.productLists.length; i++){
         if(productName === party.productLists[i].productName) return res.status(StatusCodes.OK).json({product:party.productLists[i]})
     }

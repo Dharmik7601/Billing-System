@@ -125,27 +125,29 @@ const fieldValidations = {
     // partyName: validateName,
     mobile: validateMobile,
     email: validateEmail,
-    // gstNo: validateGstNo,
-    // ifscCode: validateIfscCode,
-    // accountNumber: validateAccNumber,
-    // accountName: validateName
+    gstNo: validateGstNo,
+    ifscCode: validateIfscCode,
+    accountNumber: validateAccNumber,
+    accountName: validateName
 }
 
 
 function AddParty() {
 
-    const Navigate = useNavigate()
-
-    const checkUser = async () => {
+    const isUser = async () => {
         let check = await checkAuth()
         if (!check) {
-            Navigate('/')
+            Navigate("/")
             return
         }
     }
+
+    const Navigate = useNavigate()
+
+
     
     useEffect(() => {
-        checkUser()
+        isUser()
     },[])
 
     const bankAccountType = [
@@ -204,7 +206,6 @@ function AddParty() {
 
     const handleChange = (e) => {
         const targetName = e.target.name
-        console.log(e.target.value);
         let valid = { status: true, value: e.target.value }
         const validateFn = fieldValidations[targetName]
         if (typeof validateFn === "function") {
@@ -218,7 +219,6 @@ function AddParty() {
             return
         }
         else {
-            console.log(targetName)
             setError({
                 ...error,
                 [targetName]: valid.error
@@ -250,12 +250,9 @@ function AddParty() {
                 isFormEmpty = true;
                 verror[x] = 'This field is required'
             }
-            console.log(verror);
         }
-        console.log(error);
         if (isFormEmpty) {
             await setValidate(verror)
-            console.log(validate);
             alert('Please fill out the remaining details')
             return
         }

@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
 import "./SingleShippingInfo.scss"
 import axios from 'axios'
 import Table from '../../../../components/Tables/Table'
+import { checkAuth } from '../../../../components/AdditonalFunc/checkAuth'
 
 function SingleShippingInfo() {
+
+    const Navigate = useNavigate()
+
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
     const [transportationinfo, setTransportationinfo] = useState({})
     const [shippingInfo, setShippingInfo] = useState([])
@@ -33,7 +44,7 @@ function SingleShippingInfo() {
 
     useEffect(() => {
         getShippingInfo();
-        // getTransportationItemInfo()
+        isUser()
     }, [])
 
     const columnsTransportationItem = [

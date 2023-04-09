@@ -7,7 +7,6 @@ const itemTemplateSchema = new mongoose.Schema({
     },
     templateName: {
         type: String,
-        unique: true,
         required:[true,'Please provide template name']
     },
     templateDescription: {

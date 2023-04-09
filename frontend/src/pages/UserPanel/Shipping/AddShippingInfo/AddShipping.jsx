@@ -124,8 +124,8 @@ function validateAccNumber(value) {
 const fieldValidations = {
     mobile: validateMobile,
     email: validateEmail,
-    // gstNo: validateGstNo,
-    // accountNumber: validateAccNumber,
+    gstNo: validateGstNo,
+    accountNumber: validateAccNumber
 }
 
 
@@ -133,17 +133,17 @@ function AddShipping() {
 
     const Navigate = useNavigate()
 
-    // const checkUser = async () => {
-    //     let check = await checkAuth()
-    //     if (!check) {
-    //         Navigate('/')
-    //         return
-    //     }
-    // }
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
-    // useEffect(() => {
-    //     checkUser()
-    // }, [])
+    useEffect(() => {
+        isUser()
+    }, [])
 
 
     const ShippingType = [

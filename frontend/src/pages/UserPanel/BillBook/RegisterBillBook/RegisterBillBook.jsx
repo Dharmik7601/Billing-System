@@ -8,6 +8,8 @@ import TextField from '@mui/material/TextField';
 import { MenuItem } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from "axios"
+import { checkAuth } from '../../../../components/AdditonalFunc/checkAuth';
+import { useNavigate } from 'react-router-dom';
 
 //MOBILE NUMBER VALIDATION//
 function validateNumber(value) {
@@ -37,6 +39,16 @@ const fieldValidations = {
 
 function RegisterBillBook() {
 
+    const Navigate = useNavigate()
+
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
+
     const billBookType = [
         "Estimate",
         "Retail",
@@ -46,6 +58,7 @@ function RegisterBillBook() {
 
     useEffect(() => {
         setFinancialYears()
+        isUser()
     }, [])
 
     const [financialYear, setFinancialYear] = useState([])
@@ -89,7 +102,6 @@ function RegisterBillBook() {
 
     const handleChange = (e) => {
         const targetName = e.target.name
-        console.log(e.target.value);
         let valid = { status: true, value: e.target.value }
         const validateFn = fieldValidations[targetName]
         if (typeof validateFn === "function") {
@@ -103,7 +115,6 @@ function RegisterBillBook() {
             return
         }
         else {
-            console.log(targetName)
             setError({
                 ...error,
                 [targetName]: valid.error
@@ -131,12 +142,9 @@ function RegisterBillBook() {
                 isFormEmpty = true;
                 verror[x] = 'This field is required'
             }
-            console.log(verror);
         }
-        console.log(error);
         if (isFormEmpty) {
             await setValidate(verror)
-            console.log(validate);
             alert('Please fill out the remaining details')
             return
         }

@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 
 const InvoiceTable = ( {rowData,invoiceType} ) => {
 
+
 const getTaxRate = () => {
   if (invoiceType === 'Estimate') {
       return 0.0
@@ -22,7 +23,6 @@ function ccyFormat(num) {
 }
 
 function priceRow(qty, price) {
-  console.log(qty, price);
   return qty * price;
 }
 
@@ -82,7 +82,7 @@ function getInvoiceTotal() {
   return invoiceSubtotal + invoiceTaxes
 }
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+    <TableContainer component={Paper} sx={{ maxHeight: 'fit-content' }}>
       <Table sx={{ minWidth: 400 }} aria-label="spanning table">
         <TableHead>
           <TableRow>

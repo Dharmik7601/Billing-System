@@ -46,19 +46,17 @@ function AddItem() {
 
     const Navigate = useNavigate()
 
-    // const isUser = async () => {
-    //     let check = await checkAuth()
-    //     console.log(check);
-    //     if (!check) {
-    //         console.log("here");
-    //         Navigate("/")
-    //         return
-    //     }
-    //     Navigate('/user/item/add')
-    // }
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+        Navigate('/user/item/add')
+    }
 
     useEffect(() => {
-        // isUser()
+        isUser()
     }, [])
 
     const QuantityType = [
@@ -97,7 +95,6 @@ function AddItem() {
 
     const handleChange = (e) => {
         const targetName = e.target.name
-        console.log(e.target.value);
         let valid = { status: true, value: e.target.value }
         const validateFn = fieldValidations[targetName]
         if (typeof validateFn === "function") {
@@ -111,7 +108,6 @@ function AddItem() {
             return
         }
         else {
-            console.log(targetName)
             setError({
                 ...error,
                 [targetName]: valid.error
@@ -121,7 +117,6 @@ function AddItem() {
             ...data,
             [targetName]: valid.value
         })
-        console.log(data);
     }
 
     const handleSubmit = async (e) => {
@@ -140,12 +135,9 @@ function AddItem() {
                 isFormEmpty = true;
                 verror[x] = 'This field is required'
             }
-            console.log(verror);
         }
-        console.log(error);
         if (isFormEmpty) {
             await setValidate(verror)
-            console.log(validate);
             alert('Please fill out the remaining details')
             return
         }

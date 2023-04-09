@@ -5,7 +5,6 @@ const { StatusCodes } = require('http-status-codes')
 const { NotFoundError } = require('../error')
 
 const createItem = async (req, res) => {
-    console.log(req.body)
     const item = await Item.create(req.body)
     res.status(StatusCodes.CREATED).json({msg:'Item Added'})
 }
@@ -50,7 +49,6 @@ const getItemDetails = async (req, res) => {
             itemQuantityType: item.itemQuantityType,
             itemSize: item.itemSize
     }
-    console.log(itemDetails);
     res.status(StatusCodes.OK).json(itemDetails)
 }
 
@@ -82,7 +80,6 @@ const getItemDetailsForInvoice = async (req, res) => {
     if (found === true) {
         return res.status(StatusCodes.OK).json(itemDetails)
     }
-    console.log("here");
     return res.status(StatusCodes.OK).json({
         itemName: item.itemName,
         itemPrice: item.itemPrice,
@@ -93,7 +90,6 @@ const getItemDetailsForInvoice = async (req, res) => {
 
 const getAllProductsTemplatesName = async (req, res) => {
     const { productName } = req.body;
-    console.log(productName);
     const products = await Product.findOne({ productName: productName }).populate("productTemplates").select("productTemplates")
     if (!products) throw new NotFoundError(`No product found with product name : ${productName}`)
     const tempList = products.productTemplates
@@ -124,7 +120,6 @@ const getAllProductsSoldBy = async (req, res) => {
     const { itemId } = req.params;
     const items = await Item.findOne({ _id: itemId }).populate("soldBy").select("soldBy")
     if (!items) throw new NotFoundError(`No product found with product id : ${productId}`)
-    console.log(items);
     const supplierList = items.soldBy
     let itemList = []
     const pro = supplierList.map((list) => {

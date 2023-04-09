@@ -7,9 +7,43 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from "axios"
 import { checkAuth } from "../../../components/AdditonalFunc/checkAuth"
+import { useNavigate } from 'react-router-dom';
 
 
 function UserDetails() {
+
+    const [userDetails,setUserDetails] = useState({})
+    
+    const Navigate = useNavigate()
+
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
+
+    useEffect(() => {
+        isUser()
+        getUserInfo()
+    },[])
+
+    const getUserInfo = async () => {
+        try {
+            await axios.get(`${process.env.REACT_APP_LINK}/user/get/info`, {
+                withCredentials: true
+            }).then(response => {
+                setUserDetails(response.data)
+            })
+        } catch (err) {
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
+        }
+    }
 
     //    const checkUser = async () => {
     //         let check = await checkAuth()
@@ -33,7 +67,7 @@ function UserDetails() {
                 <div className="addContainer">
                     <div className="inputContainer">
                         <div className="title">
-                            <h1>User Details</h1>
+                            <h1>User ID: {userDetails.userId} </h1>
                         </div>
                         <Box
                             component="form"
@@ -44,6 +78,7 @@ function UserDetails() {
                                 {/* USERNAME */}
                                 <TextField
                                     id="outlined-required"
+                                    value={userDetails.username}
                                     label="Username"
                                     type={Text}
                                     name="username"
@@ -57,6 +92,7 @@ function UserDetails() {
                                     id="outlined-multiline-flexible"
                                     label="Full Name"
                                     required
+                                    value={userDetails.fullName}
                                     type={Text}
                                     name="fName + lName"
                                     disabled="true"
@@ -72,6 +108,7 @@ function UserDetails() {
                                 <TextField
                                     required
                                     id="outlined-required"
+                                    value={userDetails.userMobile}
                                     label="Phone number"
                                     type={Number}
                                     name="mobile"
@@ -85,6 +122,7 @@ function UserDetails() {
                                 <TextField
                                     required
                                     id="outlined-required"
+                                    value={userDetails.userEmail}
                                     label="Email address"
                                     type={'email'}
                                     name="email"
@@ -102,6 +140,7 @@ function UserDetails() {
                                 <TextField
                                     id="outlined-multiline-flexible"
                                     label="Company Name"
+                                    value={userDetails.companyName}
                                     required
                                     type={Text}
                                     name="companyName"
@@ -114,6 +153,7 @@ function UserDetails() {
                                 {/* COMPANY ADDRESS */}
                                 <TextField
                                     required
+                                    value={userDetails.companyAddress}
                                     id="outlined-multiline-flexible"
                                     label="Company Address"
                                     multiline
@@ -131,6 +171,7 @@ function UserDetails() {
 
                                 {/* COMPANY GST NUMBER */}
                                 <TextField
+                                    value={userDetails.companyGstNumber}
                                     id="outlined-multiline-flexible"
                                     label="Company GST Number"
                                     required
@@ -145,6 +186,7 @@ function UserDetails() {
                                 {/* COMPANY EMAIL */}
                                 <TextField
                                     required
+                                    value={userDetails.companyEmail}
                                     id="outlined-multiline-flexible"
                                     label="Company Email"
                                     multiline
@@ -163,6 +205,7 @@ function UserDetails() {
                                 {/* BANK ACCOUNT NUMBER */}
                                 <TextField
                                     required
+                                    value={userDetails.companyAccountNumber}
                                     id="outlined-required"
                                     label="Bank Account number"
                                     type={Number}
@@ -175,6 +218,7 @@ function UserDetails() {
 
                                 {/* IFSC CODE */}
                                 <TextField
+                                    value={userDetails.companyIfscCode}
                                     required
                                     id="outlined-multiline-flexible"
                                     label="IFSC Code"

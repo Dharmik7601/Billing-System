@@ -11,6 +11,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Table from '../../../../components/Tables/Table';
 import InvoiceTable from '../../../../components/InvoiceTable/InvoiceTable'
+import { useNavigate } from 'react-router-dom';
+import {checkAuth} from "../../../../components/AdditonalFunc/checkAuth"
 
 
 function validateNumber(value) {
@@ -40,6 +42,16 @@ const fieldValidations = {
 }
 
 function GenerateInvoice() {
+
+    const Navigate = useNavigate()
+
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
 
     const QuantityType = [
         {
@@ -120,7 +132,6 @@ function GenerateInvoice() {
         let set = [...itemDetailsListValidation]
         let isItemDetailsEmpty = false
         for (let i = 0; i < itemDetailsList.length; i++) {
-            console.log(i);
             let itemValidation = {
                 itemName: '',
                 itemPrice: '',
@@ -133,12 +144,7 @@ function GenerateInvoice() {
                     isItemDetailsEmpty = true
                 }
             }
-            console.log(itemValidation);
-
-            console.log(set[i]);
             set[i] = itemValidation
-            console.log(set[i]);
-
         }
         setItemDetailsListValidattion(set)
         return isItemDetailsEmpty
@@ -155,17 +161,14 @@ function GenerateInvoice() {
 
     const handleRowChange = async (onChangeValue, i) => {
         let check = await isAvailable(onChangeValue.target.value)
-        console.log(check);
         if (!check) {
             alert('Item already selected')
             return
         }
         await getItemDetails(onChangeValue.target.value,data.partyName, i)
         const inputdata = [...value]
-        console.log(onChangeValue.target.value);
         inputdata[i] = onChangeValue.target.value;
         setValue(inputdata)
-        console.log(value);
     }
 
     // const handleDelete = (i) => {
@@ -179,7 +182,6 @@ function GenerateInvoice() {
 
     const handleItemDetails = async (e, i) => {
         const targetName = e.target.name
-        console.log(e.target.value);
         let valid = { status: true, value: e.target.value }
         const validateFn = fieldValidations[targetName]
         if (typeof validateFn === "function") {
@@ -193,13 +195,11 @@ function GenerateInvoice() {
             return
         }
         else {
-            console.log(targetName)
             setError({
                 ...error,
                 [targetName]: valid.error
             })
         }
-        console.log("HEre");
         let x = [...itemDetailsList]
         x[i][targetName] = valid.value
         setItemDetailsList(x)
@@ -207,7 +207,6 @@ function GenerateInvoice() {
         //     ...itemDetailsList,
         //     [targetName]: valid.value
         // })
-        console.log(itemDetailsList);
     }
 
     const getItemDetails = async (itemName,partyName, i) => {
@@ -215,17 +214,12 @@ function GenerateInvoice() {
             await axios.get(`${process.env.REACT_APP_LINK}/item/get/details/invoice/${itemName}/${partyName}`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data)
                 const itemDetails = [...itemDetailsList]
                 itemDetails[i] = response.data
                 setItemDetailsList(itemDetails)
-
-                // itemDetailsList.push(response.data)
-                console.log(itemDetailsList);
             })
         } catch (err) {
             if (err.response) {
-                console.log(err);
                 alert(err.response.data.msg)
                 return
             }
@@ -246,7 +240,7 @@ function GenerateInvoice() {
     }
 
     useEffect(() => {
-        // billBooksList();
+        isUser()
         partyNameList();
         getItemsNameList()
     }, [])
@@ -297,7 +291,6 @@ function GenerateInvoice() {
 
     const [validate, setValidate] = useState({})
 
-    console.log(data.billDate);
 
     const getItemsNameList = async () => {
         try {
@@ -307,7 +300,11 @@ function GenerateInvoice() {
                 setItemNameList(response.data)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 
@@ -389,7 +386,6 @@ function GenerateInvoice() {
             await axios.get(`${process.env.REACT_APP_LINK}/bill-book/get/next-bill/${billBookName}`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data);
                 // setBillList(response.data.availableBills)
                 // setType(response.data.billBookType)
                 setBillDetails({
@@ -415,7 +411,6 @@ function GenerateInvoice() {
                 setBillBookList(response.data)
             })
         } catch (err) {
-            console.log(err);
             if (err.response) {
                 alert(err.response.data.msg)
                 return
@@ -432,7 +427,6 @@ function GenerateInvoice() {
                 setShippingNames(response.data)
             })
         } catch (err) {
-            console.log(err);
             if (err.response) {
                 alert(err.response.data.msg)
                 return
@@ -446,7 +440,6 @@ function GenerateInvoice() {
             await axios.get(`${process.env.REACT_APP_LINK}/party/get/details/${partyName}`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response);
                 setPartyDetails({
                     ...partyDetails,
                     billingAddress: response.data.partyAddress,
@@ -454,7 +447,6 @@ function GenerateInvoice() {
                 })
             })
         } catch (err) {
-            console.log(err);
             if (err.response) {
                 alert(err.response.data.msg)
                 return
@@ -465,8 +457,6 @@ function GenerateInvoice() {
 
     const handleChange = async (e) => {
         const targetName = e.target.name
-        console.log(targetName);
-        console.log(e.target.value);
         if (targetName === 'billBookType') {
             await getBillBookNames(e.target.value)
         }
@@ -501,10 +491,8 @@ function GenerateInvoice() {
             ...data,
             [targetName]: e.target.value
         })
-        console.log(data);
     }
 
-    console.log(data.billDate);
 
     const handleSubmit = async (e) => {
     //     setData({
@@ -515,7 +503,6 @@ function GenerateInvoice() {
     //     shippingAddress: partyDetails.shippingAddress,
     //     itemList: itemDetailsList
     // })
-        console.log("Finallll", data);
         let checkIsItemDetailsEmpty = await checkItemListValidate()
         const verror = {
             billBookName: '',
@@ -556,7 +543,6 @@ function GenerateInvoice() {
         // }
         if (isFormEmpty || checkIsItemDetailsEmpty) {
             await setValidate(verror)
-            console.log(validate);
             alert('Please fill out the remaining details')
             return
         }
@@ -577,11 +563,16 @@ function GenerateInvoice() {
             }, {
                 withCredentials: true
             }).then(response => {
-                console.log(response);
                 alert(response.data.msg)
+                window.open(`/user/bill-book/invoice/${response.data.invoiceId}`)
+                window.location.reload()
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 

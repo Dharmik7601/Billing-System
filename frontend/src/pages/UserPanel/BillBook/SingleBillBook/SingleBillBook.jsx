@@ -1,48 +1,63 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
 import "./SingleBillBook.scss"
 import axios from 'axios'
 import Table from '../../../../components/Tables/Table'
+import { checkAuth } from '../../../../components/AdditonalFunc/checkAuth'
 
 function SingleBillBook() {
+
+    const Navigate = useNavigate()
+
+    const isUser = async () => {
+        let check = await checkAuth()
+        if (!check) {
+            Navigate("/")
+            return
+        }
+    }
+
+    const {billBookName} = useParams()
 
     const [billBookinfo, setBillBookinfo] = useState({})
     const [billBookitemInfo, setBillBookItemInfo] = useState([])
 
-    const { billBookId } = useParams()
 
     const getBillBookInfo = async () => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/billBook/single/${billBookId}`, {
+            await axios.get(`${process.env.REACT_APP_LINK}/bill-book/get/bills/${billBookName}`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data);
                 setBillBookinfo(response.data)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 
-    const getBillBookItemInfo = async () => {
-        try {
-            await axios.get(`${process.env.REACT_APP_LINK}/billBook/billBook-item/all/${billBookId}`, {
-                withCredentials: true
-            }).then(response => {
-                console.log(response.data);
-                setBillBookItemInfo(response.data)
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // const getBillBookItemInfo = async () => {
+    //     try {
+    //         await axios.get(`${process.env.REACT_APP_LINK}/billBook/billBook-item/all/${billBookId}`, {
+    //             withCredentials: true
+    //         }).then(response => {
+    //             console.log(response.data);
+    //             setBillBookItemInfo(response.data)
+    //         })
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
     useEffect(() => {
-        getBillBookInfo();
-        getBillBookItemInfo()
+        getBillBookInfo()
+        isUser()
     }, [])
 
     const columnsBillBookItem = [

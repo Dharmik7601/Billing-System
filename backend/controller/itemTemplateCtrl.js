@@ -5,7 +5,6 @@ const { NotFoundError } = require('../error')
 const Party = require('../model/partyModel')
 
 const createItemTemplate = async (req, res) => {
-    console.log(req.body);
     const { partyName } = req.body;
     const party = await Party.findOne({ partyName: partyName })
     if(!party) throw new NotFoundError(`No party found with name: ${partyName}`)

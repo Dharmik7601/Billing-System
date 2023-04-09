@@ -12,18 +12,19 @@ const ViewParties = () => {
 
     const Navigate = useNavigate()
 
-    const checkUser = async () => {
+    const isUser = async () => {
         let check = await checkAuth()
         if (!check) {
-            Navigate('/')
+            Navigate("/")
             return
         }
     }
 
+
     const [partyData, setPartyData] = useState([])
 
     useEffect(() => {
-        checkUser();
+        isUser();
         getPartyDetails();
     },[])
 
@@ -32,11 +33,14 @@ const ViewParties = () => {
             await axios.get(`${process.env.REACT_APP_LINK}/party/getAll`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data);
                 setPartyData(response.data)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 
