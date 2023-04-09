@@ -1,4 +1,6 @@
 const Item = require('../model/itemSchema')
+const Party = require('../model/partyModel')
+const ItemTemplate = require('../model/itemTemplatesModel')
 const { StatusCodes } = require('http-status-codes')
 const { NotFoundError } = require('../error')
 
@@ -50,6 +52,43 @@ const getItemDetails = async (req, res) => {
     }
     console.log(itemDetails);
     res.status(StatusCodes.OK).json(itemDetails)
+}
+
+const getItemDetailsForInvoice = async (req, res) => {
+    const { itemName,partyName } = req.params;
+    const item = await Item.findOne({ itemName: itemName })
+    if (!item) throw new NotFoundError(`No item found with name: ${itemName}`)
+    const party = await Party.findOne({ partyName: partyName })
+    if (!party) throw new NotFoundError(`No party found with party name: ${partyName}`)
+    const itemtemp = await ItemTemplate.findOne({ _id: party.templateUsed.toString() })
+    // if (!itemtemp) throw new NotFoundError(`No item found under part name: ${itemName}`)
+    // console.log(itemtemp);
+    const templateDetails = itemtemp.itemList
+    let itemDetails = {}
+    let found = false
+    const pro = templateDetails.map((temp) => {
+        if (temp.itemName === itemName) {
+            found = true
+            itemDetails = {
+                itemName: temp.itemName,
+                itemPrice: temp.itemPrice,
+                itemQuantity: temp.itemQuantity,
+                itemQuantityType: temp.itemQuantityType,
+            }
+            return
+        }
+    })
+    await Promise.all(pro)
+    if (found === true) {
+        return res.status(StatusCodes.OK).json(itemDetails)
+    }
+    console.log("here");
+    return res.status(StatusCodes.OK).json({
+        itemName: item.itemName,
+        itemPrice: item.itemPrice,
+        itemQuantity: item.itemQuantity,
+        itemQuantityType: item.itemQuantityType,
+    })
 }
 
 const getAllProductsTemplatesName = async (req, res) => {
@@ -127,4 +166,4 @@ const getSingleItem = async (req, res) => {
     }
     res.status(StatusCodes.OK).json(getItemInfo)
 }
-module.exports = {createItem,getAllItems,productsAvailableToList,getAllItemsName,getSingleItem,getAllProductsTemplatesName,getAllProductsTemplates,getAllProductsSoldBy,getItemDetails}
+module.exports = {createItem,getAllItems,productsAvailableToList,getAllItemsName,getSingleItem,getAllProductsTemplatesName,getAllProductsTemplates,getAllProductsSoldBy,getItemDetails,getItemDetailsForInvoice}

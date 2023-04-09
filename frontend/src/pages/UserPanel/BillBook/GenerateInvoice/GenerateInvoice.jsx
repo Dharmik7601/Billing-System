@@ -59,6 +59,12 @@ function GenerateInvoice() {
 
     ]
 
+    const ShippingType = [
+        'Air','Land','Sea'
+    ]
+
+    const [shippingNames,setShippingNames] = useState([])
+
     const [itemDetailsListValidation, setItemDetailsListValidattion] = useState([
         {
             itemName: '',
@@ -154,7 +160,7 @@ function GenerateInvoice() {
             alert('Item already selected')
             return
         }
-        await getItemDetails(onChangeValue.target.value, i)
+        await getItemDetails(onChangeValue.target.value,data.partyName, i)
         const inputdata = [...value]
         console.log(onChangeValue.target.value);
         inputdata[i] = onChangeValue.target.value;
@@ -204,9 +210,9 @@ function GenerateInvoice() {
         console.log(itemDetailsList);
     }
 
-    const getItemDetails = async (itemName, i) => {
+    const getItemDetails = async (itemName,partyName, i) => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/item/get/details/${itemName}`, {
+            await axios.get(`${process.env.REACT_APP_LINK}/item/get/details/invoice/${itemName}/${partyName}`, {
                 withCredentials: true
             }).then(response => {
                 console.log(response.data)
@@ -259,7 +265,15 @@ function GenerateInvoice() {
         },
     ]
 
-    const [number, setNumber] = useState('')
+    const [billDetails, setBillDetails] = useState({
+        billBookNumber: '',
+        billBookFinancialYear: ''
+    })
+
+    const [partyDetails, setPartyDetails] = useState({
+        billingAddress: '',
+        shippingAddress:''
+    })
 
     const date = new Date();
     const futureDate = date.getDate() ;
@@ -268,17 +282,16 @@ function GenerateInvoice() {
 
     const [data, setData] = useState({
         billBookName: '',
-        billBookNumber: '',
+        // billBookNumber: '',
         partyName: '',
         billBookType: '',
-        itemList: [],
+        // itemList: [],
         billDate: defaultValue,
-        billBookFinancialYear:'',
-        billingAddress: '',
+        // billBookFinancialYear:'',
+        // billingAddress: '',
         shippingName: '',
         shippingType: '',
-        shippingCompany: '',
-        shippingAddress:'',
+        // shippingAddress:'',
         billDueDate: ''
     })
 
@@ -330,54 +343,60 @@ function GenerateInvoice() {
         }
     }
 
-    const getItemNameList = async (name) => {
-        try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party/items/name`, {
-                partyName: name
-            }, {
-                withCredentials: true
-            }).then(response => {
-                setItemNameList(response.data)
-            })
-        } catch (err) {
-            if (err.response) {
-                alert(err.response.data.msg)
-                return
-            }
-            alert('Something went wrong')
-        }
-    }
+    // const getItemNameList = async (name) => {
+    //     try {
+    //         await axios.post(`${process.env.REACT_APP_LINK}/party/items/name`, {
+    //             partyName: name
+    //         }, {
+    //             withCredentials: true
+    //         }).then(response => {
+    //             setItemNameList(response.data)
+    //         })
+    //     } catch (err) {
+    //         if (err.response) {
+    //             alert(err.response.data.msg)
+    //             return
+    //         }
+    //         alert('Something went wrong')
+    //     }
+    // }
 
-    const getTemplateList = async (itemName) => {
-        console.log(data.partyName);
-        console.log(itemName);
-        try {
-            await axios.post(`${process.env.REACT_APP_LINK}/party-item/template/name`, {
-                itemName: itemName,
-                partyName: data.partyName
-            }, {
-                withCredentials: true
-            }).then(response => {
-                setTemplateData(response.data)
-            })
-        } catch (err) {
-            if (err.response) {
-                alert(err.response.data.msg)
-                return
-            }
-            alert('Something went wrong')
-        }
-    }
+    // const getTemplateList = async (itemName) => {
+    //     console.log(data.partyName);
+    //     console.log(itemName);
+    //     try {
+    //         await axios.post(`${process.env.REACT_APP_LINK}/party-item/template/name`, {
+    //             itemName: itemName,
+    //             partyName: data.partyName
+    //         }, {
+    //             withCredentials: true
+    //         }).then(response => {
+    //             setTemplateData(response.data)
+    //         })
+    //     } catch (err) {
+    //         if (err.response) {
+    //             alert(err.response.data.msg)
+    //             return
+    //         }
+    //         alert('Something went wrong')
+    //     }
+    // }
+
+    
 
     const getBillBookNextBill = async (billBookName) => {
-        let number
         try {
             await axios.get(`${process.env.REACT_APP_LINK}/bill-book/get/next-bill/${billBookName}`, {
                 withCredentials: true
             }).then(response => {
+                console.log(response.data);
                 // setBillList(response.data.availableBills)
                 // setType(response.data.billBookType)
-                number = response.data
+                setBillDetails({
+                    ...billDetails,
+                    billBookNumber: response.data.lastBill,
+                    billBookFinancialYear: response.data.billBookFinancialYear
+                })
             })
         } catch (err) {
             if (err.response) {
@@ -386,7 +405,6 @@ function GenerateInvoice() {
             }
             alert('Something went wrong')
         }
-        setNumber(number)
     }
 
     const getBillBookNames = async (billBookType) => {
@@ -395,6 +413,45 @@ function GenerateInvoice() {
                 withCredentials: true
             }).then(response => {
                 setBillBookList(response.data)
+            })
+        } catch (err) {
+            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
+        }
+    }
+
+    const getShippingNames = async (shippingType) => {
+        try {
+            await axios.get(`${process.env.REACT_APP_LINK}/shipping/get/All/names/${shippingType}`, {
+                withCredentials: true
+            }).then(response => {
+                setShippingNames(response.data)
+            })
+        } catch (err) {
+            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
+        }
+    }
+
+    const getPartyDetails = async (partyName) => {
+        try {
+            await axios.get(`${process.env.REACT_APP_LINK}/party/get/details/${partyName}`, {
+                withCredentials: true
+            }).then(response => {
+                console.log(response);
+                setPartyDetails({
+                    ...partyDetails,
+                    billingAddress: response.data.partyAddress,
+                    shippingAddress: response.data.partyAddress
+                })
             })
         } catch (err) {
             console.log(err);
@@ -420,6 +477,26 @@ function GenerateInvoice() {
             //     billNumber: number
             // })
         }
+        if (targetName === 'shippingType') {
+            await getShippingNames(e.target.value)
+        }
+        if (targetName === 'partyName') {
+            await getPartyDetails(e.target.value)
+        }
+        if (targetName === 'billingAddress' || targetName === 'shippingAddress') {
+            setPartyDetails({
+                ...partyDetails,
+                [targetName]: e.target.value
+            })
+            return
+        }
+        if (targetName === 'billDueDate') {
+            let date = new Date(e.target.value)
+            if (date < new Date(Date.now())) {
+                alert('Bill due date should be on the day of invoice date or after that')
+                return
+            }
+        }
         setData({
             ...data,
             [targetName]: e.target.value
@@ -430,17 +507,25 @@ function GenerateInvoice() {
     console.log(data.billDate);
 
     const handleSubmit = async (e) => {
+    //     setData({
+    //     ...data,
+    //     billBookNumber: billDetails.lastBillNumber,
+    //     billBookFinancialYear: billDetails.billBookFinancialYear,
+    //     billingAddress: partyDetails.billingAddress,
+    //     shippingAddress: partyDetails.shippingAddress,
+    //     itemList: itemDetailsList
+    // })
+        console.log("Finallll", data);
         let checkIsItemDetailsEmpty = await checkItemListValidate()
         const verror = {
             billBookName: '',
             billBookNumber: '',
             billBookType: '',
             partyName: '',
-            //NEW FIELDS,
             billBookFinancialYear:'',
-            billDate: defaultValue,
+            billDate: '',
             billingAddress: '',
-            shippingCompany: '',
+            shippingName: '',
             shippingType: '',
             shippingAddress: '',
             billDueDate: ''
@@ -448,40 +533,56 @@ function GenerateInvoice() {
         e.preventDefault()
         let isFormEmpty = false;
         for (let x in data) {
-            if (data[x] === '' && x !== 'billBookNumber') {
+            if (data[x] === '') {
                 isFormEmpty = true;
                 verror[x] = 'This field is required'
             }
-
-            console.log(verror);
         }
-        console.log(number);
-        if (number === '') {
-            verror.billBookNumber = 'This field is required'
+        for (let y in partyDetails) {
+            if (partyDetails[y] === '') {
+                isFormEmpty = true;
+                verror[y] = 'This field is required'
+            }
         }
+        for (let z in billDetails) {
+            if (billDetails[z] === '') {
+                isFormEmpty = true;
+                verror[z] = 'This field is required'
+            }
+        }
+        // console.log(number);
+        // if (number === '') {
+        //     verror.billBookNumber = 'This field is required'
+        // }
         if (isFormEmpty || checkIsItemDetailsEmpty) {
             await setValidate(verror)
             console.log(validate);
             alert('Please fill out the remaining details')
             return
         }
-
-        setData({
-            ...data,
-            billBookNumber: number,
-            itemList: itemDetailsList
-        })
-        // try {
-        //     await axios.post(`${process.env.REACT_APP_LINK}/party-item/create`, {
-        //         data
-        //     }, {
-        //         withCredentials: true
-        //     }).then(response => {
-        //         console.log(response.data)
-        //     })
-        // } catch (err) {
-        //     console.log(err);
-        // }
+        try {
+            await axios.post(`${process.env.REACT_APP_LINK}/invoice/create`, {
+                billBookName: data.billBookName,
+                billBookNumber:billDetails.billBookNumber,
+                billBookType: data.billBookType,
+                partyName: data.partyName,
+                billBookFinancialYear:billDetails.billBookFinancialYear,
+                billDate: data.billDate,
+                billingAddress: partyDetails.billingAddress,
+                shippingName: data.shippingName,
+                shippingType: data.shippingType,
+                shippingAddress: partyDetails.shippingAddress,
+                billDueDate: data.billDueDate,
+                itemList: itemDetailsList
+            }, {
+                withCredentials: true
+            }).then(response => {
+                console.log(response);
+                alert(response.data.msg)
+            })
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const columnsDataItemDetails = [
@@ -598,14 +699,9 @@ function GenerateInvoice() {
                                     type={Text}
                                     disabled={true}
                                     name="billBookNumber"
-                                    value={number}
-                                    defaultValue='Choose'
-                                    onChange={handleChange}
+                                    value={billDetails.billBookNumber}
                                     {...(validate.billBookNumber && { error: true, helperText: validate.billBookNumber })}
                                 >
-                                    {billList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
-                                    )}
                                 </TextField>
 
                                 {/* PARTY NAME */}
@@ -632,12 +728,9 @@ function GenerateInvoice() {
                                         shrink: true,
                                     }}
                                     name="billBookFinancialYear"
-                                    value={data.billBookFinancialYear}
+                                    value={billDetails.billBookFinancialYear}
                                     {...(validate.billBookFinancialYear && { error: true, helperText: validate.billBookFinancialYear })}
                                 >
-                                    {partyList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
-                                    )}
                                 </TextField>
                                 <TextField
                                     required
@@ -662,7 +755,7 @@ function GenerateInvoice() {
                                     label="Billing Address"
                                     type={Text}
                                     name="billingAddress"
-                                    value={data.billingAddress}
+                                    value={partyDetails.billingAddress}
                                     defaultValue='Choose'
                                     onChange={handleChange}
                                     {...(validate.billingAddress && { error: true, helperText: validate.billingAddress })}
@@ -675,6 +768,7 @@ function GenerateInvoice() {
                                     className="outlined-required-mid"
                                     label="Bill Due Date"
                                     type={'date'}
+                                    onChange={handleChange}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
@@ -695,24 +789,24 @@ function GenerateInvoice() {
                                     onChange={handleChange}
                                     {...(validate.shippingType && { error: true, helperText: validate.shippingType })}
                                 >
-                                    {partyList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
+                                    {ShippingType.map((type) =>
+                                        <MenuItem key={type} value={type}>{type}</MenuItem>
                                     )}
                                 </TextField>
                                 <TextField
                                     required
                                     className="outlined-required-mid"
-                                    label="Shipping Company"
+                                    label="Shipping Company Name"
                                     type={Text}
                                     select
-                                    name="shippingCompany"
-                                    value={data.shippingCompany}
+                                    name="shippingName"
+                                    value={data.shippingName}
                                     defaultValue='Choose'
                                     onChange={handleChange}
-                                    {...(validate.shippingCompany && { error: true, helperText: validate.shippingCompany })}
+                                    {...(validate.shippingName && { error: true, helperText: validate.shippingName })}
                                 >
-                                    {partyList.map((list) =>
-                                        <MenuItem key={list} value={list}>{list}</MenuItem>
+                                    {shippingNames.map((name) =>
+                                        <MenuItem key={name} value={name}>{name}</MenuItem>
                                     )}
                                 </TextField>
                             </div>
@@ -724,7 +818,7 @@ function GenerateInvoice() {
                                     label="Shipping Address"
                                     type={Text}
                                     name="shippingAddress"
-                                    value={data.shippingAddress}
+                                    value={partyDetails.shippingAddress}
                                     defaultValue='Choose'
                                     onChange={handleChange}
                                     {...(validate.shippingAddress && { error: true, helperText: validate.shippingAddress })}

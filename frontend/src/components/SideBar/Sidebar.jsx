@@ -38,10 +38,10 @@ function Sidebar() {
             //     Navigate('/user/party/register-item')
             //     break
             case "addTransportation":
-                Navigate('/user/transportation/add')
+                Navigate('/user/shipping/add')
                 break
             case "allTransportation":
-                Navigate('/user/transportation/all')
+                Navigate('/user/shipping/all')
                 break
             case "userDetails":
                 Navigate('/user/home')
@@ -106,10 +106,10 @@ function Sidebar() {
                     </li> */}
                 </ul>
                 <ul>
-                    <p className="title">Transportation</p>
+                    <p className="title">Shipping</p>
                     <li onClick={handlePage} id='addTransportation'>
                         <EmojiTransportationIcon className='icon' />
-                        <span id='addTransportation'>Add Transportation</span>
+                        <span id='addTransportation'>Add Shipping</span>
                     </li>
                     <li onClick={handlePage} id='allTransportation'>
                         <EmojiTransportationIcon className='icon' />

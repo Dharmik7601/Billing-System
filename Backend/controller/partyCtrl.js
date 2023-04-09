@@ -93,6 +93,13 @@ const getAllPartiesName = async (req, res) => {
     res.status(StatusCodes.OK).json(nameList)
 }
 
+const getPartyAddress = async (req, res) => {
+    const {partyName} = req.params
+    const party = await Party.findOne({ partyName: partyName })
+    if(!party) throw new NotFoundError(`No party found with name: ${partyName}`)
+    res.status(StatusCodes.OK).json({partyAddress:party.address})
+}
+
 const getProductsUnderParty = async (req, res) => {
     const { name } = req.body
     const party = await Party.findOne({ partyName: name }).select("productLists").populate("productLists")
@@ -115,5 +122,5 @@ const checkIfProductExists = async (req, res) => {
 
 
 module.exports = {
-    createParty, getAllParty, getProductsUnderParty, checkIfProductExists, getAllPartiesName, getSingleParty,getPartyProductList,getPartyProductNameList
+    createParty, getAllParty, getProductsUnderParty, checkIfProductExists, getAllPartiesName, getSingleParty,getPartyProductList,getPartyProductNameList,getPartyAddress
 }

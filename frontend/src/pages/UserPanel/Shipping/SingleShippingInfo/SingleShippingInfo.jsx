@@ -3,46 +3,37 @@ import { useParams } from 'react-router-dom'
 import DataTable from '../../../../components/DataTables/DataTable'
 import NavBar from '../../../../components/NavBar/NavBar'
 import Sidebar from '../../../../components/SideBar/Sidebar'
-import "./SingleTransportation.scss"
+import "./SingleShippingInfo.scss"
 import axios from 'axios'
 import Table from '../../../../components/Tables/Table'
 
-function SingleTransportation() {
+function SingleShippingInfo() {
 
     const [transportationinfo, setTransportationinfo] = useState({})
-    const [transportationitemInfo, setTransportationItemInfo] = useState([])
+    const [shippingInfo, setShippingInfo] = useState([])
 
-    const { transportationId } = useParams()
+    const { shippingId } = useParams()
 
-    const getTransportationInfo = async () => {
+    const getShippingInfo = async () => {
         try {
-            await axios.get(`${process.env.REACT_APP_LINK}/transportation/single/${transportationId}`, {
+            await axios.get(`${process.env.REACT_APP_LINK}/shipping/get/single/info/${shippingId}`, {
                 withCredentials: true
             }).then(response => {
-                console.log(response.data);
-                setTransportationinfo(response.data)
+                setShippingInfo(response.data)
             })
         } catch (err) {
-            console.log(err);
+            if (err.response) {
+                alert(err.response.data.msg)
+                return
+            }
+            alert('Something went wrong')
         }
     }
 
-    const getTransportationItemInfo = async () => {
-        try {
-            await axios.get(`${process.env.REACT_APP_LINK}/transportation/transportation-item/all/${transportationId}`, {
-                withCredentials: true
-            }).then(response => {
-                console.log(response.data);
-                setTransportationItemInfo(response.data)
-            })
-        } catch (err) {
-            console.log(err);
-        }
-    }
 
     useEffect(() => {
-        getTransportationInfo();
-        getTransportationItemInfo()
+        getShippingInfo();
+        // getTransportationItemInfo()
     }, [])
 
     const columnsTransportationItem = [
@@ -79,38 +70,56 @@ function SingleTransportation() {
                                 <div className="itemInfo">
                                     <div className="itemID">
                                         <span className="proKey">
-                                            Transportation Name:
+                                            Shipping Company Name:
                                         </span>
                                         <span className="proValue">
-                                            {transportationinfo.transportationName}
+                                            {shippingInfo.shippingName}
                                         </span>
                                     </div>
+                                    <div className="itemInfo">
+                                    <div className="itemID">
+                                        <span className="proKey">
+                                            Shipping ID:
+                                        </span>
+                                        <span className="proValue">
+                                            {shippingInfo.shippingId}
+                                        </span>
+                                        </div>
+                                        </div>
                                     <div className="itemName">
                                         <span className="proKey">
-                                            Transportation Type:
+                                            Shipping Type:
                                         </span>
                                         <span className="proValue">
-                                            {transportationinfo.transportationType}
+                                            {shippingInfo.shippingType}
                                         </span>
                                     </div>
-                                    <div className="itemQunatity">
+                                </div>
+                            </div>
+                            <div className="top-1">
+                                {/* <div className="itemQunatity">
                                         <span className="proKey">
                                             Transportation Description:
                                         </span>
                                         <span className="proValue">
                                             {transportationinfo.transportationDescription}
                                         </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="top-1">
+                                    </div> */}
                                 <div className="itemInfo">
                                     <div className="itemID">
                                         <span className="proKey">
-                                            Office Address:
+                                            Shipping Description:
                                         </span>
                                         <span className="proValue">
-                                            {transportationinfo.officeAddress}
+                                            {shippingInfo.shippingDescription}
+                                        </span>
+                                    </div>
+                                    <div className="itemID">
+                                        <span className="proKey">
+                                            Shipping Office Address:
+                                        </span>
+                                        <span className="proValue">
+                                            {shippingInfo.shippingOfficeAddress}
                                         </span>
                                     </div>
                                     <div className="itemName">
@@ -118,27 +127,27 @@ function SingleTransportation() {
                                             Mobile Number:
                                         </span>
                                         <span className="proValue">
-                                            {transportationinfo.transportationMobile}
-                                        </span>
-                                    </div>
-                                    <div className="itemQunatity">
-                                        <span className="proKey">
-                                            Email:
-                                        </span>
-                                        <span className="proValue">
-                                            {transportationinfo.transportationEmail}
+                                            {shippingInfo.mobile}
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div className="top-1">
                                 <div className="itemInfo">
+                                    <div className="itemQunatity">
+                                        <span className="proKey">
+                                            Email:
+                                        </span>
+                                        <span className="proValue">
+                                            {shippingInfo.email}
+                                        </span>
+                                    </div>
                                     <div className="itemID">
                                         <span className="proKey">
                                             GST number:
                                         </span>
                                         <span className="proValue">
-                                            {transportationinfo.gstNumber}
+                                            {shippingInfo.gstNumber}
                                         </span>
                                     </div>
                                     <div className="itemName">
@@ -146,7 +155,7 @@ function SingleTransportation() {
                                             Account Number:
                                         </span>
                                         <span className="proValue">
-                                            {transportationinfo.accountNumber}
+                                            {shippingInfo.accountNumber}
                                         </span>
                                     </div>
                                 </div>
@@ -154,17 +163,17 @@ function SingleTransportation() {
                         </div>
 
                     </div>
-                    <div className="bottom">
+                    {/* <div className="bottom">
                         <div className="bcontainer">
                             <div className="itemsSoldBy">
                                 <Table columnsData={columnsTransportationItem} rowData={transportationitemInfo} />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
     )
 }
 
-export default SingleTransportation
+export default SingleShippingInfo

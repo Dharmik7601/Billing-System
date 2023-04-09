@@ -16,9 +16,9 @@ import SingleItem from './pages/UserPanel/Item/SingleItem/SingleItem';
 import ViewParties from './pages/UserPanel/Party/ViewParty/ViewParties';
 import SingleParty from './pages/UserPanel/Party/SingleParty/SingleParty';
 import AddParty from './pages/UserPanel/Party/AddParty/AddParty';
-import AddTransportation from './pages/UserPanel/Transportation/AddTransportation/AddTransportation';
-import ViewTransportations from './pages/UserPanel/Transportation/ViewTransportation/ViewTransportations';
-import SingleTransportation from './pages/UserPanel/Transportation/SingleTransportation/SingleTransportation';
+import AddShipping from './pages/UserPanel/Shipping/AddShippingInfo/AddShipping';
+import ViewAllShippingInfo from './pages/UserPanel/Shipping/ViewAllShippingInfo/ViewAllShippingInfo';
+import SingleShippingInfo from './pages/UserPanel/Shipping/SingleShippingInfo/SingleShippingInfo';
 import AddItem from './pages/UserPanel/Item/AddItem/AddItem';
 import Testing from './pages/Testing/Testing';
 import AddItemTemplate from './pages/UserPanel/Item/AddItemTemplate/AddItemTemplate';
@@ -63,9 +63,9 @@ function App() {
         <Route path='/user/party/register-item' element={<RegisterItem />} />
 
         {/* Transportation routes */}
-        <Route path='/user/transportation/add' element={<AddTransportation />} />
-        <Route path='/user/transportation/all' element={<ViewTransportations />} />
-        <Route path='/user/transportation/all/transport-info' element={<SingleTransportation />} />
+        <Route path='/user/shipping/add' element={<AddShipping />} />
+        <Route path='/user/shipping/all' element={<ViewAllShippingInfo />} />
+        <Route path='/user/shipping/single/info/:shippingId' element={<SingleShippingInfo />} />
 
         {/* Bill Book routes */}
         <Route path='/user/bill-book/register' element={<RegisterBillBook />} />

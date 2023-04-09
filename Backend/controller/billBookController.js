@@ -74,11 +74,13 @@ const bills = async (req, res) => {
 
 const getNextBill = async (req, res) => {
     const { billBookName } = req.params;
-    const b = await BillBook.findOne({ billBookName: billBookName }).select("availableBills")
+    const b = await BillBook.findOne({ billBookName: billBookName }).select("availableBills financialYear")
     if(!b) throw new NotFoundError(`No bill found`)
-    console.log(b.availableBills.sort());
-    let latestBill = b.availableBills[0]
-    res.status(StatusCodes.OK).json(latestBill)
+    let billDetails = {
+        lastBill: b.availableBills[0],
+        billBookFinancialYear: b.financialYear
+    } 
+    res.status(StatusCodes.OK).json(billDetails)
 }
 
 

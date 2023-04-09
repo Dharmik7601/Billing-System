@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from "../../../../components/SideBar/Sidebar"
 import Navbar from "../../../../components/NavBar/NavBar"
-import './AddTransportation.scss'
+import './AddShipping.scss'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { MenuItem } from '@mui/material';
@@ -122,17 +122,14 @@ function validateAccNumber(value) {
 
 
 const fieldValidations = {
-    // transportationName: validateName,
     mobile: validateMobile,
     email: validateEmail,
     // gstNo: validateGstNo,
-    // ifscCode: validateIfscCode,
     // accountNumber: validateAccNumber,
-    // accountName: validateName
 }
 
 
-function AddTransportation() {
+function AddShipping() {
 
     const Navigate = useNavigate()
 
@@ -148,63 +145,33 @@ function AddTransportation() {
     //     checkUser()
     // }, [])
 
-    const bankAccountType = [
-        {
-            label: "Savings",
-            value: "savings"
-        },
-        {
-            label: "Current",
-            value: "current"
-        }, {
-            label: "Over Draft",
-            value: "overDraft"
-        }
-    ]
 
-    const TransportationType = [
-        {
-            label: "Supplier",
-            value: "supplier"
-        },
-        {
-            label: "Buyer",
-            value: "buyer"
-        }, {
-            label: "Both",
-            value: "both"
-        }
+    const ShippingType = [
+        "Air","Land","Sea"
     ]
 
     const [data, setData] = useState({
-        transportationName: '',
+        shippingName: '',
+        shippingDescription:'',
         email: '',
         mobile: '',
-        address: '',
-        gstNo: '',
-        ifscCode: '',
-        accountName: '',
+        shippingOfficeAddress: '',
+        gstNumber: '',
         accountNumber: '',
-        accountType: '',
-        transportationType: ''
+        shippingType: ''
     })
 
     const [validate, setValidate] = useState({})
 
     const [error, setError] = useState({
-        transportationName: '',
         email: '',
         mobile: '',
-        address: '',
-        gstNo: '',
-        ifscCode: '',
-        accountName: '',
-        accountNumber: ''
+        gstNumber: '',
+        accountNumber: '',
     })
 
     const handleChange = (e) => {
         const targetName = e.target.name
-        console.log(e.target.value);
         let valid = { status: true, value: e.target.value }
         const validateFn = fieldValidations[targetName]
         if (typeof validateFn === "function") {
@@ -218,7 +185,6 @@ function AddTransportation() {
             return
         }
         else {
-            console.log(targetName)
             setError({
                 ...error,
                 [targetName]: valid.error
@@ -232,16 +198,14 @@ function AddTransportation() {
 
     const handleSubmit = async (e) => {
         const verror = {
-            transportationName: '',
+            shippingName: '',
+            shippingDescription:'',
             email: '',
             mobile: '',
-            address: '',
-            gstNo: '',
-            ifscCode: '',
-            accountName: '',
+            shippingOfficeAddress: '',
+            gstNumber: '',
             accountNumber: '',
-            accountType: '',
-            transportationType: ''
+            shippingType: ''
         }
         e.preventDefault()
         let isFormEmpty = false;
@@ -250,17 +214,18 @@ function AddTransportation() {
                 isFormEmpty = true;
                 verror[x] = 'This field is required'
             }
-            console.log(verror);
         }
-        console.log(error);
         if (isFormEmpty) {
             await setValidate(verror)
-            console.log(validate);
             alert('Please fill out the remaining details')
             return
         }
+        if (error.accountNumber || error.email || error.gstNumber || error.mobile) {
+            alert('Please fill out the correct details')
+            return
+        }
         try {
-            await axios.post(`${process.env.REACT_APP_LINK}/transportation/create`, data, {
+            await axios.post(`${process.env.REACT_APP_LINK}/shipping/create`, data, {
                 withCredentials: true
             }).then(response => {
                 alert(response.data.msg)
@@ -275,6 +240,7 @@ function AddTransportation() {
         }
     }
 
+
     return (
         <div className='addTransportation'>
             <Sidebar />
@@ -283,7 +249,7 @@ function AddTransportation() {
                 <div className="addContainer">
                     <div className="inputContainer">
                         <div className="title">
-                            <h1>Add Transportation</h1>
+                            <h1>ADD SHIPPING</h1>
                         </div>
                         <Box
                             component="form"
@@ -295,28 +261,27 @@ function AddTransportation() {
                                 <TextField
                                     required
                                     id="outlined-required"
-                                    label="Transportation name"
+                                    label="Shipping Company Name"
                                     type={Text}
-                                    name="transportationName"
-                                    value={data.transportationName}
+                                    name="shippingName"
+                                    value={data.shippingName}
                                     onChange={handleChange}
-                                    {...(error.transportationName && { error: true, helperText: error.transportationName })}
-                                    {...(validate.transportationName && { error: true, helperText: validate.transportationName })}
+                                    {...(validate.shippingName && { error: true, helperText: validate.shippingName })}
                                 />
                                 {/* TRANSPORTATION TYPE */}
                                 <TextField
                                     id="outlined-multiline-flexible"
-                                    label="Transportation Type"
+                                    label="Shipping Type"
                                     required
                                     type={Text}
-                                    name="transportationType"
+                                    name="shippingType"
                                     onChange={handleChange}
-                                    {...(validate.transportationType && { error: true, helperText: validate.transportationType })}
+                                    {...(validate.shippingType && { error: true, helperText: validate.shippingType })}
                                     select
                                 >
-                                    {TransportationType.map((type) => (
-                                        <MenuItem key={type.value} value={type.value}>
-                                            {type.label}
+                                    {ShippingType.map((type) => (
+                                        <MenuItem key={type} value={type}>
+                                            {type}
                                         </MenuItem>
                                     ))}
                                 </TextField>
@@ -327,33 +292,27 @@ function AddTransportation() {
                                 {/* TRANSPORTATION TYPE */}
                                 <TextField
                                     id="outlined-multiline-flexible"
-                                    label="Transportation Type"
+                                    label="Shipping Description"
                                     required
+                                    multiline
                                     type={Text}
-                                    name="transportationType"
+                                    name="shippingDescription"
                                     onChange={handleChange}
-                                    {...(validate.transportationType && { error: true, helperText: validate.transportationType })}
-                                    select
+                                    {...(validate.shippingDescription && { error: true, helperText: validate.shippingDescription })}
                                 >
-                                    {TransportationType.map((type) => (
-                                        <MenuItem key={type.value} value={type.value}>
-                                            {type.label}
-                                        </MenuItem>
-                                    ))}
                                 </TextField>
 
                                 {/* OFFICE ADDRESS */}
                                 <TextField
                                     required
                                     id="outlined-multiline-flexible"
-                                    label="Office Address"
+                                    label="Shipping Office Address"
                                     multiline
                                     maxRows={4}
-                                    size='medium'
-                                    name="address"
-                                    value={data.address}
+                                    name="shippingOfficeAddress"
+                                    value={data.shippingOfficeAddress}
                                     onChange={handleChange}
-                                    {...(validate.address && { error: true, helperText: validate.address })}
+                                    {...(validate.shippingOfficeAddress && { error: true, helperText: validate.shippingOfficeAddress })}
                                 />
                             </div>
 
@@ -365,11 +324,11 @@ function AddTransportation() {
                                     id="outlined-required"
                                     label="GST number"
                                     type={Number}
-                                    name="gstNo"
-                                    value={data.gstNo}
+                                    name="gstNumber"
+                                    value={data.gstNumber}
                                     onChange={handleChange}
-                                    {...(error.gstNo && { error: true, helperText: error.gstNo })}
-                                    {...(validate.gstNo && { error: true, helperText: validate.gstNo })}
+                                    {...(error.gstNumber && { error: true, helperText: error.gstNumber })}
+                                    {...(validate.gstNumber && { error: true, helperText: validate.gstNumber })}
                                 />
 
                                 {/* EMAIL */}
@@ -435,4 +394,4 @@ function AddTransportation() {
     )
 }
 
-export default AddTransportation
+export default AddShipping

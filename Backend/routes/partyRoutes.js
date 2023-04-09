@@ -1,5 +1,5 @@
 const express = require('express')
-const { createParty, getAllParty, getProductsUnderParty, checkIfProductExists, getAllPartiesName, getSingleParty, getAllPar, getPartyProductList, getPartyProductNameList } = require('../controller/partyCtrl')
+const { createParty, getAllParty, getProductsUnderParty, checkIfProductExists, getAllPartiesName, getSingleParty, getAllPar, getPartyProductList, getPartyProductNameList, getPartyAddress } = require('../controller/partyCtrl')
 const router = express.Router()
 const {authMiddleware,isUser} = require('../middleware/AuthMiddleware')
 
@@ -10,6 +10,7 @@ router.get('/pup', getProductsUnderParty)
 router.get('/cipe', checkIfProductExists)
 router.get('/getAll/Name', getAllPartiesName)
 router.get('/single/:partyId', getSingleParty)
+router.get('/get/details/:partyName', getPartyAddress)
 router.post('/products/name',getPartyProductNameList)
 
 module.exports = router

@@ -50,7 +50,7 @@ const partySchema = new mongoose.Schema({
     },
     templateUsed: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'PartyProduct'
+        ref:'ItemTemplate'
     }]
 }, {
     timestamps:true
